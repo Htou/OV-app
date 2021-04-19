@@ -15,7 +15,7 @@ The reason for this diversion is that Java is not 100% object-oriented and disce
 
 For instance, consider the following "constants":
 
-
+```java
 public class MotorVehicle {
   /** Number of motors */
   private static final int MOTORS = 1;
@@ -36,13 +36,12 @@ public class MotorVehicle {
     THE_MOTOR.fillFuel(20.5);       // Does not give a syntax error, as it changes a variable in the motor object, not the variable itself.
     }
 }
-  
-  https://en.wikibooks.org/wiki/Java_Programming/Coding_conventions
+```
+Read more at: https://en.wikibooks.org/wiki/Java_Programming/Coding_conventions
 
 
 
-#General Rules
-
+# General Rules
 Volg de standaard (naming/coding)conventions (afspraken), zowel taal gerelateerd als team gerelateerd
 
 Keep it simple stupid. Eenvoud is altijd beter. Reduceer complexiteit zoveel mogelijk
