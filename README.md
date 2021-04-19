@@ -41,6 +41,8 @@ public class MotorVehicle {
 
 
 
+#General Rules
+
 Volg de standaard (naming/coding)conventions (afspraken), zowel taal gerelateerd als team gerelateerd
 
 Keep it simple stupid. Eenvoud is altijd beter. Reduceer complexiteit zoveel mogelijk
