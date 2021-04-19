@@ -44,38 +44,38 @@ Read more at: https://en.wikibooks.org/wiki/Java_Programming/Coding_conventions
 # General Rules
 * Volg de standaard (naming/coding)conventions (afspraken), zowel taal gerelateerd als team gerelateerd
 
-Keep it simple stupid. Eenvoud is altijd beter. Reduceer complexiteit zoveel mogelijk
+* Keep it simple stupid. Eenvoud is altijd beter. Reduceer complexiteit zoveel mogelijk
 
-Zoek altijd naar de kernoorzaak van een probleem. Los het daar ook op
+* Zoek altijd naar de kernoorzaak van een probleem. Los het daar ook op
 
-Vermijd meerdere malen van dezelfde code (duplicaten)
+* Vermijd meerdere malen van dezelfde code (duplicaten)
 
-Controleer altijd de waarden van onzekere bronnen, zoals bij I/O
+* Controleer altijd de waarden van onzekere bronnen, zoals bij I/O
 
-Schrijf altijd brackets om een een-regel block (zoals bij if, while)
+* Schrijf altijd brackets om een een-regel block (zoals bij if, while)
 
-Wees consistent. Doe je iets op een bepaalde manier, doe het overal
+* Wees consistent. Doe je iets op een bepaalde manier, doe het overal
 
-Gebruik verklarende namen voor variabelen, zoals ‘naam=..’ en niet ‘n=..’
+* Gebruik verklarende namen voor variabelen, zoals ‘naam=..’ en niet ‘n=..’
 
-Kies betekenisvolle en duidelijke namen voor bestanden, classes, methods, etc.
+* Kies betekenisvolle en duidelijke namen voor bestanden, classes, methods, etc.
 
-Schrijf kleine methods/functies
+* Schrijf kleine methods/functies
 
-Doe één ding in een method/functies
+* Doe één ding in een method/functies
 
-Maak jezelf begrijpelijk in code, zoals een verhaal. Gebruik commentswijselijk en beperkt
+* Maak jezelf begrijpelijk in code, zoals een verhaal. Gebruik commentswijselijk en beperkt
 
-Verberg interne structuren in een class (encapsulation)
+* Verberg interne structuren in een class (encapsulation)
 
-Doe één ding in een class(abstraction)
+* Doe één ding in een class(abstraction)
 
-Gebruik een enkele assert per unit testcase
+* Gebruik een enkele assert per unit testcase
 
-Schrijf alle code en comments in het Engels
+* Schrijf alle code en comments in het Engels
 
-Review je code voor compile en run, weet wat je code doet
+* Review je code voor compile en run, weet wat je code doet
 
-Gebruik een versiebeheer systeem (zoals Git)
+* Gebruik een versiebeheer systeem (zoals Git)
 
-Geef de voorkeur aan niet-statische methoden boven statische methoden
+* Geef de voorkeur aan niet-statische methoden boven statische methoden
