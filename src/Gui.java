@@ -23,26 +23,63 @@ public class Gui extends JFrame {
 
     }
 
-    public JPanel showTrajects(){
-        JPanel panel = new JPanel(new BorderLayout());
+    public JPanel showTrajects() {
+        JPanel panel = new JPanel(new BorderLayout(8, 6));
 
-        panel.setLayout(new GridLayout(2,2));
+        JPanel panelCenter = new JPanel(new BorderLayout());
+        JPanel panelNorth = new JPanel(new GridLayout());
+        JPanel panelSouth = new JPanel(new GridLayout());
+
+        panel.add(panelCenter, BorderLayout.CENTER);
+        panel.add(panelNorth, BorderLayout.NORTH);
+        panel.add(panelSouth, BorderLayout.SOUTH);
+
+        JPanel panelCenterCenter = new JPanel(new GridLayout(1,2));
+        JPanel panelCenterNorth = new JPanel(new GridLayout(1,2));
+
+        panelCenter.add(panelCenterCenter,BorderLayout.CENTER);
+        panelCenter.add(panelCenterNorth,BorderLayout.NORTH);
 
 
-        //JPanel test = new JPanel(new GridLayout(0,2));
+        panelCenterNorth.add(new JLabel("Departure"));
+        panelCenterNorth.add(new JLabel("Arrival"));
 
+        panelCenterCenter.add(new JLabel("Amsterdam"));
 
-        List<String> myList = new ArrayList<>(10);
-
-        for (int index = 0; index < 50; index++) {
+        List<String> myList = new ArrayList<>();
+        for (int index = 0; index < 40; index++) {
             myList.add("List Item " + index);
         }
+
         final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(list);
         list.setLayoutOrientation(JList.VERTICAL);
-        panel.add(scrollPane);
+        panelCenterCenter.add(scrollPane);
 
+        ////////////////////////////////
+        ///         top       /////////
+        ///////////////////////////////
+        panelNorth.setLayout(new GridBagLayout());
+        panel.add(panelNorth, BorderLayout.NORTH);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JButton login = new JButton("Login");
+        gbc.insets = new Insets(0, 0, 0, 200);
+        panelNorth.add(login,gbc);
+        gbc.insets = new Insets(0, 200, 0, 0);
+
+
+        String[] comboBoxItems = { "Settings1", "Settings2" };
+        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
+        cb.setEditable(false);
+        panelNorth.add(cb);
+
+
+
+
+        //JPanel test = new JPanel(new GridLayout(0,2));
         return panel;
 
 
@@ -59,7 +96,7 @@ public class Gui extends JFrame {
         ///         top       /////////
         ///////////////////////////////
         JPanel topPanel = new JPanel();
-        topPanel.setBorder(new LineBorder(Color.black, 3));;
+        topPanel.setBorder(new LineBorder(Color.black, 3));
         topPanel.setLayout(new GridBagLayout());
         navigatePanel.add(topPanel, BorderLayout.NORTH);
 
