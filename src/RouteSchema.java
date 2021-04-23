@@ -3,5 +3,5 @@ import java.util.ArrayList;
 
 public class RouteSchema {
     Route route;
-    ArrayList<LocalDateTime> vertrektijd;
+    ArrayList<LocalDateTime> departureTime;
 }

@@ -1,12 +1,17 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gui extends JFrame {
     Container mainContainer = this.getContentPane();
     CardLayout cl = new CardLayout();
+
+    Gui() {
+    }
 
 
     public Gui(String title) {
@@ -16,69 +21,11 @@ public class Gui extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainContainer.setLayout(cl);
-        mainContainer.add(showTrackPanel(), "1");
+        mainContainer.add(navigateGui(), "1");
+        mainContainer.add(showTrajectsGui(), "2");
+        mainContainer.add(showTrackPanelGui(), "3");
 
         cl.show(mainContainer, "1");
-
-    }
-
-    public JPanel showTrajects() {
-        JPanel panel = new JPanel(new BorderLayout(8, 6));
-
-        JPanel panelCenter = new JPanel(new BorderLayout());
-        JPanel panelNorth = new JPanel(new GridLayout());
-        JPanel panelSouth = new JPanel(new GridLayout());
-
-        panel.add(panelCenter, BorderLayout.CENTER);
-        panel.add(panelNorth, BorderLayout.NORTH);
-        panel.add(panelSouth, BorderLayout.SOUTH);
-
-        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 2));
-        JPanel panelCenterNorth = new JPanel(new GridLayout(1, 2));
-
-        panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
-        panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
-
-
-        panelCenterNorth.add(new JLabel("Departure"));
-        panelCenterNorth.add(new JLabel("Arrival"));
-
-        panelCenterCenter.add(new JLabel("Amsterdam"));
-
-        List<String> myList = new ArrayList<>();
-        for (int index = 0; index < 40; index++) {
-            myList.add("List Item " + index);
-        }
-
-        final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(list);
-        list.setLayoutOrientation(JList.VERTICAL);
-        panelCenterCenter.add(scrollPane);
-
-        ////////////////////////////////
-        ///         top       /////////
-        ///////////////////////////////
-        panelNorth.setLayout(new GridBagLayout());
-        panel.add(panelNorth, BorderLayout.NORTH);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        JButton login = new JButton("Login");
-        gbc.insets = new Insets(0, 0, 0, 200);
-        panelNorth.add(login, gbc);
-        gbc.insets = new Insets(0, 200, 0, 0);
-
-
-        String[] comboBoxItems = {"Settings1", "Settings2"};
-        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-        cb.setEditable(false);
-        panelNorth.add(cb);
-
-
-        //JPanel test = new JPanel(new GridLayout(0,2));
-        return panel;
-
 
     }
 
@@ -91,23 +38,9 @@ public class Gui extends JFrame {
         ////////////////////////////////
         ///         top       /////////
         ///////////////////////////////
-        JPanel topPanel = new JPanel();
-        topPanel.setBorder(new LineBorder(Color.black, 3));
-        topPanel.setLayout(new GridBagLayout());
-        navigatePanel.add(topPanel, BorderLayout.NORTH);
+        navigatePanel.add(loginAndSettings(), BorderLayout.NORTH);
 
         GridBagConstraints gbc = new GridBagConstraints();
-
-        JButton login = new JButton("Login");
-        gbc.insets = new Insets(0, 0, 0, 200);
-        topPanel.add(login, gbc);
-        gbc.insets = new Insets(0, 200, 0, 0);
-
-
-        String[] comboBoxItems = {"Settings1", "Settings2"};
-        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-        cb.setEditable(false);
-        topPanel.add(cb);
 
 
         //////////////////////
@@ -138,7 +71,18 @@ public class Gui extends JFrame {
         centerTextfields.add(toTextField);
 
         //navigate
-        centerTextfields.add(new JButton("Navigate"));
+        JButton navigate = new JButton("Navigate");
+        centerTextfields.add(navigate);
+        navigate.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+
+                cl.show(mainContainer, "2");
+
+
+            }
+        });
+
+
 
         //center labels
         JPanel centerLabels = new JPanel();
@@ -203,37 +147,62 @@ public class Gui extends JFrame {
 
     }
 
-    public JPanel showTrackPanel() {
+    public JPanel showTrajectsGui() {
+        JPanel panel = new JPanel(new BorderLayout(8, 6));
+
+        JPanel panelCenter = new JPanel(new BorderLayout());
+        JPanel panelNorth = new JPanel(new GridLayout());
+        JPanel panelSouth = new JPanel(new GridLayout());
+
+        panel.add(panelCenter, BorderLayout.CENTER);
+        panel.add(panelNorth, BorderLayout.NORTH);
+        panel.add(panelSouth, BorderLayout.SOUTH);
+
+        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 2));
+        JPanel panelCenterNorth = new JPanel(new GridLayout(1, 2));
+
+        panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
+        panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
+
+
+        panelCenterNorth.add(new JLabel("Departure"));
+        panelCenterNorth.add(new JLabel("Arrival"));
+
+        panelCenterCenter.add(new JLabel("Amsterdam"));
+
+        List<String> myList = new ArrayList<>();
+        for (int index = 0; index < 40; index++) {
+            myList.add("List Item " + index);
+        }
+
+        final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(list);
+        list.setLayoutOrientation(JList.VERTICAL);
+        panelCenterCenter.add(scrollPane);
+
+        ////////////////////////////////
+        ///         top       /////////
+        ///////////////////////////////
+        panel.add(loginAndSettings(), BorderLayout.NORTH);
+
+        return panel;
+
+
+    }
+
+    public JPanel showTrackPanelGui() {
         JPanel panel = new JPanel(new BorderLayout());
-        JPanel panelNorth = new JPanel(new GridBagLayout());
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridBagLayout());
 
-        panel.add(panelNorth, BorderLayout.NORTH);
+        panel.add(loginAndSettings(), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        panelNorth.setBorder(new LineBorder(Color.red, 3));
         panelCenter.setBorder(new LineBorder(Color.blue, 3));
         panelSouth.setBorder(new LineBorder(Color.green, 3));
 
-        ////////////////////////////////
-        ///         North       ////////
-        ///////////////////////////////
-        panelNorth.setBorder(new LineBorder(Color.black, 3));
-        panelNorth.setLayout(new GridBagLayout());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        JButton login = new JButton("Login");
-        gbc.insets = new Insets(0, 0, 0, 200);
-        panelNorth.add(login, gbc);
-        gbc.insets = new Insets(0, 200, 0, 0);
-
-        String[] comboBoxItems = {"Settings1", "Settings2"};
-        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-        cb.setEditable(false);
-        panelNorth.add(cb);
 
         ////////////////////////////////
         ///         Center      ////////
@@ -245,9 +214,31 @@ public class Gui extends JFrame {
         return panel;
     }
 
-    public static void main(String args[]) {
-        Gui myLayout = new Gui("OV app");
+    public JPanel loginAndSettings(){
+        JPanel topPanel = new JPanel();
+        topPanel.setBorder(new LineBorder(Color.black, 3));
+        topPanel.setLayout(new GridBagLayout());
 
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JButton login = new JButton("Login");
+        gbc.insets = new Insets(0, 0, 0, 200);
+        topPanel.add(login, gbc);
+        gbc.insets = new Insets(0, 200, 0, 0);
+
+
+        String[] comboBoxItems = {"Settings1", "Settings2"};
+        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
+        cb.setEditable(false);
+        topPanel.add(cb);
+
+        return topPanel;
+
+
+    }
+
+    public void startGui() {
+        Gui myLayout = new Gui("OV app");
         myLayout.setVisible(true);
     }
 
