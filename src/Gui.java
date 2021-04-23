@@ -1,13 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.concurrent.Flow;
 
-public class Layout extends JFrame {
-    public Layout (String title){
+public class Gui extends JFrame {
+    public Gui(String title){
         super(title);
         this.setSize(600,600);
         this.setLocation(100,100);
@@ -92,7 +88,6 @@ public class Layout extends JFrame {
         navigateOptions.setLayout(new GridBagLayout());
 
         center.add(centerCenter);
-        int i = 0;
         gbc.gridx = 0;
         gbc.gridy = 4;
         center.add(new Button("Navigate"),gbc);
@@ -138,7 +133,7 @@ public class Layout extends JFrame {
 
     }
     public static void main(String args[]){
-        Layout myLayout = new Layout("OV app");
+        Gui myLayout = new Gui("OV app");
 
         myLayout.setVisible(true);
     }
