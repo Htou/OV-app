@@ -1,20 +1,59 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Gui extends JFrame {
+    Container mainContainer = this.getContentPane();
+    CardLayout cl = new CardLayout();
+
+
     public Gui(String title){
         super(title);
         this.setSize(600,600);
         this.setLocation(100,100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        mainContainer.setLayout(cl);
+        mainContainer.add(showTrajects(),"1");
+
+        cl.show(mainContainer,"1");
 
 
-        Container mainContainer = this.getContentPane();
-        mainContainer.setLayout(new BorderLayout(8,6));
-        mainContainer.setBackground(Color.WHITE);
-        //this.getRootPane().setBorder(BorderFactory.createMatteBorder(4,4,4,4,Color.GREEN));
+    }
+
+    public JPanel showTrajects(){
+        JPanel panel = new JPanel(new BorderLayout());
+
+        panel.setLayout(new GridLayout(2,2));
+
+
+
+        //JPanel test = new JPanel(new GridLayout(0,2));
+
+
+        List<String> myList = new ArrayList<>(10);
+
+        for (int index = 0; index < 50; index++) {
+            myList.add("List Item " + index);
+        }
+        final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(list);
+        list.setLayoutOrientation(JList.VERTICAL);
+        panel.add(scrollPane);
+
+        return panel;
+
+
+    }
+
+    public JPanel navigateGui(){
+        JPanel navigatePanel = new JPanel();
+
+        navigatePanel.setLayout(new BorderLayout(8,6));
+
 
 
         ////////////////////////////////
@@ -23,11 +62,9 @@ public class Gui extends JFrame {
         JPanel topPanel = new JPanel();
         topPanel.setBorder(new LineBorder(Color.black, 3));;
         topPanel.setLayout(new GridBagLayout());
-        mainContainer.add(topPanel, BorderLayout.NORTH);
+        navigatePanel.add(topPanel, BorderLayout.NORTH);
 
         GridBagConstraints gbc = new GridBagConstraints();
-
-
 
         JButton login = new JButton("Login");
         gbc.insets = new Insets(0, 0, 0, 200);
@@ -41,15 +78,15 @@ public class Gui extends JFrame {
         topPanel.add(cb);
 
 
+
+
         //////////////////////
         ///     center      //
         //////////////////////
         JPanel center = new JPanel();
-        center.setLayout(new GridBagLayout());
-
         center.setBorder(new LineBorder(Color.black, 3));;
-        center.setLayout(new GridBagLayout());
-        mainContainer.add(center, BorderLayout.CENTER);
+        center.setLayout(new GridLayout(3,1));
+        navigatePanel.add(center, BorderLayout.CENTER);
 
 
 
@@ -67,33 +104,45 @@ public class Gui extends JFrame {
 
         //center textfield
         JPanel centerTextfields = new JPanel();
-        centerTextfields.setLayout(new GridLayout(2,1,0,20));
+        centerTextfields.setLayout(new GridLayout(3,1,0,20));
         centerTextfields.add(fromTextField);
         centerTextfields.add(toTextField);
 
+        //navigate
+        centerTextfields.add(new JButton("Navigate"));
+
         //center labels
         JPanel centerLabels = new JPanel();
-        centerLabels.setLayout(new GridLayout(2,1,0,20));
+        centerLabels.setLayout(new GridLayout(3,1,0,20));
         centerLabels.add(toLabel);
         centerLabels.add(fromLabel);
+        centerLabels.add(new JLabel());
 
-        JPanel centerCenter = new JPanel();
-        centerCenter.setLayout(new GridBagLayout());
-        centerCenter.add(centerLabels);
-        centerCenter.add(centerTextfields);
+        JPanel centerGrid = new JPanel();
+        centerGrid.setLayout(new GridBagLayout());
+        centerGrid.add(centerLabels);
+        centerGrid.add(centerTextfields);
+
+        //radio buttons
+        JRadioButton r1=new JRadioButton("Bus");
+        JRadioButton r2=new JRadioButton("Trein");
+        r1.setBounds(75,50,100,30);
+        r2.setBounds(75,100,100,30);
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(r1);bg.add(r2);
+
+        JPanel radioButtons = new JPanel();
+        radioButtons.setLayout(new FlowLayout());
+
+        radioButtons.add(r1);
+        radioButtons.add(r2);
+
+        center.add(radioButtons);
 
 
 
-        JPanel navigateOptions = new JPanel();
-        navigateOptions.setLayout(new GridBagLayout());
 
-        center.add(centerCenter);
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        center.add(new Button("Navigate"),gbc);
-
-
-
+        center.add(centerGrid);
 
         ///////////////////////////////
         //          bottom          //
@@ -104,12 +153,7 @@ public class Gui extends JFrame {
         bottom.setLayout(new GridBagLayout());
 
 
-        mainContainer.add(bottom, BorderLayout.SOUTH);
-
-
-
-
-
+        navigatePanel.add(bottom, BorderLayout.SOUTH);
 
         JPanel bottomTop = new JPanel();
         bottomTop.setLayout(new FlowLayout());
@@ -128,12 +172,12 @@ public class Gui extends JFrame {
 
 
 
-
-
+        return navigatePanel;
 
     }
     public static void main(String args[]){
         Gui myLayout = new Gui("OV app");
+
 
         myLayout.setVisible(true);
     }
