@@ -9,17 +9,16 @@ public class Gui extends JFrame {
     CardLayout cl = new CardLayout();
 
 
-    public Gui(String title){
+    public Gui(String title) {
         super(title);
-        this.setSize(600,600);
-        this.setLocation(100,100);
+        this.setSize(600, 600);
+        this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainContainer.setLayout(cl);
-        mainContainer.add(showTrajects(),"1");
+        mainContainer.add(showTrackPanel(), "1");
 
-        cl.show(mainContainer,"1");
-
+        cl.show(mainContainer, "1");
 
     }
 
@@ -34,11 +33,11 @@ public class Gui extends JFrame {
         panel.add(panelNorth, BorderLayout.NORTH);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        JPanel panelCenterCenter = new JPanel(new GridLayout(1,2));
-        JPanel panelCenterNorth = new JPanel(new GridLayout(1,2));
+        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 2));
+        JPanel panelCenterNorth = new JPanel(new GridLayout(1, 2));
 
-        panelCenter.add(panelCenterCenter,BorderLayout.CENTER);
-        panelCenter.add(panelCenterNorth,BorderLayout.NORTH);
+        panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
+        panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
 
         panelCenterNorth.add(new JLabel("Departure"));
@@ -67,16 +66,14 @@ public class Gui extends JFrame {
 
         JButton login = new JButton("Login");
         gbc.insets = new Insets(0, 0, 0, 200);
-        panelNorth.add(login,gbc);
+        panelNorth.add(login, gbc);
         gbc.insets = new Insets(0, 200, 0, 0);
 
 
-        String[] comboBoxItems = { "Settings1", "Settings2" };
+        String[] comboBoxItems = {"Settings1", "Settings2"};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         panelNorth.add(cb);
-
-
 
 
         //JPanel test = new JPanel(new GridLayout(0,2));
@@ -85,11 +82,10 @@ public class Gui extends JFrame {
 
     }
 
-    public JPanel navigateGui(){
+    public JPanel navigateGui() {
         JPanel navigatePanel = new JPanel();
 
-        navigatePanel.setLayout(new BorderLayout(8,6));
-
+        navigatePanel.setLayout(new BorderLayout(8, 6));
 
 
         ////////////////////////////////
@@ -104,27 +100,24 @@ public class Gui extends JFrame {
 
         JButton login = new JButton("Login");
         gbc.insets = new Insets(0, 0, 0, 200);
-        topPanel.add(login,gbc);
+        topPanel.add(login, gbc);
         gbc.insets = new Insets(0, 200, 0, 0);
 
 
-        String[] comboBoxItems = { "Settings1", "Settings2" };
+        String[] comboBoxItems = {"Settings1", "Settings2"};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         topPanel.add(cb);
-
-
 
 
         //////////////////////
         ///     center      //
         //////////////////////
         JPanel center = new JPanel();
-        center.setBorder(new LineBorder(Color.black, 3));;
-        center.setLayout(new GridLayout(3,1));
+        center.setBorder(new LineBorder(Color.black, 3));
+        ;
+        center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
-
-
 
 
         JTextField fromTextField = new JTextField();
@@ -140,7 +133,7 @@ public class Gui extends JFrame {
 
         //center textfield
         JPanel centerTextfields = new JPanel();
-        centerTextfields.setLayout(new GridLayout(3,1,0,20));
+        centerTextfields.setLayout(new GridLayout(3, 1, 0, 20));
         centerTextfields.add(fromTextField);
         centerTextfields.add(toTextField);
 
@@ -149,7 +142,7 @@ public class Gui extends JFrame {
 
         //center labels
         JPanel centerLabels = new JPanel();
-        centerLabels.setLayout(new GridLayout(3,1,0,20));
+        centerLabels.setLayout(new GridLayout(3, 1, 0, 20));
         centerLabels.add(toLabel);
         centerLabels.add(fromLabel);
         centerLabels.add(new JLabel());
@@ -160,12 +153,13 @@ public class Gui extends JFrame {
         centerGrid.add(centerTextfields);
 
         //radio buttons
-        JRadioButton r1=new JRadioButton("Bus");
-        JRadioButton r2=new JRadioButton("Trein");
-        r1.setBounds(75,50,100,30);
-        r2.setBounds(75,100,100,30);
-        ButtonGroup bg=new ButtonGroup();
-        bg.add(r1);bg.add(r2);
+        JRadioButton r1 = new JRadioButton("Bus");
+        JRadioButton r2 = new JRadioButton("Trein");
+        r1.setBounds(75, 50, 100, 30);
+        r2.setBounds(75, 100, 100, 30);
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(r1);
+        bg.add(r2);
 
         JPanel radioButtons = new JPanel();
         radioButtons.setLayout(new FlowLayout());
@@ -176,8 +170,6 @@ public class Gui extends JFrame {
         center.add(radioButtons);
 
 
-
-
         center.add(centerGrid);
 
         ///////////////////////////////
@@ -185,7 +177,8 @@ public class Gui extends JFrame {
         //////////////////////////////
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridBagLayout());
-        bottom.setBorder(new LineBorder(Color.black, 3));;
+        bottom.setBorder(new LineBorder(Color.black, 3));
+        ;
         bottom.setLayout(new GridBagLayout());
 
 
@@ -198,23 +191,65 @@ public class Gui extends JFrame {
         gbc.anchor = GridBagConstraints.LINE_END;
         gbc.gridx = 3;
         gbc.gridy = 0;
-        bottom.add(bottomTop,gbc);
+        bottom.add(bottomTop, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        bottom.add(new Button("test"),gbc);
-
-
+        bottom.add(new Button("test"), gbc);
 
 
         return navigatePanel;
 
     }
-    public static void main(String args[]){
-        Gui myLayout = new Gui("OV app");
 
+    public JPanel showTrackPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panelNorth = new JPanel(new GridBagLayout());
+        JPanel panelCenter = new JPanel(new GridLayout(1, 2));
+        JPanel panelSouth = new JPanel(new GridBagLayout());
+
+        panel.add(panelNorth, BorderLayout.NORTH);
+        panel.add(panelCenter, BorderLayout.CENTER);
+        panel.add(panelSouth, BorderLayout.SOUTH);
+
+        panelNorth.setBorder(new LineBorder(Color.red, 3));
+        panelCenter.setBorder(new LineBorder(Color.blue, 3));
+        panelSouth.setBorder(new LineBorder(Color.green, 3));
+
+        ////////////////////////////////
+        ///         North       ////////
+        ///////////////////////////////
+        panelNorth.setBorder(new LineBorder(Color.black, 3));
+        panelNorth.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JButton login = new JButton("Login");
+        gbc.insets = new Insets(0, 0, 0, 200);
+        panelNorth.add(login, gbc);
+        gbc.insets = new Insets(0, 200, 0, 0);
+
+        String[] comboBoxItems = {"Settings1", "Settings2"};
+        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
+        cb.setEditable(false);
+        panelNorth.add(cb);
+
+        ////////////////////////////////
+        ///         Center      ////////
+        ///////////////////////////////
+        JPanel centerPanelRight = new JPanel(new GridBagLayout());
+        panelCenter.add(new JButton("Map"));
+        panelCenter.add(centerPanelRight);
+
+        return panel;
+    }
+
+    public static void main(String args[]) {
+        Gui myLayout = new Gui("OV app");
 
         myLayout.setVisible(true);
     }
+
+
 }
