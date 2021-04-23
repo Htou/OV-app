@@ -10,6 +10,7 @@ public class GuiTest {
     public static void test2(){
         //Creating object of LoginFrame class and setting some of its properties
         JFrame.setDefaultLookAndFeelDecorated(true);
+        int i = 0;
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("JFrame Test");

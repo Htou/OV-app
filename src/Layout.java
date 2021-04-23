@@ -92,7 +92,7 @@ public class Layout extends JFrame {
         navigateOptions.setLayout(new GridBagLayout());
 
         center.add(centerCenter);
-
+        int i = 0;
         gbc.gridx = 0;
         gbc.gridy = 4;
         center.add(new Button("Navigate"),gbc);

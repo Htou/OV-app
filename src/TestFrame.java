@@ -22,6 +22,7 @@ public class TestFrame extends JFrame {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
                 frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                int i = 0;
             }
         });
     }
