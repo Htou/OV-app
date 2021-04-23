@@ -81,15 +81,17 @@ public class Layout extends JFrame {
         centerLabels.add(toLabel);
         centerLabels.add(fromLabel);
 
+        JPanel centerCenter = new JPanel();
+        centerCenter.setLayout(new GridBagLayout());
+        centerCenter.add(centerLabels);
+        centerCenter.add(centerTextfields);
+
 
 
         JPanel navigateOptions = new JPanel();
         navigateOptions.setLayout(new GridBagLayout());
 
-
-
-        center.add(centerLabels);
-        center.add(centerTextfields);
+        center.add(centerCenter);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
