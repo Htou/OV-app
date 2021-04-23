@@ -29,7 +29,6 @@ public class Gui extends JFrame {
         panel.setLayout(new GridLayout(2,2));
 
 
-
         //JPanel test = new JPanel(new GridLayout(0,2));
 
 
