@@ -14,8 +14,6 @@ public class OVapp {
     }
     public HashMap makeRouts(){
         HashMap<String, String> routes = new HashMap<String, String>();
-        routes.put("Amersfoort","Utrecht");
-        routes.put("Amersfoort","Bilthoven");
         return routes;
     }
 }

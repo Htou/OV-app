@@ -25,8 +25,7 @@ public class Gui extends JFrame {
         mainContainer.add(showTrajectsGui(), "2");
         mainContainer.add(showTrackPanelGui(), "3");
 
-        cl.show(mainContainer, "1");
-
+        cl.show(mainContainer, "2");
     }
 
     public JPanel navigateGui() {
@@ -122,25 +121,17 @@ public class Gui extends JFrame {
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridBagLayout());
         bottom.setBorder(new LineBorder(Color.black, 3));
-        ;
-        bottom.setLayout(new GridBagLayout());
+
+        bottom.setLayout(new BorderLayout());
 
 
         navigatePanel.add(bottom, BorderLayout.SOUTH);
 
-        JPanel bottomTop = new JPanel();
-        bottomTop.setLayout(new FlowLayout());
-        bottomTop.setBorder(new LineBorder(Color.green, 3));
 
-        gbc.anchor = GridBagConstraints.LINE_END;
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        bottom.add(bottomTop, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
 
-        bottom.add(new Button("test"), gbc);
+
+        bottom.add(languagePanel());
 
 
         return navigatePanel;
@@ -186,6 +177,13 @@ public class Gui extends JFrame {
         ///////////////////////////////
         panel.add(loginAndSettings(), BorderLayout.NORTH);
 
+
+
+        /////////////////////////
+        //      bottom      ////
+        ////////////////////////
+
+        panelSouth.add(languagePanel());
         return panel;
 
 
@@ -194,7 +192,7 @@ public class Gui extends JFrame {
     public JPanel showTrackPanelGui() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
-        JPanel panelSouth = new JPanel(new GridBagLayout());
+        JPanel panelSouth = new JPanel(new GridLayout());
 
         panel.add(loginAndSettings(), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
@@ -210,6 +208,12 @@ public class Gui extends JFrame {
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
         panelCenter.add(new JButton("Map"));
         panelCenter.add(centerPanelRight);
+
+        /////////////////////////
+        //      bottom      ////
+        ////////////////////////
+
+        panelSouth.add(languagePanel());
 
         return panel;
     }
@@ -237,10 +241,37 @@ public class Gui extends JFrame {
 
     }
 
+    public JPanel languagePanel(){
+        JPanel language = new JPanel(new GridLayout(1,4));
+
+        //add empty spaces to bottom grid
+        language.add(new JLabel());
+        language.add(new JLabel());
+
+        //language label
+        JPanel languageLabel = new JPanel(new GridLayout(1,2));
+        language.add(languageLabel);
+        languageLabel.add(new JLabel());
+        languageLabel.add(new JLabel("Language:"));
+
+
+        String[] comboBoxItems = {"English", "Dutch"};
+        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
+        cb.setEditable(false);
+        language.add(cb);
+
+
+
+        return language;
+
+    }
+
     public void startGui() {
         Gui myLayout = new Gui("OV app");
         myLayout.setVisible(true);
     }
+
+
 
 
 }
