@@ -5,15 +5,11 @@ import java.util.List;
 
 public class OVapp {
 
-    public static void main(String[] args) {
+    public void runProgram() {
         Gui gui = new Gui();
         gui.startGui();
 
 
 
-    }
-    public HashMap makeRouts(){
-        HashMap<String, String> routes = new HashMap<String, String>();
-        return routes;
     }
 }
