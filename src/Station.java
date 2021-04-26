@@ -1,14 +1,12 @@
-import java.time.LocalDateTime;
-
 public class Station {
     private String name;
-    private LocalDateTime timeToNextStation;
-    private double distance;
+    private int timeToNextStation;
+    private double distanceToNextStation;
 
-    public Station (String name, LocalDateTime timeToNextStation, double distance) {
+    public Station (String name, int timeToNextStation, double distanceToNextStation) {
         this.name = name;
         this.timeToNextStation = timeToNextStation;
-        this.distance = distance;
+        this.distanceToNextStation = distanceToNextStation;
     }
 
     public String getName() {
@@ -19,19 +17,19 @@ public class Station {
         name = newName;
     }
 
-    public LocalDateTime getTimeToNextStation() {
+    public int getTimeToNextStation() {
         return timeToNextStation;
     }
-    public void setTimeToNextStation(LocalDateTime newTime) {
+    public void setTimeToNextStation(int newTime) {
         timeToNextStation = newTime;
     }
 
-    public double  getDistance() {
-        return distance;
+    public double getDistanceToNextStation() {
+        return distanceToNextStation;
     }
 
-    public void setDistance(double newDistance){
-        distance = newDistance;
+    public void setDistanceToNextStation(double newDistance){
+        distanceToNextStation = newDistance;
     }
 
 }
