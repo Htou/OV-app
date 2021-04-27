@@ -11,7 +11,7 @@ public class Trajectory {
     public Trajectory(ArrayList<Station> stationList ) {
         this.stationList = stationList;
         this.increments = increments;
-        this.firstDepatureTime = firstDepatureTime;
+        this.firstDepartureTime = firstDepartureTime;
     }
 
     public ArrayList<Station> getStationList(){
