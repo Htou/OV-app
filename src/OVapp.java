@@ -1,28 +1,31 @@
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class OVapp {
-    private TrajectoryHandler trajectoryList = new TrajectoryHandler();
+    private TrajectoryHandler trajectoryList;
+    private double distanceToLocationB;
 
-    public void runProgram() {
-        //Gui gui = new Gui();
-        //gui.startGui();
-
-
+    public OVapp(){
+        trajectoryList = new TrajectoryHandler();
         trajectoryList.loadTrajectory();
-
-        System.out.println(calcDistanceToStation("Maarssen"));
-
 
 
     }
+
+    public void runProgram() {
+
+        Gui gui = new Gui();
+        gui.startGui();
+
+    }
+    public double getDistanceToLocationB(){
+        return distanceToLocationB;
+    }
+
     public double calcDistanceToStation(String station){
-        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm.
+        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
+
 
         //check if station is in list
         // if it return -1 the station name doesn't exist
+
         int index = utrechtToAmsterdam.indexOf(station);
         if (index == -1){
 
@@ -36,5 +39,9 @@ public class OVapp {
 
         //we start at 0 so the program can just go through the list and add the distances
         return totalDistance;
+
+
+
+
     }
 }
