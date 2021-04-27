@@ -7,13 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gui extends JFrame {
-    Container mainContainer;
-    CardLayout cl;
-    OVapp ovApp;
+ private Container mainContainer;
+ private CardLayout cl;
+ private OVapp ovApp;
+ private String locationB;
+ private RouteData routeData;
+
+ //make panels global variables
+    private JPanel navigatePanel = new JPanel();
+    private JPanel showTrajectsPanel  = new JPanel();
+    private JPanel showTrackPanel = new JPanel();
 
     Gui() {
+//
     }
-
 
     public Gui(String title) {
         super(title);
@@ -32,9 +39,11 @@ public class Gui extends JFrame {
         cl.show(mainContainer, "1");
 
 
+        routeData = new RouteData();
 
-        ovApp = new OVapp();
+
     }
+
 
     public JPanel navigateGui() {
         JPanel navigatePanel = new JPanel();
@@ -94,11 +103,13 @@ public class Gui extends JFrame {
 
 
                 //for locationB
-                ovApp.calcDistanceToStation(locationB);
-                System.out.println(ovApp.getDistanceToLocationB());
+//                ovApp.calcDistanceToStation(locationB);
 
-                if (ovApp.getDistanceToLocationB()!= -1.0) {
-                    ovApp.setLocationB(locationB);
+                if (routeData.getDistanceFromAToB()!= -1.0) {
+                   routeData.setLocationB(locationB);
+
+                   showTrajectsPanel = showTrajectsGui();
+                    mainContainer.add(showTrajectsPanel, "2");
                     cl.show(mainContainer, "2");
                 } else{
                     wrongLocationB.setText("wrong input try again");
@@ -167,6 +178,7 @@ public class Gui extends JFrame {
     }
 
     public JPanel showTrajectsGui() {
+//        updateVariable();
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
         JPanel panelCenter = new JPanel(new BorderLayout());
@@ -187,9 +199,13 @@ public class Gui extends JFrame {
 
 
         panelCenterNorth.add(new JLabel("Route information"));
-        JLabel arrivel = new JLabel();
-        //arrivel.setText(String.valueOf(ovApp.getLocationB()));
-        panelCenterNorth.add(new JLabel("Arrival: "));
+        JLabel arrival = new JLabel();
+//        System.out.println(locationB);
+
+
+        arrival.setText("test"+locationB);
+        System.out.println(locationB);
+        panelCenterNorth.add(arrival);
 
 
         panelCenterCenter.add(new JLabel("Utrecht centraal"));
@@ -300,9 +316,6 @@ public class Gui extends JFrame {
     }
 
 
-    public String getLocationB(){
-        return ovApp.getLocationB();
-    }
 
     public void startGui() {
         Gui myLayout = new Gui("OV app");
