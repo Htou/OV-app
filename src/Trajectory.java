@@ -21,4 +21,23 @@ public class Trajectory {
     public void setStationList(ArrayList<Station>newStationList ){
         this.stationList = newStationList;
     }
+
+    public int indexOf(String station){
+
+        for (int i = 0; i < stationList.size(); i++){
+            Station selStation = stationList.get(i);
+            if (selStation.getName().equals(station)){
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    public double getDistanceToNextStation(int index){
+        Station selStation = stationList.get(index);
+        return selStation.getDistanceToNextStation();
+
+
+    }
 }
