@@ -25,7 +25,7 @@ public class Gui extends JFrame {
         mainContainer.add(showTrajectsGui(), "2");
         mainContainer.add(showTrackPanelGui(), "3");
 
-        cl.show(mainContainer, "2");
+        cl.show(mainContainer, "1");
     }
 
     public JPanel navigateGui() {
@@ -52,10 +52,10 @@ public class Gui extends JFrame {
         navigatePanel.add(center, BorderLayout.CENTER);
 
 
-        JTextField fromTextField = new JTextField();
+        JTextField fromTextField = new JTextField("Utrecht");
         JTextField toTextField = new JTextField();
-        JLabel toLabel = new JLabel("to");
         JLabel fromLabel = new JLabel("from");
+        JLabel toLabel = new JLabel("to");
 
 
         //set size textfields
@@ -74,8 +74,12 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                String locationB = toTextField.getText();
 
-                cl.show(mainContainer, "2");
+                OVapp ovApp = new OVapp();
+                System.out.println(ovApp.calcDistanceToStation(locationB));
+
+                //cl.show(mainContainer, "2");
 
 
             }
@@ -86,8 +90,8 @@ public class Gui extends JFrame {
         //center labels
         JPanel centerLabels = new JPanel();
         centerLabels.setLayout(new GridLayout(3, 1, 0, 20));
-        centerLabels.add(toLabel);
         centerLabels.add(fromLabel);
+        centerLabels.add(toLabel);
         centerLabels.add(new JLabel());
 
         JPanel centerGrid = new JPanel();
