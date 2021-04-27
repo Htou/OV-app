@@ -19,5 +19,9 @@ public class TrajectoryHandler {
       return trajectoryList;
    }
 
+   public Trajectory getTrajectory(int index){
+      return trajectoryList.get(index);
+   }
+
 
 }
