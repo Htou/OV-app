@@ -12,10 +12,12 @@ public class Gui extends JFrame {
     private OVapp ovApp;
 
     private RouteData routeData;
-    private String locationB; // because swing is retarded a copy needs to be made of locationB
+    // because swing is retarded a copy needs to be made of locationB
     // inside of the GUI because we can't call other methods from the methods in here.
+    private String locationB;
+    private double distanceFromAToB;
 
- //make panels global variables
+    //make panels global variables
     private JPanel navigatePanel = new JPanel();
     private JPanel showTrajectsPanel  = new JPanel();
     private JPanel showTrackPanel = new JPanel();
@@ -105,14 +107,18 @@ public class Gui extends JFrame {
 
 
                 //for locationB
-//                ovApp.calcDistanceToStation(locationB);
+                ovApp.calcDistanceToStation(locationB);
 
                 if (routeData.getDistanceFromAToB()!= -1.0) {
-                   routeData.setLocationB(locationB);
+                    routeData.setLocationB(locationB);
 
-                   showTrajectsPanel = showTrajectsGui();
+                    showTrajectsPanel = showTrajectsGui();
                     mainContainer.add(showTrajectsPanel, "2");
                     cl.show(mainContainer, "2");
+
+
+                    distanceFromAToB = routeData.getDistanceFromAToB();
+
                 } else{
                     wrongLocationB.setText("wrong input try again");
 
@@ -168,10 +174,6 @@ public class Gui extends JFrame {
 
         navigatePanel.add(bottom, BorderLayout.SOUTH);
 
-
-
-
-
         bottom.add(languagePanel());
 
 
@@ -180,7 +182,6 @@ public class Gui extends JFrame {
     }
 
     public JPanel showTrajectsGui() {
-//        updateVariable();
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
         JPanel panelCenter = new JPanel(new BorderLayout());
@@ -191,7 +192,7 @@ public class Gui extends JFrame {
         panel.add(panelNorth, BorderLayout.NORTH);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 3));
+        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 10));
         JPanel panelCenterNorth = new JPanel(new GridLayout(1, 2));
 
         panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
@@ -202,15 +203,22 @@ public class Gui extends JFrame {
 
         panelCenterNorth.add(new JLabel("Route information"));
         JLabel arrival = new JLabel();
-//        System.out.println(locationB);
 
 
-        arrival.setText("test"+locationB);
+        arrival.setText(locationB);
         System.out.println(locationB);
         panelCenterNorth.add(arrival);
 
 
-        panelCenterCenter.add(new JLabel("Utrecht centraal"));
+        JPanel panelRouteInformation = new JPanel(new GridLayout(20,1));
+        panelCenterCenter.add(panelRouteInformation);
+
+        panelRouteInformation.add(new JLabel("Utrecht Centraal"));
+        panelRouteInformation.add(new JLabel("Distance: "+Double.toString(distanceFromAToB)+"km"));
+
+
+
+
 
         List<String> myList = new ArrayList<>();
         for (int index = 0; index < 40; index++) {
