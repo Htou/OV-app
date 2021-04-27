@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gui extends JFrame {
-    Container mainContainer = this.getContentPane();
-    CardLayout cl = new CardLayout();
+    Container mainContainer;
+    CardLayout cl;
+    OVapp ovApp;
 
     Gui() {
     }
@@ -20,12 +21,19 @@ public class Gui extends JFrame {
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        mainContainer = this.getContentPane();
+        cl = new CardLayout();
+
         mainContainer.setLayout(cl);
         mainContainer.add(navigateGui(), "1");
         mainContainer.add(showTrajectsGui(), "2");
         mainContainer.add(showTrackPanelGui(), "3");
 
         cl.show(mainContainer, "1");
+
+
+
+        ovApp = new OVapp();
     }
 
     public JPanel navigateGui() {
@@ -53,7 +61,7 @@ public class Gui extends JFrame {
 
 
         JTextField fromTextField = new JTextField("Utrecht");
-        JTextField toTextField = new JTextField();
+        JTextField toTextField = new JTextField("Maarssen");
         JLabel fromLabel = new JLabel("from");
         JLabel toLabel = new JLabel("to");
 
@@ -65,9 +73,17 @@ public class Gui extends JFrame {
 
         //center textfield
         JPanel centerTextfields = new JPanel();
-        centerTextfields.setLayout(new GridLayout(3, 1, 0, 20));
+        centerTextfields.setLayout(new GridLayout(5, 1, 0, 0));
+
+        JLabel wrongLocationA = new JLabel();
+        JLabel wrongLocationB = new JLabel();
+
+
         centerTextfields.add(fromTextField);
+        centerTextfields.add(wrongLocationA);
         centerTextfields.add(toTextField);
+        centerTextfields.add(wrongLocationB);
+
 
         //navigate
         JButton navigate = new JButton("Navigate");
@@ -76,11 +92,19 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e){
                 String locationB = toTextField.getText();
 
-                OVapp ovApp = new OVapp();
-                System.out.println(ovApp.calcDistanceToStation(locationB));
 
-                //cl.show(mainContainer, "2");
+                //for locationB
+                ovApp.calcDistanceToStation(locationB);
+                System.out.println(ovApp.getDistanceToLocationB());
 
+                if (ovApp.getDistanceToLocationB()!= -1.0) {
+                    ovApp.setLocationB(locationB);
+                    cl.show(mainContainer, "2");
+                } else{
+                    wrongLocationB.setText("wrong input try again");
+
+
+                }
 
             }
         });
@@ -153,17 +177,22 @@ public class Gui extends JFrame {
         panel.add(panelNorth, BorderLayout.NORTH);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 2));
+        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 3));
         JPanel panelCenterNorth = new JPanel(new GridLayout(1, 2));
 
         panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
 
-        panelCenterNorth.add(new JLabel("Departure"));
-        panelCenterNorth.add(new JLabel("Arrival"));
 
-        panelCenterCenter.add(new JLabel("Amsterdam"));
+
+        panelCenterNorth.add(new JLabel("Route information"));
+        JLabel arrivel = new JLabel();
+        //arrivel.setText(String.valueOf(ovApp.getLocationB()));
+        panelCenterNorth.add(new JLabel("Arrival: "));
+
+
+        panelCenterCenter.add(new JLabel("Utrecht centraal"));
 
         List<String> myList = new ArrayList<>();
         for (int index = 0; index < 40; index++) {
@@ -268,6 +297,11 @@ public class Gui extends JFrame {
 
         return language;
 
+    }
+
+
+    public String getLocationB(){
+        return ovApp.getLocationB();
     }
 
     public void startGui() {
