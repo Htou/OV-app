@@ -1,35 +1,20 @@
 public class OVapp {
     private TrajectoryHandler trajectoryList;
-    private double distanceToLocationB;
-    private String locationB;
+    RouteData routeData;
 
     public OVapp(){
         trajectoryList = new TrajectoryHandler();
         trajectoryList.loadTrajectory();
+        trajectoryList.getTrajectory(0);
 
-
-        locationB = "Utrecht Centraal";
-
-
-    }
-
-    ///////////////////////////////////////
-    ///      setters and getters        ///
-    ///////////////////////////////////////
-    public double getDistanceToLocationB(){
-        return distanceToLocationB;
-    }
-
-
-    public String getLocationB(){
-        return locationB;
-    }
-    public void setLocationB(String newLocationB){
-        locationB = newLocationB;
+        routeData = new RouteData();
     }
 
 
     public void runProgram() {
+        calcDistanceToStation("Maarssen");
+        System.out.println(routeData.getDistanceFromAToB());
+
 
         Gui gui = new Gui();
         gui.startGui();
@@ -45,7 +30,8 @@ public class OVapp {
 
         int index = utrechtToAmsterdam.indexOf(station);
         if (index == -1){
-            distanceToLocationB = -1;
+            routeData.setDistanceFromAToB(-1);
+
 
 
         } else {
@@ -55,9 +41,11 @@ public class OVapp {
                 totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(index);
             }
 
-            distanceToLocationB = totalDistance;
+            routeData.setDistanceFromAToB(totalDistance);
+
 
         }
+
 
 
 
