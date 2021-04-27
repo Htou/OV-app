@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gui extends JFrame {
- private Container mainContainer;
- private CardLayout cl;
- private OVapp ovApp;
- private String locationB;
- private RouteData routeData;
+    private Container mainContainer;
+    private CardLayout cl;
+    private OVapp ovApp;
+
+    private RouteData routeData;
+    private String locationB; // because swing is retarded a copy needs to be made of locationB
+    // inside of the GUI because we can't call other methods from the methods in here.
 
  //make panels global variables
     private JPanel navigatePanel = new JPanel();
@@ -19,7 +21,7 @@ public class Gui extends JFrame {
     private JPanel showTrackPanel = new JPanel();
 
     Gui() {
-//
+
     }
 
     public Gui(String title) {
@@ -99,7 +101,7 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                String locationB = toTextField.getText();
+                locationB = toTextField.getText();
 
 
                 //for locationB
@@ -314,8 +316,6 @@ public class Gui extends JFrame {
         return language;
 
     }
-
-
 
     public void startGui() {
         Gui myLayout = new Gui("OV app");

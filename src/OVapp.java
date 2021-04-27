@@ -1,13 +1,31 @@
 public class OVapp {
-    private RouteData routeData = new RouteData();
-
     private TrajectoryHandler trajectoryList;
+    private double distanceToLocationB;
+    private String locationB;
 
     public OVapp(){
         trajectoryList = new TrajectoryHandler();
         trajectoryList.loadTrajectory();
 
 
+        locationB = "Utrecht Centraal";
+
+
+    }
+
+    ///////////////////////////////////////
+    ///      setters and getters        ///
+    ///////////////////////////////////////
+    public double getDistanceToLocationB(){
+        return distanceToLocationB;
+    }
+
+
+    public String getLocationB(){
+        return locationB;
+    }
+    public void setLocationB(String newLocationB){
+        locationB = newLocationB;
     }
 
 
