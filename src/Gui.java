@@ -278,17 +278,15 @@ public class Gui extends JFrame {
     }
 
     public JPanel loginAndSettings(){
-        JPanel topPanel = new JPanel();
-        topPanel.setBorder(new LineBorder(Color.black, 3));
-        topPanel.setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-
+        int rows = 5;
+        JPanel topPanel = new JPanel(new GridLayout(1,5));
         JButton login = new JButton("Login");
-        gbc.insets = new Insets(0, 0, 0, 200);
-        topPanel.add(login, gbc);
-        gbc.insets = new Insets(0, 200, 0, 0);
+        topPanel.add(login);
 
+        for (int i = 0; i < (rows - 1 ); i++ ){
+            topPanel.add(new JLabel());
+        }
 
         String[] comboBoxItems = {"Settings1", "Settings2"};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
@@ -296,6 +294,8 @@ public class Gui extends JFrame {
         topPanel.add(cb);
 
         return topPanel;
+
+
 
 
     }
