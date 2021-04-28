@@ -41,6 +41,12 @@ public class Trajectory {
 
     }
 
+    public String getStationName(int index){
+        Station selStation = stationList.get(index);
+        return selStation.getName();
+
+    }
+
     public double getDistanceToPreviousStation(int index){
         try {
             Station selStation = stationList.get(index-1);
