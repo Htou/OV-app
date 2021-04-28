@@ -83,8 +83,8 @@ public class Gui extends JFrame {
 
         JTextField fromTextField = new JTextField("Utrecht");
         JTextField toTextField = new JTextField("Maarssen");
-        JLabel fromLabel = new JLabel("from");
-        JLabel toLabel = new JLabel("to");
+        JLabel fromLabel = new JLabel("van");
+        JLabel toLabel = new JLabel("naar");
 
 
         //set size textfields
@@ -107,7 +107,7 @@ public class Gui extends JFrame {
 
 
         //navigate
-        JButton navigate = new JButton("Navigate");
+        JButton navigate = new JButton("Navigeren");
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -137,7 +137,7 @@ public class Gui extends JFrame {
 
 
                 } else{
-                    wrongLocationB.setText("wrong input try again");
+                    wrongLocationB.setText("Verkeerde invoer, probeer het nogmaals");
 
 
                 }
@@ -216,7 +216,7 @@ public class Gui extends JFrame {
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
 
-        panelCenterNorth.add(new JLabel("Route information"));
+        panelCenterNorth.add(new JLabel("Reisinformatie"));
         JLabel arrival = new JLabel();
 
 
@@ -229,8 +229,8 @@ public class Gui extends JFrame {
 
         panelRouteInformation.add(new JLabel("Utrecht Centraal"));
         long dAtoBRoundOff = Math.round(distanceFromAToB);
-        panelRouteInformation.add(new JLabel("Distance: "+Double.toString(dAtoBRoundOff)+"km"));
-        panelRouteInformation.add(new JLabel("travel time: "+ time));
+        panelRouteInformation.add(new JLabel("Afstand: "+Double.toString(dAtoBRoundOff)+"km"));
+        panelRouteInformation.add(new JLabel("Reistijd: "+ time));
 
 
 
@@ -243,7 +243,7 @@ public class Gui extends JFrame {
 
         List<String> myList = new ArrayList<>();
         for (int index = 0; index < 40; index++) {
-            myList.add("List Item " + index);
+            myList.add("Itemlijst " + index);
         }
 
         final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
@@ -286,7 +286,7 @@ public class Gui extends JFrame {
         ///         Center      ////////
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
-        panelCenter.add(new JButton("Map"));
+        panelCenter.add(new JButton("Kaart"));
         panelCenter.add(centerPanelRight);
 
         /////////////////////////
@@ -309,7 +309,7 @@ public class Gui extends JFrame {
             topPanel.add(new JLabel());
         }
 
-        String[] comboBoxItems = {"Settings1", "Settings2"};
+        String[] comboBoxItems = {"instelling1", "instelling2"};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         topPanel.add(cb);
@@ -332,10 +332,10 @@ public class Gui extends JFrame {
         JPanel languageLabel = new JPanel(new GridLayout(1,2));
         language.add(languageLabel);
         languageLabel.add(new JLabel());
-        languageLabel.add(new JLabel("Language:"));
+        languageLabel.add(new JLabel("Taal:"));
 
 
-        String[] comboBoxItems = {"English", "Dutch"};
+        String[] comboBoxItems = {"Nederlands", "Engels"};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         language.add(cb);
@@ -350,8 +350,5 @@ public class Gui extends JFrame {
         Gui myLayout = new Gui("OV app");
         myLayout.setVisible(true);
     }
-
-
-
 
 }
