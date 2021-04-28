@@ -19,7 +19,7 @@ public class Gui extends JFrame {
 
     //make panels global variables
     private JPanel navigatePanel = new JPanel();
-    private JPanel showTrajectsPanel  = new JPanel();
+    private JPanel trajectorysPanel = new JPanel();
     private JPanel showTrackPanel = new JPanel();
 
     Gui() {
@@ -37,8 +37,8 @@ public class Gui extends JFrame {
 
         mainContainer.setLayout(cl);
         mainContainer.add(navigateGui(), "1");
-        mainContainer.add(showTrajectsGui(), "2");
-        mainContainer.add(showTrackPanelGui(), "3");
+        mainContainer.add(trajectorysGui(), "2");
+        mainContainer.add(trackPanelGui(), "3");
 
         cl.show(mainContainer, "1");
 
@@ -105,19 +105,22 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e){
                 locationB = toTextField.getText();
 
+                OVapp ovApp = new OVapp();
 
                 //for locationB
-                ovApp.calcDistanceToStation(locationB);
+                ovApp.calcDistanceAndTimeToStation(locationB);
 
                 if (routeData.getDistanceFromAToB()!= -1.0) {
                     routeData.setLocationB(locationB);
 
-                    showTrajectsPanel = showTrajectsGui();
-                    mainContainer.add(showTrajectsPanel, "2");
+                    distanceFromAToB = ovApp.routeData.getDistanceFromAToB();
+
+                    trajectorysPanel = trajectorysGui();
+                    mainContainer.add(trajectorysPanel, "2");
                     cl.show(mainContainer, "2");
 
 
-                    distanceFromAToB = routeData.getDistanceFromAToB();
+
 
                 } else{
                     wrongLocationB.setText("wrong input try again");
@@ -181,7 +184,7 @@ public class Gui extends JFrame {
 
     }
 
-    public JPanel showTrajectsGui() {
+    public JPanel trajectorysGui() {
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
         JPanel panelCenter = new JPanel(new BorderLayout());
@@ -199,14 +202,11 @@ public class Gui extends JFrame {
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
 
-
-
         panelCenterNorth.add(new JLabel("Route information"));
         JLabel arrival = new JLabel();
 
 
         arrival.setText(locationB);
-        System.out.println(locationB);
         panelCenterNorth.add(arrival);
 
 
@@ -248,7 +248,7 @@ public class Gui extends JFrame {
 
     }
 
-    public JPanel showTrackPanelGui() {
+    public JPanel trackPanelGui() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridLayout());
