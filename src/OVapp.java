@@ -1,6 +1,8 @@
+import java.time.LocalDateTime;
+
 public class OVapp {
     private TrajectoryHandler trajectoryList;
-    RouteData routeData;
+    public RouteData routeData;
 
     public OVapp(){
         trajectoryList = new TrajectoryHandler();
@@ -12,18 +14,21 @@ public class OVapp {
 
 
     public void runProgram() {
-        calcDistanceToStation("Maarssen");
-        System.out.println(routeData.getDistanceFromAToB());
+        //calcDistanceAndTimeToStation("Abcoude");
+        //System.out.println(routeData.getTime());
+        //routeData.getDistanceFromAToB();
 
 
         Gui gui = new Gui();
         gui.startGui();
 
     }
+    public void test(){
 
-    public void calcDistanceToStation(String station){
+    }
+
+    public void calcDistanceAndTimeToStation(String station){
         Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
-
 
         //check if station is in list
         // if it return -1 the station name doesn't exist
@@ -34,14 +39,23 @@ public class OVapp {
 
 
 
+
         } else {
             //we start at 0 so the program can just go through the list and add the distances
             double totalDistance = 0.0;
+            int minutes = 0;
             for (int i = 0; i < index; i++) {
-                totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(index);
+                totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(i);
+                minutes = minutes + utrechtToAmsterdam.getTimeToNextStation(i);
+                System.out.println(minutes);
+
             }
 
+            routeData.addMinutesTime(minutes);
             routeData.setDistanceFromAToB(totalDistance);
+
+
+
 
 
         }
@@ -52,4 +66,6 @@ public class OVapp {
 
 
     }
+
+
 }
