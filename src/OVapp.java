@@ -24,9 +24,9 @@ public class OVapp {
         //routeData.getDistanceFromAToB();
 
 
-        //Gui gui = new Gui();
-        //gui.startGui();
-        generateRoute("Maarssen");
+        Gui gui = new Gui();
+        gui.startGui();
+
 
     }
 
