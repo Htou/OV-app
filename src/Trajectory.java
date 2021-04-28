@@ -40,4 +40,33 @@ public class Trajectory {
 
 
     }
+
+    public double getDistanceToPreviousStation(int index){
+        try {
+            Station selStation = stationList.get(index-1);
+            return selStation.getDistanceToNextStation();
+        } catch(Exception e){
+            return 0;
+        }
+
+
+    }
+
+    public int getTimeToNextStation(int index){
+        Station selStation = stationList.get(index);
+        return selStation.getTimeToNextStation();
+
+
+    }
+    public int getTimePreviousStation(int index){
+        try {
+            Station selStation = stationList.get(index - 1);
+            return selStation.getTimeToNextStation();
+
+        }catch (Exception e){
+            return 0;
+        }
+
+
+    }
 }
