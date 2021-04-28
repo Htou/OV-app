@@ -3,6 +3,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ public class Gui extends JFrame {
     // inside of the GUI because we can't call other methods from the methods in here.
     private String locationB;
     private double distanceFromAToB;
+    private String time;
+    private ArrayList<String> times;
 
     //make panels global variables
     private JPanel navigatePanel = new JPanel();
@@ -35,6 +39,9 @@ public class Gui extends JFrame {
         mainContainer = this.getContentPane();
         cl = new CardLayout();
 
+        String time = "00:00";
+        times = new ArrayList<>();
+
         mainContainer.setLayout(cl);
         mainContainer.add(navigateGui(), "1");
         mainContainer.add(trajectorysGui(), "2");
@@ -44,6 +51,7 @@ public class Gui extends JFrame {
 
 
         routeData = new RouteData();
+
 
 
     }
@@ -114,10 +122,16 @@ public class Gui extends JFrame {
                     routeData.setLocationB(locationB);
 
                     distanceFromAToB = ovApp.routeData.getDistanceFromAToB();
+                    time = routeData.getTime().toString();
 
                     trajectorysPanel = trajectorysGui();
                     mainContainer.add(trajectorysPanel, "2");
                     cl.show(mainContainer, "2");
+
+                    ////////////////////////////////
+                    //      calc times          ///
+                    //////////////////////////////
+                    //this code needs to be moved to the back end later.
 
 
 
@@ -214,7 +228,14 @@ public class Gui extends JFrame {
         panelCenterCenter.add(panelRouteInformation);
 
         panelRouteInformation.add(new JLabel("Utrecht Centraal"));
-        panelRouteInformation.add(new JLabel("Distance: "+Double.toString(distanceFromAToB)+"km"));
+        long dAtoBRoundOff = Math.round(distanceFromAToB);
+        panelRouteInformation.add(new JLabel("Distance: "+Double.toString(dAtoBRoundOff)+"km"));
+        panelRouteInformation.add(new JLabel("travel time: "+ time));
+
+
+
+
+
 
 
 
