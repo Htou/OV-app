@@ -7,8 +7,8 @@ public class OVapp {
     private TrajectoryHandler trajectoryList = new TrajectoryHandler();
 
     public void runProgram() {
-        //Gui gui = new Gui();
-        //gui.startGui();
+        Gui gui = new Gui();
+        gui.startGui();
 
 
         trajectoryList.loadTrajectory();
@@ -37,4 +37,6 @@ public class OVapp {
         //we start at 0 so the program can just go through the list and add the distances
         return totalDistance;
     }
+
+
 }

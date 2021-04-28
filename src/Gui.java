@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
     Container mainContainer = this.getContentPane();
@@ -258,6 +259,7 @@ public class Gui extends JFrame {
         String[] comboBoxItems = {"English", "Dutch"};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
+        cb.setSelectedIndex(0);
         language.add(cb);
 
 
@@ -271,6 +273,8 @@ public class Gui extends JFrame {
         myLayout.setVisible(true);
     }
 
+    Public ResourceBundle = messages (String word);
+    ResourceBundle messages = ResourceBundle.getBundle(String word);
 
 
 
