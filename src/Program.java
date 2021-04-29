@@ -1,7 +1,7 @@
 public class Program {
 
     public static void main(String[] args) {
-        OVapp ovapp = new OVapp();
-        ovapp.runProgram();
+        Gui myLayout = new Gui("OV-app");
+        myLayout.setVisible(true);
     }
 }
