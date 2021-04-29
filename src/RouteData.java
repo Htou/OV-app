@@ -1,17 +1,19 @@
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class RouteData {
-    private static String locationA;
-    private static String locationB;
-    private static double distanceFromAToB;
-    private static LocalTime time;
+    private String locationA;
+    private String locationB;
+    private double distance;
+    private LocalTime time;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     public RouteData(){
         String str = "00:00";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
         time = LocalTime.parse(str, formatter);
+
+        distance = 0.0;
     }
 
 
@@ -21,6 +23,11 @@ public class RouteData {
     }
     public LocalTime getTime(){
         return time;
+    }
+    public void resetTime(){
+        time = LocalTime.parse("00:00", formatter);
+
+
     }
 
 
@@ -38,15 +45,14 @@ public class RouteData {
         this.locationB = locationB;
     }
 
-    public double getDistanceFromAToB() {
-        return distanceFromAToB;
+    public double getDistance() {
+        return distance;
     }
-    public void setDistanceFromAToB(double distanceFromAToB){
-
-        this.distanceFromAToB = distanceFromAToB;
-
-
+    public void setDistance(double distance){
+        this.distance = distance;
     }
+
+
 
 
 
