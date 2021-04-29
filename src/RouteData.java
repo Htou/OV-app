@@ -3,9 +3,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class RouteData {
-    private String locationA;
-    private String locationB;
-    private double distanceFromAToB;
+    private static String locationA;
+    private static String locationB;
+    private static double distanceFromAToB;
     private static LocalTime time;
 
     public RouteData(){
