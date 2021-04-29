@@ -43,7 +43,6 @@ public class BackEndImplementation {
             }
 
         }
-        System.out.println(generatedRoute);
         return generatedRoute;
     }
 
