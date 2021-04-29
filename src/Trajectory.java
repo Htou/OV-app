@@ -4,11 +4,12 @@ public class Trajectory {
     private ArrayList<Station> stationList;
     private int increments; // is how often the first train goes from the first station for example: 30
 
+
     //each half hour or 15 minutes the train departures so we need the time when it first departs so the time can be calculated further
     int firstDepartureTime;
 
 
-    public Trajectory(ArrayList<Station> stationList ) {
+    public Trajectory(ArrayList<Station> stationList, int increments,int firstDepartureTime)   {
         this.stationList = stationList;
         this.increments = increments;
         this.firstDepartureTime = firstDepartureTime;
@@ -74,5 +75,12 @@ public class Trajectory {
         }
 
 
+    }
+
+    public int getIncrements(){
+        return increments;
+    }
+    public int getFirstDepartureTime(){
+        return firstDepartureTime;
     }
 }
