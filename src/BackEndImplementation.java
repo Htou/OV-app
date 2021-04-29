@@ -2,12 +2,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class OVapp {
+public class BackEndImplementation {
     private TrajectoryHandler trajectoryList;
     public RouteData routeData;
 
 
-    public OVapp() {
+    public BackEndImplementation() {
         trajectoryList = new TrajectoryHandler();
         trajectoryList.loadTrajectory();
         trajectoryList.getTrajectory(0);
@@ -23,12 +23,9 @@ public class OVapp {
         //routeData.getDistanceFromAToB();
 
 
-        //Gui gui = new Gui();
-        //gui.startGui();
-        calcDistanceAndTimeToStation("Maarssen");
-        LocalTime time = routeData.getTime();
-        generateListDepartureTimes(time,40);
-
+        //calcDistanceAndTimeToStation("Maarssen");
+        //LocalTime time = routeData.getTime();
+        //generateListDepartureTimes(time,40);
 
 
     }
@@ -50,33 +47,39 @@ public class OVapp {
         return generatedRoute;
     }
 
-    public void calcDistanceAndTimeToStation(String station) {
+    public int calcMinutesToStation(String station) {
         Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
 
         //check if station is in list
         // if it return -1 the station name doesn't exist
 
         int index = utrechtToAmsterdam.indexOf(station);
-        if (index == -1) {
-            routeData.setDistanceFromAToB(-1);
 
-        } else {
-            //we start at 0 so the program can just go through the list and add the distances
-            double totalDistance = 0.0;
-            int minutes = 0;
-            for (int i = 0; i < index; i++) {
-                totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(i);
-                minutes = minutes + utrechtToAmsterdam.getTimeToNextStation(i);
-            }
-
-            routeData.addMinutesTime(minutes);
-            routeData.setDistanceFromAToB(totalDistance);
-
-
+        int minutes = 0;
+        for (int i = 0; i < index; i++) {
+            minutes = minutes + utrechtToAmsterdam.getTimeToNextStation(i);
         }
+        return minutes;
 
     }
 
+    public double calcDistanceToStation(String station) {
+        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
+
+        //check if station is in list
+        // if it return -1 the station name doesn't exist
+
+        int index = utrechtToAmsterdam.indexOf(station);
+        //we start at 0 so the program can just go through the list and add the distances
+        double totalDistance = 0.0;
+        for (int i = 0; i < index; i++) {
+            totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(i);
+        }
+
+        return totalDistance;
+
+
+    }
 
     public ArrayList<LocalTime> generateListDepartureTimes(LocalTime time, int listLength) {
 
@@ -126,9 +129,6 @@ public class OVapp {
             departureTime = departureTime.plusMinutes(increments);
             listTime.add(departureTime);
         }
-
-        System.out.println(listTime);
-
         return listTime;
 
 
@@ -138,6 +138,20 @@ public class OVapp {
 
 
         
+    }
+
+    public boolean isRouteValid(String station){
+        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
+
+        //will return -1 if in the route is not valid
+        int index = utrechtToAmsterdam.indexOf(station);
+        if (index == -1){
+            return false;
+        } else{
+            return true;
+        }
+
+
     }
 
 
