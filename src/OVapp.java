@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,8 +23,12 @@ public class OVapp {
         //routeData.getDistanceFromAToB();
 
 
-        Gui gui = new Gui();
-        gui.startGui();
+        //Gui gui = new Gui();
+        //gui.startGui();
+        calcDistanceAndTimeToStation("Maarssen");
+        LocalTime time = routeData.getTime();
+        generateListDepartureTimes(time,40);
+
 
 
     }
@@ -64,7 +67,6 @@ public class OVapp {
             for (int i = 0; i < index; i++) {
                 totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(i);
                 minutes = minutes + utrechtToAmsterdam.getTimeToNextStation(i);
-                System.out.println(minutes);
             }
 
             routeData.addMinutesTime(minutes);
@@ -76,19 +78,66 @@ public class OVapp {
     }
 
 
-    public void generateListDepatureTimes() {
+    public ArrayList<LocalTime> generateListDepartureTimes(LocalTime time, int listLength) {
 
-        String time = "00:00";
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime newTime = LocalTime.parse(time, formatter);
+        LocalTime newTime = LocalTime.parse("00:00", formatter);
         int minutes = routeData.getTime().getMinute();
 
         Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0);
+        int increments = utrechtToAmsterdam.getIncrements();
+        int firstDepartureTime = utrechtToAmsterdam.getFirstDepartureTime();
 
-        for (int i = 0; i < 40; i++) {
+        //get local time
+        LocalTime currentTime = LocalTime.parse("00:00", formatter).now();
 
 
+        String[] currentTimeSplit = currentTime.toString().split(":");
+        int currentMinutes = Integer.parseInt(currentTimeSplit[1]);
+        int currentHours = Integer.parseInt(currentTimeSplit[0]);
+
+        //currentMinutes = 10;
+
+        int newMinutes = firstDepartureTime;
+        int newHours = currentHours;
+
+
+        if (currentMinutes >= newMinutes) {
+            while (currentMinutes > newMinutes) {
+                newMinutes = newMinutes + increments;
+            }
+
+        } else{
+            newMinutes = newMinutes - 30;
         }
+
+        if (newMinutes <  0){
+            newHours = newHours - 1;
+            newMinutes = newMinutes + 60;
+        }
+
+
+
+        String departureTimeString = (String) (newHours+":"+newMinutes);
+        LocalTime departureTime = LocalTime.parse(departureTimeString, formatter);
+        ArrayList<LocalTime> listTime = new ArrayList<>();
+        for (int i = 0; i < listLength; i++){
+            departureTime = departureTime.plusMinutes(increments);
+            listTime.add(departureTime);
+        }
+
+        System.out.println(listTime);
+
+        return listTime;
+
+
+
+
+
+
+
+        
     }
 
 
