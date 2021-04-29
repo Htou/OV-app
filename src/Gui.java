@@ -23,7 +23,7 @@ public class Gui extends JFrame {
     private double distance = 0.0;
     private ArrayList<String> trajectoryStations = new ArrayList<String>();
     private String locationB;
-
+    private String language;
 
 
     //make panels global variables
@@ -50,17 +50,18 @@ public class Gui extends JFrame {
         time = LocalTime.parse(str, formatter);
 
         mainContainer.setLayout(cl);
-
+        language = "NE";
         selectedPanel = 1;
         updatePanel();
         routeData = new RouteData();
         backEnd = new BackEndImplementation();
 
+
     }
 
-    public void updatePanel(){
+    public void updatePanel() {
         previousPanel = selectedPanel;
-        switch (selectedPanel){
+        switch (selectedPanel) {
             case 1: {
                 mainContainer.add(navigateGui(), "1");
                 break;
@@ -69,7 +70,7 @@ public class Gui extends JFrame {
                 mainContainer.add(trajectorysGui(), "2");
                 break;
             }
-            case 3:{
+            case 3: {
                 mainContainer.add(trackPanelGui(), "3");
                 break;
             }
@@ -102,10 +103,10 @@ public class Gui extends JFrame {
         navigatePanel.add(center, BorderLayout.CENTER);
 
 
-        JTextField fromTextField = new JTextField("Utrecaht");
+        JTextField fromTextField = new JTextField("Utrecht");
         JTextField toTextField = new JTextField("Maarssen");
-        JLabel fromLabel = new JLabel(("van"));
-        JLabel toLabel = new JLabel(("naar"));
+        JLabel fromLabel = language == "NE" ? new JLabel(("van")) : new JLabel(("from"));
+        JLabel toLabel = language == "NE" ? new JLabel(("naar")) : new JLabel(("to"));
 
 
         //set size textfields
@@ -128,12 +129,11 @@ public class Gui extends JFrame {
 
 
         //navigate
-        JButton navigate = new JButton("Navigeren");
+        JButton navigate = language == "NE" ? new JButton("Navigeren") : new JButton("Navigate");
         centerTextfields.add(navigate);
-        navigate.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        navigate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 routeData.setLocationB(toTextField.getText());
-
 
 
                 if (backEnd.isRouteValid(routeData.getLocationB())) {
@@ -144,8 +144,7 @@ public class Gui extends JFrame {
                     routeData.addMinutesTime(backEnd.calcMinutesToStation(routeData.getLocationB()));
 
 
-
-                    times = backEnd.generateListDepartureTimes(routeData.getTime(),20);
+                    times = backEnd.generateListDepartureTimes(routeData.getTime(), 20);
                     distance = routeData.getDistance();
                     time = routeData.getTime();
                     trajectoryStations = backEnd.generateRoute(routeData.getLocationB());
@@ -158,15 +157,18 @@ public class Gui extends JFrame {
                     selectedPanel = 2;
                     updatePanel();
 
-                } else{
-                    wrongLocationB.setText("Verkeerde invoer probeer het nogmaals");
+                } else {
+                    if (language == "NE") {
+                        wrongLocationB.setText("Verkeerde invoer, probeer het nogmaals");
+                    } else {
+                        wrongLocationB.setText("Wrong input, try again");
+                    }
 
 
                 }
 
             }
         });
-
 
 
         //center labels
@@ -183,7 +185,7 @@ public class Gui extends JFrame {
 
         //radio buttons
         JRadioButton r1 = new JRadioButton("Bus");
-        JRadioButton r2 = new JRadioButton("Trein");
+        JRadioButton r2 = language == "NE" ? new JRadioButton("Trein") : new JRadioButton("Train");
         r1.setBounds(75, 50, 100, 30);
         r2.setBounds(75, 100, 100, 30);
         ButtonGroup bg = new ButtonGroup();
@@ -237,8 +239,11 @@ public class Gui extends JFrame {
         panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
-
-        panelCenterNorth.add(new JLabel("Reisinformatie"));
+        if (language == "NE") {
+            panelCenterNorth.add(new JLabel("Reisinformatie"));
+        } else {
+            panelCenterNorth.add(new JLabel("Travel Info"));
+        }
         JLabel arrival = new JLabel();
 
 
@@ -246,11 +251,11 @@ public class Gui extends JFrame {
         panelCenterNorth.add(arrival);
 
 
-        JPanel panelRouteInformationAndStations = new JPanel(new GridLayout(2,1));
+        JPanel panelRouteInformationAndStations = new JPanel(new GridLayout(2, 1));
         panelCenterCenter.add(panelRouteInformationAndStations);
 
-        JPanel panelRouteInformation = new JPanel(new GridLayout(20,1));
-        JPanel panelStationsInfo = new JPanel(new GridLayout(1,1));
+        JPanel panelRouteInformation = new JPanel(new GridLayout(20, 1));
+        JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
         panelRouteInformationAndStations.add(panelRouteInformation);
         panelRouteInformationAndStations.add(panelStationsInfo);
 
@@ -258,11 +263,17 @@ public class Gui extends JFrame {
         panelRouteInformation.add(new JLabel("Utrecht Centraal"));
 
         long distanceRoundOff = Math.round(distance);
-        panelRouteInformation.add(new JLabel(("Afstand: ") +Double.toString(distanceRoundOff)+"km"));
-        panelRouteInformation.add(new JLabel(("Reistijd: ")+ time.toString()));
+
+        if (language == "NE") {
+            panelRouteInformation.add(new JLabel(("Afstand: ") + Double.toString(distanceRoundOff) + "km"));
+            panelRouteInformation.add(new JLabel(("Reistijd: ") + time.toString()));
+        } else {
+            panelRouteInformation.add(new JLabel(("Distance: ") + Double.toString(distanceRoundOff) + "km"));
+            panelRouteInformation.add(new JLabel(("Travel Time: ") + time.toString()));
+        }
 
 
-        JList trajectoryStationsJList = new JList (trajectoryStations.toArray());
+        JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
         JScrollPane stationsPane = new JScrollPane();
         stationsPane.setViewportView(trajectoryStationsJList);
         trajectoryStationsJList.setLayoutOrientation(JList.VERTICAL);
@@ -280,7 +291,6 @@ public class Gui extends JFrame {
         ///         top       /////////
         ///////////////////////////////
         panel.add(loginAndSettings(), BorderLayout.NORTH);
-
 
 
         /////////////////////////
@@ -322,14 +332,14 @@ public class Gui extends JFrame {
         return panel;
     }
 
-    private JPanel loginAndSettings(){
+    private JPanel loginAndSettings() {
 
         int rows = 5;
-        JPanel topPanel = new JPanel(new GridLayout(1,5));
+        JPanel topPanel = new JPanel(new GridLayout(1, 5));
         JButton login = new JButton(("Login"));
         topPanel.add(login);
 
-        for (int i = 0; i < (rows - 1 ); i++ ){
+        for (int i = 0; i < (rows - 1); i++) {
             topPanel.add(new JLabel());
         }
 
@@ -341,50 +351,64 @@ public class Gui extends JFrame {
         return topPanel;
 
 
-
-
     }
 
-    private JPanel languageAndGoBackPanel(boolean goBack){
-        JPanel language = new JPanel(new GridLayout(1,4));
+    private JPanel languageAndGoBackPanel(boolean goBack) {
+        JPanel languagePanel = new JPanel(new GridLayout(1, 4));
 
         //add empty spaces to bottom grid
-        if (goBack==true) {
-            JButton goBackButton = new JButton("go back");
-            language.add(goBackButton);
+        if (goBack == true) {
+            JButton goBackButton = language == "NE" ? new JButton("Vorige"): new JButton("Go back");
+            languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     selectedPanel = selectedPanel - 1;
                     updatePanel();
                 }
             });
-        }else{
-            language.add(new JLabel());
+        } else {
+            languagePanel.add(new JLabel());
         }
 
 
+        languagePanel.add(new JLabel());
 
-        language.add(new JLabel());
-
-        //language label
-        JPanel languageLabel = new JPanel(new GridLayout(1,2));
-        language.add(languageLabel);
+        //languagePanel label
+        JPanel languageLabel = new JPanel(new GridLayout(1, 2));
+        languagePanel.add(languageLabel);
         languageLabel.add(new JLabel());
-        languageLabel.add(new JLabel(("Taal")));
+
+        if (language == "NE") {
+            languageLabel.add(new JLabel(("Taal")));
+        } else {
+            languageLabel.add(new JLabel(("Language")));
+        }
 
 
-        String[] comboBoxItems = {("Nederlands"), ("Engels")};
+        String[] comboBoxItems = language == "NE"? new String[]{("Nederlands"), ("Engels")} : new String[]{ ("English"), ("Dutch")};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         cb.setSelectedIndex(0);
-        language.add(cb);
+        languagePanel.add(cb);
+
+        cb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (language == "NE") {
+                    language = cb.getSelectedIndex() == 0 ? "NE" : "EN";
+                } else {
+                    language = cb.getSelectedIndex() == 1 ? "NE" : "EN";
+                }
+                updatePanel();
+            }
+        });{
 
 
+            return languagePanel;
 
-        return language;
+        }
+
 
     }
-
-
 }
 
