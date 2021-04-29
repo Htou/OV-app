@@ -12,7 +12,7 @@ public class TrajectoryHandler {
       stationUtrechtToAmsterdam.add(new Station("Maarssen",4 ,4.83));
       stationUtrechtToAmsterdam.add(new Station("Breukelen",10 ,12.1));
       stationUtrechtToAmsterdam.add(new Station("Abcoude",0 ,0));       //end station
-      Trajectory trajectoryUtrechtToAmsterdam = new Trajectory(stationUtrechtToAmsterdam);
+      Trajectory trajectoryUtrechtToAmsterdam = new Trajectory(stationUtrechtToAmsterdam,30,20);
 
       trajectoryList.add(trajectoryUtrechtToAmsterdam);
 
