@@ -6,32 +6,33 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
     private ResourceBundle messages;
     private Container mainContainer;
     private CardLayout cl;
-    private OVapp ovApp;
 
     private RouteData routeData;
+    private int selectedPanel;
+    private int previousPanel;
     // because swing is retarded a copy needs to be made of locationB
     // inside of the GUI because we can't call other methods from the methods in here.
+    private ArrayList<LocalTime> times;
+    private LocalTime time;
+    private double distance = 0.0;
+    private ArrayList<String> trajectoryStations = new ArrayList<String>();
     private String locationB;
-    private double distanceFromAToB;
-    private String time;
-    private ArrayList<String> times;
+
+
 
     //make panels global variables
     private JPanel navigatePanel = new JPanel();
     private JPanel trajectorysPanel = new JPanel();
     private JPanel showTrackPanel = new JPanel();
 
-    Gui() {
+    private BackEndImplementation backEnd;
 
-    }
 
     public Gui(String title) {
         super(title);
@@ -42,25 +43,42 @@ public class Gui extends JFrame {
         mainContainer = this.getContentPane();
         cl = new CardLayout();
 
-        String time = "00:00";
         times = new ArrayList<>();
 
+        String str = "00:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        time = LocalTime.parse(str, formatter);
+
         mainContainer.setLayout(cl);
-        mainContainer.add(navigateGui(), "1");
-        mainContainer.add(trajectorysGui(), "2");
-        mainContainer.add(trackPanelGui(), "3");
 
-        cl.show(mainContainer, "1");
-
-
+        selectedPanel = 1;
+        updatePanel();
         routeData = new RouteData();
-
-
+        backEnd = new BackEndImplementation();
 
     }
 
+    public void updatePanel(){
+        previousPanel = selectedPanel;
+        switch (selectedPanel){
+            case 1: {
+                mainContainer.add(navigateGui(), "1");
+                break;
+            }
+            case 2: {
+                mainContainer.add(trajectorysGui(), "2");
+                break;
+            }
+            case 3:{
+                mainContainer.add(trackPanelGui(), "3");
+                break;
+            }
+        }
+        cl.show(mainContainer, Integer.toString(selectedPanel));
 
-    public JPanel navigateGui() {
+    }
+
+    private JPanel navigateGui() {
         JPanel navigatePanel = new JPanel();
 
         navigatePanel.setLayout(new BorderLayout(8, 6));
@@ -79,15 +97,15 @@ public class Gui extends JFrame {
         //////////////////////
         JPanel center = new JPanel();
         center.setBorder(new LineBorder(Color.black, 3));
-        ;
+
         center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
 
 
-        JTextField fromTextField = new JTextField("Utrecht");
+        JTextField fromTextField = new JTextField("Utrecaht");
         JTextField toTextField = new JTextField("Maarssen");
-        JLabel fromLabel = new JLabel(getLanguage("van"));
-        JLabel toLabel = new JLabel(getLanguage("naar"));
+        JLabel fromLabel = new JLabel(("van"));
+        JLabel toLabel = new JLabel(("naar"));
 
 
         //set size textfields
@@ -110,37 +128,38 @@ public class Gui extends JFrame {
 
 
         //navigate
-        JButton navigate = new JButton(getLanguage("Navigeren"));
+        JButton navigate = new JButton("Navigeren");
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                locationB = toTextField.getText();
+                routeData.setLocationB(toTextField.getText());
 
-                OVapp ovApp = new OVapp();
 
-                //for locationB
-                ovApp.calcDistanceAndTimeToStation(locationB);
 
-                if (routeData.getDistanceFromAToB()!= -1.0) {
-                    routeData.setLocationB(locationB);
+                if (backEnd.isRouteValid(routeData.getLocationB())) {
 
-                    distanceFromAToB = ovApp.routeData.getDistanceFromAToB();
-                    time = routeData.getTime().toString();
+
+                    routeData.resetTime();
+                    routeData.setDistance(backEnd.calcDistanceToStation(routeData.getLocationB()));
+                    routeData.addMinutesTime(backEnd.calcMinutesToStation(routeData.getLocationB()));
+
+
+
+                    times = backEnd.generateListDepartureTimes(routeData.getTime(),20);
+                    distance = routeData.getDistance();
+                    time = routeData.getTime();
+                    trajectoryStations = backEnd.generateRoute(routeData.getLocationB());
+                    locationB = routeData.getLocationB();
+
 
                     trajectorysPanel = trajectorysGui();
-                    mainContainer.add(trajectorysPanel, "2");
-                    cl.show(mainContainer, "2");
-
-                    ////////////////////////////////
-                    //      calc times          ///
-                    //////////////////////////////
-                    //this code needs to be moved to the back end later.
 
 
-
+                    selectedPanel = 2;
+                    updatePanel();
 
                 } else{
-                    wrongLocationB.setText(getLanguage("Verkeerde_invoer_probeer_het_nogmaals"));
+                    wrongLocationB.setText("Verkeerde invoer probeer het nogmaals");
 
 
                 }
@@ -163,8 +182,8 @@ public class Gui extends JFrame {
         centerGrid.add(centerTextfields);
 
         //radio buttons
-        JRadioButton r1 = new JRadioButton(getLanguage("Bus"));
-        JRadioButton r2 = new JRadioButton(getLanguage("Trein"));
+        JRadioButton r1 = new JRadioButton("Bus");
+        JRadioButton r2 = new JRadioButton("Trein");
         r1.setBounds(75, 50, 100, 30);
         r2.setBounds(75, 100, 100, 30);
         ButtonGroup bg = new ButtonGroup();
@@ -194,14 +213,14 @@ public class Gui extends JFrame {
 
         navigatePanel.add(bottom, BorderLayout.SOUTH);
 
-        bottom.add(languagePanel());
+        bottom.add(languageAndGoBackPanel(false));
 
 
         return navigatePanel;
 
     }
 
-    public JPanel trajectorysGui() {
+    private JPanel trajectorysGui() {
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
         JPanel panelCenter = new JPanel(new BorderLayout());
@@ -219,7 +238,7 @@ public class Gui extends JFrame {
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
 
-        panelCenterNorth.add(new JLabel(getLanguage("Reisinformatie")));
+        panelCenterNorth.add(new JLabel("Reisinformatie"));
         JLabel arrival = new JLabel();
 
 
@@ -227,33 +246,35 @@ public class Gui extends JFrame {
         panelCenterNorth.add(arrival);
 
 
+        JPanel panelRouteInformationAndStations = new JPanel(new GridLayout(2,1));
+        panelCenterCenter.add(panelRouteInformationAndStations);
+
         JPanel panelRouteInformation = new JPanel(new GridLayout(20,1));
-        panelCenterCenter.add(panelRouteInformation);
-
-        panelRouteInformation.add(new JLabel(getLanguage("Utrecht_Centraal")));
-        long dAtoBRoundOff = Math.round(distanceFromAToB);
-        panelRouteInformation.add(new JLabel(getLanguage("Afstand") +Double.toString(dAtoBRoundOff)+"km"));
-        panelRouteInformation.add(new JLabel(getLanguage("Reistijd")+ time));
+        JPanel panelStationsInfo = new JPanel(new GridLayout(1,1));
+        panelRouteInformationAndStations.add(panelRouteInformation);
+        panelRouteInformationAndStations.add(panelStationsInfo);
 
 
+        panelRouteInformation.add(new JLabel("Utrecht Centraal"));
+
+        long distanceRoundOff = Math.round(distance);
+        panelRouteInformation.add(new JLabel(("Afstand: ") +Double.toString(distanceRoundOff)+"km"));
+        panelRouteInformation.add(new JLabel(("Reistijd: ")+ time.toString()));
 
 
+        JList trajectoryStationsJList = new JList (trajectoryStations.toArray());
+        JScrollPane stationsPane = new JScrollPane();
+        stationsPane.setViewportView(trajectoryStationsJList);
+        trajectoryStationsJList.setLayoutOrientation(JList.VERTICAL);
+        panelStationsInfo.add(stationsPane);
 
 
+        JList timeJList = new JList(times.toArray());
 
-
-
-
-        List<String> myList = new ArrayList<>();
-        for (int index = 0; index < 40; index++) {
-            myList.add(getLanguage("Itemlijst") + index);
-        }
-
-        final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(list);
-        list.setLayoutOrientation(JList.VERTICAL);
-        panelCenterCenter.add(scrollPane);
+        JScrollPane timesPane = new JScrollPane();
+        timesPane.setViewportView(timeJList);
+        timeJList.setLayoutOrientation(JList.VERTICAL);
+        panelCenterCenter.add(timesPane);
 
         ////////////////////////////////
         ///         top       /////////
@@ -266,13 +287,13 @@ public class Gui extends JFrame {
         //      bottom      ////
         ////////////////////////
 
-        panelSouth.add(languagePanel());
+        panelSouth.add(languageAndGoBackPanel(true));
         return panel;
 
 
     }
 
-    public JPanel trackPanelGui() {
+    private JPanel trackPanelGui() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridLayout());
@@ -289,30 +310,30 @@ public class Gui extends JFrame {
         ///         Center      ////////
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
-        panelCenter.add(new JButton(getLanguage("Kaart")));
+        panelCenter.add(new JButton(("Kaart")));
         panelCenter.add(centerPanelRight);
 
         /////////////////////////
         //      bottom      ////
         ////////////////////////
 
-        panelSouth.add(languagePanel());
+        panelSouth.add(languageAndGoBackPanel(true));
 
         return panel;
     }
 
-    public JPanel loginAndSettings(){
+    private JPanel loginAndSettings(){
 
         int rows = 5;
         JPanel topPanel = new JPanel(new GridLayout(1,5));
-        JButton login = new JButton(getLanguage("Login"));
+        JButton login = new JButton(("Login"));
         topPanel.add(login);
 
         for (int i = 0; i < (rows - 1 ); i++ ){
             topPanel.add(new JLabel());
         }
 
-        String[] comboBoxItems = {getLanguage("instelling1"), getLanguage("instelling2")};
+        String[] comboBoxItems = {("instelling1"), ("instelling2")};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         topPanel.add(cb);
@@ -324,47 +345,46 @@ public class Gui extends JFrame {
 
     }
 
-    public JPanel languagePanel(){
+    private JPanel languageAndGoBackPanel(boolean goBack){
         JPanel language = new JPanel(new GridLayout(1,4));
 
         //add empty spaces to bottom grid
-        language.add(new JLabel());
+        if (goBack==true) {
+            JButton goBackButton = new JButton("go back");
+            language.add(goBackButton);
+            goBackButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    selectedPanel = selectedPanel - 1;
+                    updatePanel();
+                }
+            });
+        }else{
+            language.add(new JLabel());
+        }
+
+
+
         language.add(new JLabel());
 
         //language label
         JPanel languageLabel = new JPanel(new GridLayout(1,2));
         language.add(languageLabel);
         languageLabel.add(new JLabel());
-        languageLabel.add(new JLabel(getLanguage("Taal")));
+        languageLabel.add(new JLabel(("Taal")));
 
 
-        String[] comboBoxItems = {getLanguage("Nederlands"), getLanguage("Engels")};
+        String[] comboBoxItems = {("Nederlands"), ("Engels")};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         cb.setSelectedIndex(0);
         language.add(cb);
 
-        if(cb.getSelectedIndex()==1){
-            messages = ResourceBundle.getBundle("MessagesBundle", new Locale("en", "EN"));
-        } else {
-            messages = ResourceBundle.getBundle("MessagesBundle");
-        }
+
+
         return language;
 
     }
-    private ResourceBundle getDefaultLanguage() {
-        return ResourceBundle.getBundle("MessagesBundle");
-    }
 
-    private String getLanguage(String word) {
-        return this.messages.getString(word);
-    }
-
-    public void startGui() {
-        Gui myLayout = new Gui("OV app");
-        myLayout.setVisible(true);
-        this.messages = this.getDefaultLanguage();
-    }
 
 }
 
