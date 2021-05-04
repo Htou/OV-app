@@ -159,7 +159,7 @@ public class Gui extends JFrame {
 
                 } else {
                     if (language == "NE") {
-                        wrongLocationB.setText("Verkeerde invoer, probeer het nogmaals");
+                        wrongLocationB.setText("Verkeerde invoer");
                     } else {
                         wrongLocationB.setText("Wrong input, try again");
                     }
