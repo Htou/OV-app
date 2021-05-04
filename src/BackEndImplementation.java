@@ -80,12 +80,12 @@ public class BackEndImplementation {
 
     }
 
-    public ArrayList<LocalTime> generateListDepartureTimes(LocalTime time, int listLength) {
-
+    public ArrayList<LocalTime> generateListDepartureTimes(LocalTime travelTime, int listLength) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime newTime = LocalTime.parse("00:00", formatter);
-        int minutes = routeData.getTime().getMinute();
+        int minutes = travelTime.getMinute();
+
 
         Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0);
         int increments = utrechtToAmsterdam.getIncrements();
@@ -108,16 +108,21 @@ public class BackEndImplementation {
         if (currentMinutes >= newMinutes) {
             while (currentMinutes > newMinutes) {
                 newMinutes = newMinutes + increments;
+                System.out.println(newMinutes);
             }
 
         } else{
             newMinutes = newMinutes - 30;
-        }
 
-        if (newMinutes <  0){
+        }
+        if (newMinutes > 60){
+            newHours = newHours + 1;
+            newMinutes = newMinutes - 60;
+        } else if (newMinutes <  0){
             newHours = newHours - 1;
             newMinutes = newMinutes + 60;
         }
+
 
 
 
