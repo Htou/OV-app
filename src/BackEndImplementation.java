@@ -9,7 +9,7 @@ public class BackEndImplementation {
 
     public BackEndImplementation() {
         trajectoryList = new TrajectoryHandler();
-        trajectoryList.loadTrajectory();
+        trajectoryList.loadTrainTrajectory();
         trajectoryList.getTrajectory(0);
 
 
