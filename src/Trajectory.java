@@ -8,11 +8,13 @@ public class Trajectory {
     //each half hour or 15 minutes the train departures so we need the time when it first departs so the time can be calculated further
     int firstDepartureTime;
 
+    String vehicleIdentifier;
 
-    public Trajectory(ArrayList<Station> stationList, int increments,int firstDepartureTime)   {
+    public Trajectory(ArrayList<Station> stationList, int increments,int firstDepartureTime, String vehicleIdentifier){
         this.stationList = stationList;
         this.increments = increments;
         this.firstDepartureTime = firstDepartureTime;
+        this.vehicleIdentifier = vehicleIdentifier;
     }
 
     public ArrayList<Station> getStationList(){
