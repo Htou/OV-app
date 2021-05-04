@@ -22,17 +22,17 @@ public class TrajectoryHandler {
    public ArrayList<Trajectory> loadBusTrajectory(){
       ArrayList<Station> utrechtToAmesfoort = new ArrayList();
 
-      utrechtToAmesfoort.add(new Station("Utrecht CS",4 ,2.04));
-      utrechtToAmesfoort.add(new Station("Vredenburg",1 ,2.04));
-      utrechtToAmesfoort.add(new Station("Neude",1 ,2.04));
-      utrechtToAmesfoort.add(new Station("Janskerkhof",1 ,2.04));
-      utrechtToAmesfoort.add(new Station("Stadsschouwburg",2 ,2.04));
-      utrechtToAmesfoort.add(new Station("Wittevrouwen",1 ,2.04));
-      utrechtToAmesfoort.add(new Station("Oorsprongpark",2 ,2.04));
-      utrechtToAmesfoort.add(new Station("Archimedeslaan",1 ,2.04));
-      utrechtToAmesfoort.add(new Station("Steinenburglaan",1 ,2.04));
-      utrechtToAmesfoort.add(new Station("Kerklaan, De Bilt",3 ,2.04));
-      utrechtToAmesfoort.add(new Station("KNMI, De Bilt",3 ,0));
+      utrechtToAmesfoort.add(new Station("Utrecht CS",4 ,1.5));
+      utrechtToAmesfoort.add(new Station("Vredenburg",1 ,2.4));
+      utrechtToAmesfoort.add(new Station("Neude",1 ,0.3));
+      utrechtToAmesfoort.add(new Station("Janskerkhof",1 ,1.0));
+      utrechtToAmesfoort.add(new Station("Stadsschouwburg",2 ,1.5));
+      utrechtToAmesfoort.add(new Station("Wittevrouwen",1 ,2.4));
+      utrechtToAmesfoort.add(new Station("Oorsprongpark",2 ,1.7));
+      utrechtToAmesfoort.add(new Station("Archimedeslaan",1 ,2.6));
+      utrechtToAmesfoort.add(new Station("Steinenburglaan",1 ,0.8));
+      utrechtToAmesfoort.add(new Station("Kerklaan, De Bilt",3 ,3.4));
+      utrechtToAmesfoort.add(new Station("KNMI, De Bilt",3 ,5.3));
       utrechtToAmesfoort.add(new Station("Amesfoortseweg, De Bilt",0,0)); // end station
       Trajectory trajectoryUtrechtToAmsterdam = new Trajectory(utrechtToAmesfoort,30,20);
 
