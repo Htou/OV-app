@@ -134,6 +134,10 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+
+
+                /*
                 interfaceContainer.routeData.setLocationB(toTextField.getText());
 
 
@@ -164,6 +168,8 @@ public class Gui extends JFrame {
 
                 }
 
+                 */
+
             }
         });
 
@@ -192,7 +198,23 @@ public class Gui extends JFrame {
         ActionListener sliceActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 AbstractButton aButton = (AbstractButton) actionEvent.getSource();
-                System.out.println("Selected: " + aButton.getText());
+
+                switch (aButton.getText()){
+                    case "Bus":
+                        interfaceContainer.routeData.setVehicleIdentifier("bus");
+                        break;
+                    case "Train":
+                        interfaceContainer.routeData.setVehicleIdentifier("train");
+                        break;
+                    case "Trein":
+                        interfaceContainer.routeData.setVehicleIdentifier("train");
+                        break;
+
+                }
+                interfaceContainer.routeData.getTrajectorysWithVehicleIdentifier();
+                System.out.println(interfaceContainer.routeData.getPossibleDepartureStation());
+
+
             }
         };
 
@@ -265,7 +287,7 @@ public class Gui extends JFrame {
         panelRouteInformationAndStations.add(panelStationsInfo);
 
 
-        panelRouteInformation.add(new JLabel(messages.getString("Utrecht_Centraal")));
+        panelRouteInformation.add(new JLabel(messages.getString("Utrecht Centraal")));
 
         long distanceRoundOff = Math.round(distance);
 
