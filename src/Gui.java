@@ -6,10 +6,12 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
     private ResourceBundle messages;
+    JComboBox<Language> comboBox;
     private Container mainContainer;
     private CardLayout cl;
 
@@ -23,8 +25,7 @@ public class Gui extends JFrame {
     private double distance = 0.0;
     private ArrayList<String> trajectoryStations = new ArrayList<String>();
     private String locationB;
-    private String language;
-    private RouteDataContainer routeDataInterface;
+    private interfaceContainer interfaceContainer;
 
 
     //make panels global variables
@@ -32,9 +33,7 @@ public class Gui extends JFrame {
     private JPanel trajectorysPanel = new JPanel();
     private JPanel showTrackPanel = new JPanel();
 
-
-    public Gui(String title) {
-        super(title);
+    public Gui() {
         this.setSize(600, 600);
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,14 +48,17 @@ public class Gui extends JFrame {
         time = LocalTime.parse(str, formatter);
 
         mainContainer.setLayout(cl);
-        language = "NE";
         selectedPanel = 1;
+
+        this.interfaceContainer = new interfaceContainer();
+        this.messages = interfaceContainer.messages;
+        this.setTitle(messages.getString("Title"));
+
         updatePanel();
-
-        this.routeDataInterface = new RouteDataContainer();
-
-
     }
+
+
+
 
     public void updatePanel() {
         previousPanel = selectedPanel;
@@ -104,8 +106,8 @@ public class Gui extends JFrame {
 
         JTextField fromTextField = new JTextField("Utrecht");
         JTextField toTextField = new JTextField("Maarssen");
-        JLabel fromLabel = language == "NE" ? new JLabel(("van")) : new JLabel(("from"));
-        JLabel toLabel = language == "NE" ? new JLabel(("naar")) : new JLabel(("to"));
+        JLabel fromLabel = new JLabel(messages.getString("Van"));
+        JLabel toLabel = new JLabel(messages.getString("Naar"));
 
 
         //set size textfields
@@ -128,26 +130,26 @@ public class Gui extends JFrame {
 
 
         //navigate
-        JButton navigate = language == "NE" ? new JButton("Navigeren") : new JButton("Navigate");
+        JButton navigate = new JButton(messages.getString("Navigeren"));
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                routeDataInterface.routeData.setLocationB(toTextField.getText());
+                interfaceContainer.routeData.setLocationB(toTextField.getText());
 
 
-                if (routeDataInterface.isRouteValid(routeDataInterface.routeData.getLocationB())) {
-                    routeDataInterface.routeData.getLocationB();
+                if (interfaceContainer.isRouteValid(interfaceContainer.routeData.getLocationB())) {
+                    interfaceContainer.routeData.getLocationB();
 
-                    routeDataInterface.routeData.resetTime();
-                    routeDataInterface.routeData.setDistance(routeDataInterface.calcDistanceToStation(routeDataInterface.routeData.getLocationB()));
-                    routeDataInterface.routeData.addMinutesTime(routeDataInterface.calcMinutesToStation(routeDataInterface.routeData.getLocationB()));
+                    interfaceContainer.routeData.resetTime();
+                    interfaceContainer.routeData.setDistance(interfaceContainer.calcDistanceToStation(interfaceContainer.routeData.getLocationB()));
+                    interfaceContainer.routeData.addMinutesTime(interfaceContainer.calcMinutesToStation(interfaceContainer.routeData.getLocationB()));
 
 
-                    times = routeDataInterface.generateListDepartureTimes(routeDataInterface.routeData.getTime(), 20);
-                    distance = routeDataInterface.routeData.getDistance();
-                    time = routeDataInterface.routeData.getTime();
-                    trajectoryStations = routeDataInterface.generateRoute(routeDataInterface.routeData.getLocationB());
-                    locationB = routeDataInterface.routeData.getLocationB();
+                    times = interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20);
+                    distance = interfaceContainer.routeData.getDistance();
+                    time = interfaceContainer.routeData.getTime();
+                    trajectoryStations = interfaceContainer.generateRoute(interfaceContainer.routeData.getLocationB());
+                    locationB = interfaceContainer.routeData.getLocationB();
 
 
                     trajectorysPanel = trajectorysGui();
@@ -156,12 +158,8 @@ public class Gui extends JFrame {
                     selectedPanel = 2;
                     updatePanel();
 
-                } else {
-                    if (language == "NE") {
-                        wrongLocationB.setText("Verkeerde invoer");
-                    } else {
-                        wrongLocationB.setText("Wrong input, try again");
-                    }
+                    wrongLocationB.setText(messages.getString("Verkeerde_invoer_probeer_het_nogmaals"));
+
 
 
                 }
@@ -183,8 +181,8 @@ public class Gui extends JFrame {
         centerGrid.add(centerTextfields);
 
         //radio buttons
-        JRadioButton r1 = new JRadioButton("Bus");
-        JRadioButton r2 = language == "NE" ? new JRadioButton("Trein") : new JRadioButton("Train");
+        JRadioButton r1 = new JRadioButton(messages.getString("Bus"));
+        JRadioButton r2 = new JRadioButton(messages.getString("Trein"));
         r1.setBounds(75, 50, 100, 30);
         r2.setBounds(75, 100, 100, 30);
         ButtonGroup bg = new ButtonGroup();
@@ -249,11 +247,8 @@ public class Gui extends JFrame {
         panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
-        if (language == "NE") {
-            panelCenterNorth.add(new JLabel("Reisinformatie"));
-        } else {
-            panelCenterNorth.add(new JLabel("Travel Info"));
-        }
+        panelCenterNorth.add(new JLabel(messages.getString("Reisinformatie")));
+
         JLabel arrival = new JLabel();
 
 
@@ -270,18 +265,13 @@ public class Gui extends JFrame {
         panelRouteInformationAndStations.add(panelStationsInfo);
 
 
-        panelRouteInformation.add(new JLabel("Utrecht Centraal"));
+        panelRouteInformation.add(new JLabel(messages.getString("Utrecht_Centraal")));
 
         long distanceRoundOff = Math.round(distance);
 
-        if (language == "NE") {
-            panelRouteInformation.add(new JLabel(("Afstand: ") + Double.toString(distanceRoundOff) + "km"));
-            panelRouteInformation.add(new JLabel(("Reistijd: ") + time.toString()));
-        } else {
-            panelRouteInformation.add(new JLabel(("Distance: ") + Double.toString(distanceRoundOff) + "km"));
-            panelRouteInformation.add(new JLabel(("Travel Time: ") + time.toString()));
-        }
 
+            panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
+            panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
 
         JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
         JScrollPane stationsPane = new JScrollPane();
@@ -368,7 +358,7 @@ public class Gui extends JFrame {
 
         //add empty spaces to bottom grid
         if (goBack == true) {
-            JButton goBackButton = language == "NE" ? new JButton("Vorige") : new JButton("Go back");
+            JButton goBackButton = new JButton(messages.getString("Vorige"));
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -388,35 +378,51 @@ public class Gui extends JFrame {
         languagePanel.add(languageLabel);
         languageLabel.add(new JLabel());
 
-        if (language == "NE") {
-            languageLabel.add(new JLabel(("Taal")));
-        } else {
-            languageLabel.add(new JLabel(("Language")));
-        }
+        languageLabel.add(new JLabel(messages.getString("Taal")));
 
+        comboBox = new JComboBox<Language>();
+        comboBox.setModel(new DefaultComboBoxModel<Language>(Language.values()));
+        // comboBox.setEditable(false);
+        if (messages.getLocale().equals(new Locale("en_EN")))
+            comboBox.setSelectedIndex(1);
+        else
+            comboBox.setSelectedIndex(0);
+        languagePanel.add(comboBox);
 
-        String[] comboBoxItems = language == "NE" ? new String[]{("Nederlands"), ("Engels")} : new String[]{("English"), ("Dutch")};
-        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-        cb.setEditable(false);
-        cb.setSelectedIndex(0);
-        languagePanel.add(cb);
-
-        cb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (language == "NE") {
-                    language = cb.getSelectedIndex() == 0 ? "NE" : "EN";
-                } else {
-                    language = cb.getSelectedIndex() == 1 ? "NE" : "EN";
-                }
-                updatePanel();
+        comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeLanguage(((JComboBox) e.getSource()).getSelectedIndex());
             }
         });
+        
         {
             return languagePanel;
         }
+    }
 
+    private void changeLanguage(int index) {
+        Language language = comboBox.getItemAt(index);
+        getBundle(language);
 
+        updatePanel();
+    }
+
+    private ResourceBundle getBundle(Language language) {
+        //ResourceBundle messages;
+        if (language == Language.English)
+            messages = ResourceBundle.getBundle("MessagesBundle", new Locale("en", "EN"));
+        else
+            messages = ResourceBundle.getBundle("MessagesBundle");
+        return messages;
+    }
+
+    public Language getLanguage() {
+        return (Language) this.comboBox.getSelectedItem();
+    }
+
+    public ResourceBundle getMessages() {
+        return messages;
     }
 }
+
 
