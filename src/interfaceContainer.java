@@ -8,31 +8,14 @@ public class interfaceContainer {
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
 
-
-
-
     public interfaceContainer() {
         trajectoryList = new TrajectoryHandler();
-        trajectoryList.loadTrainTrajectory();
-        trajectoryList.getTrajectory(0);
         routeData = new RouteData();
+        routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
         this.messages = ResourceBundle.getBundle("MessagesBundle");
 
     }
 
-
-    public void runProgram() {
-        //calcDistanceAndTimeToStation("Abcoude");
-        //System.out.println(routeData.getTime());
-        //routeData.getDistanceFromAToB();
-
-
-        //calcDistanceAndTimeToStation("Maarssen");
-        //LocalTime time = routeData.getTime();
-        //generateListDepartureTimes(time,40);
-
-
-    }
 
     public ArrayList<String> generateRoute(String arrival) {
         Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0);
