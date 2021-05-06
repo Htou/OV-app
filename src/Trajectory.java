@@ -85,4 +85,9 @@ public class Trajectory {
     public int getFirstDepartureTime(){
         return firstDepartureTime;
     }
+
+    public String getVehicleIdentifier(){
+        return vehicleIdentifier;
+    }
 }
+
