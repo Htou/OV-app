@@ -1,19 +1,23 @@
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class RouteDataContainer {
+public class interfaceContainer {
     public RouteData routeData;
     private TrajectoryHandler trajectoryList;
+    public ResourceBundle messages;
 
 
-    public RouteDataContainer() {
+
+
+    public interfaceContainer() {
         trajectoryList = new TrajectoryHandler();
         trajectoryList.loadTrainTrajectory();
         trajectoryList.getTrajectory(0);
-
-
         routeData = new RouteData();
+        this.messages = ResourceBundle.getBundle("MessagesBundle");
+
     }
 
 
