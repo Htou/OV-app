@@ -83,11 +83,6 @@ public class TrajectoryHandler {
       return trajectoryList;
    }
 
-   public ArrayList<Trajectory> loadBusTrajectory(){
-
-
-      return trajectoryList;
-   }
 
 
 
