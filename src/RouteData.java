@@ -1,19 +1,23 @@
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class RouteData {
     private String locationA;
     private String locationB;
     private double distance;
     private LocalTime time;
+    private String vehicleIdentifier;
+    private ArrayList<Trajectory> trajectoryList;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     public RouteData(){
         String str = "00:00";
-
         time = LocalTime.parse(str, formatter);
 
         distance = 0.0;
+
+        trajectoryList = new ArrayList();
     }
 
 
@@ -29,7 +33,6 @@ public class RouteData {
 
 
     }
-
 
     public String getLocationA() {
         return locationA;
@@ -52,9 +55,42 @@ public class RouteData {
         this.distance = distance;
     }
 
+    public String getVehicleIdentifier() {
+        return vehicleIdentifier;
+    }
+    public void setVehicleIdentifier(String vehicleIdentifier){
+        this.vehicleIdentifier = vehicleIdentifier;
+    }
 
 
+    public ArrayList<Trajectory> getTrajectoryList(int index){
+        return trajectoryList;
+    }
+    public void setTrajectoryList(ArrayList<Trajectory> trajectoryList){
+        this.trajectoryList = trajectoryList;
+    }
 
+    public ArrayList<Trajectory> getTrajectorysWithVehicleIdentifier(){
+        ArrayList<Trajectory> newTrajectoryList = new ArrayList<>();
+        for (Trajectory trajectory : trajectoryList){
+            if (trajectory.getVehicleIdentifier().equals(getVehicleIdentifier())){
+                newTrajectoryList.add(trajectory);
+            }
+        }
+        return newTrajectoryList;
+    }
+    public ArrayList<String> getPossibleDepartureStation(){
+        ArrayList<String> departureStations = new ArrayList<>();
+        for (Trajectory trajectory : trajectoryList){
+            if (trajectory.getVehicleIdentifier().equals(getVehicleIdentifier())){
+                for (int i = 0;i < (trajectory.getStationList().size()-1); i++){
+                    String stationName = trajectory.getStationName(i);
+                    departureStations.add(stationName);
+                }
+            }
 
+        }
+        return departureStations;
+    }
 
 }
