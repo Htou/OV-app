@@ -2,12 +2,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class BackEndImplementation {
-    private TrajectoryHandler trajectoryList;
+public class RouteDataContainer {
     public RouteData routeData;
+    private TrajectoryHandler trajectoryList;
 
 
-    public BackEndImplementation() {
+    public RouteDataContainer() {
         trajectoryList = new TrajectoryHandler();
         trajectoryList.loadTrainTrajectory();
         trajectoryList.getTrajectory(0);

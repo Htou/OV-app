@@ -13,7 +13,7 @@ public class Gui extends JFrame {
     private Container mainContainer;
     private CardLayout cl;
 
-    private RouteData routeData;
+
     private int selectedPanel;
     private int previousPanel;
     // because swing is retarded a copy needs to be made of locationB
@@ -24,14 +24,13 @@ public class Gui extends JFrame {
     private ArrayList<String> trajectoryStations = new ArrayList<String>();
     private String locationB;
     private String language;
+    private RouteDataContainer routeDataInterface;
 
 
     //make panels global variables
     private JPanel navigatePanel = new JPanel();
     private JPanel trajectorysPanel = new JPanel();
     private JPanel showTrackPanel = new JPanel();
-
-    private BackEndImplementation backEnd;
 
 
     public Gui(String title) {
@@ -53,8 +52,8 @@ public class Gui extends JFrame {
         language = "NE";
         selectedPanel = 1;
         updatePanel();
-        routeData = new RouteData();
-        backEnd = new BackEndImplementation();
+
+        this.routeDataInterface = new RouteDataContainer();
 
 
     }
@@ -133,22 +132,22 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                routeData.setLocationB(toTextField.getText());
+                routeDataInterface.routeData.setLocationB(toTextField.getText());
 
 
-                if (backEnd.isRouteValid(routeData.getLocationB())) {
+                if (routeDataInterface.isRouteValid(routeDataInterface.routeData.getLocationB())) {
+                    routeDataInterface.routeData.getLocationB();
+
+                    routeDataInterface.routeData.resetTime();
+                    routeDataInterface.routeData.setDistance(routeDataInterface.calcDistanceToStation(routeDataInterface.routeData.getLocationB()));
+                    routeDataInterface.routeData.addMinutesTime(routeDataInterface.calcMinutesToStation(routeDataInterface.routeData.getLocationB()));
 
 
-                    routeData.resetTime();
-                    routeData.setDistance(backEnd.calcDistanceToStation(routeData.getLocationB()));
-                    routeData.addMinutesTime(backEnd.calcMinutesToStation(routeData.getLocationB()));
-
-
-                    times = backEnd.generateListDepartureTimes(routeData.getTime(), 20);
-                    distance = routeData.getDistance();
-                    time = routeData.getTime();
-                    trajectoryStations = backEnd.generateRoute(routeData.getLocationB());
-                    locationB = routeData.getLocationB();
+                    times = routeDataInterface.generateListDepartureTimes(routeDataInterface.routeData.getTime(), 20);
+                    distance = routeDataInterface.routeData.getDistance();
+                    time = routeDataInterface.routeData.getTime();
+                    trajectoryStations = routeDataInterface.generateRoute(routeDataInterface.routeData.getLocationB());
+                    locationB = routeDataInterface.routeData.getLocationB();
 
 
                     trajectorysPanel = trajectorysGui();
@@ -191,6 +190,17 @@ public class Gui extends JFrame {
         ButtonGroup bg = new ButtonGroup();
         bg.add(r1);
         bg.add(r2);
+
+        ActionListener sliceActionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                AbstractButton aButton = (AbstractButton) actionEvent.getSource();
+                System.out.println("Selected: " + aButton.getText());
+            }
+        };
+
+        r1.addActionListener(sliceActionListener);
+        r2.addActionListener(sliceActionListener);
+
 
         JPanel radioButtons = new JPanel();
         radioButtons.setLayout(new FlowLayout());
@@ -358,7 +368,7 @@ public class Gui extends JFrame {
 
         //add empty spaces to bottom grid
         if (goBack == true) {
-            JButton goBackButton = language == "NE" ? new JButton("Vorige"): new JButton("Go back");
+            JButton goBackButton = language == "NE" ? new JButton("Vorige") : new JButton("Go back");
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -385,7 +395,7 @@ public class Gui extends JFrame {
         }
 
 
-        String[] comboBoxItems = language == "NE"? new String[]{("Nederlands"), ("Engels")} : new String[]{ ("English"), ("Dutch")};
+        String[] comboBoxItems = language == "NE" ? new String[]{("Nederlands"), ("Engels")} : new String[]{("English"), ("Dutch")};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         cb.setSelectedIndex(0);
@@ -401,11 +411,9 @@ public class Gui extends JFrame {
                 }
                 updatePanel();
             }
-        });{
-
-
+        });
+        {
             return languagePanel;
-
         }
 
 
