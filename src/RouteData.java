@@ -93,4 +93,18 @@ public class RouteData {
         return departureStations;
     }
 
+    public ArrayList<String> getPossibleArrivalStation(){
+        ArrayList<String> arrivalStations = new ArrayList<>();
+        for (Trajectory trajectory : trajectoryList){
+            if (trajectory.getVehicleIdentifier().equals(getVehicleIdentifier())){
+                for (int i = 1;i < (trajectory.getStationList().size()); i++){
+                    String stationName = trajectory.getStationName(i);
+                    arrivalStations.add(stationName);
+                }
+            }
+
+        }
+        return arrivalStations;
+    }
+
 }
