@@ -35,6 +35,12 @@ public class Gui extends JFrame {
     private JPanel trajectorysPanel = new JPanel();
     private JPanel showTrackPanel = new JPanel();
 
+
+    //for navigate gui
+    private int departureSelectedIndex = 0;
+    private int arrivalSelectedIndex = 0;
+    private String vehicleIdentifier;
+
     public Gui() {
         this.setSize(600, 600);
         this.setLocation(100, 100);
@@ -42,6 +48,8 @@ public class Gui extends JFrame {
 
         mainContainer = this.getContentPane();
         cl = new CardLayout();
+
+        vehicleIdentifier = "train";
 
         times = new ArrayList<>();
 
@@ -56,10 +64,10 @@ public class Gui extends JFrame {
         this.messages = interfaceContainer.messages;
         this.setTitle(messages.getString("Title"));
 
+
+
         updatePanel();
     }
-
-
 
 
     public void updatePanel() {
@@ -115,13 +123,48 @@ public class Gui extends JFrame {
 
         JComboBox<String> departureComboBox = new JComboBox<>();
         for (String value : departureList) {
-
             departureComboBox.addItem(value);
         }
         JComboBox<String> arrivalComboBox = new JComboBox<>();
         for (String value : arrivalList) {
             arrivalComboBox.addItem(value);
         }
+        try {
+            arrivalComboBox.setSelectedIndex(arrivalSelectedIndex);
+            departureComboBox.setSelectedIndex(departureSelectedIndex);
+        }catch(Exception e){
+        }
+
+        arrivalComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (arrivalComboBox.getSelectedIndex()==0){ // if the first selection is selected than we just fill in null so the list is complete
+                    departureList = interfaceContainer.routeData.getPossibleDepartureStation(null);
+                } else {
+                    departureList = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
+                }
+                arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
+                departureSelectedIndex = departureComboBox.getSelectedIndex();
+                updatePanel();
+            }
+        });
+
+
+        departureComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (departureComboBox.getSelectedIndex()==0){ // if the first selection is selected than we just fill in null so the list is complete
+                    arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(null);
+                } else {
+                    arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
+                }
+                arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
+                departureSelectedIndex = departureComboBox.getSelectedIndex();
+                updatePanel();
+            }
+        });
+
+
         JLabel fromLabel = new JLabel(messages.getString("Van"));
         JLabel toLabel = new JLabel(messages.getString("Naar"));
 
@@ -205,6 +248,15 @@ public class Gui extends JFrame {
         //radio buttons
         JRadioButton r1 = new JRadioButton(messages.getString("Bus"));
         JRadioButton r2 = new JRadioButton(messages.getString("Trein"));
+        switch (vehicleIdentifier){
+            case "bus":
+                r1 = new JRadioButton(messages.getString("Bus"),true);
+                break;
+            case "train":
+                r2 = new JRadioButton(messages.getString("Trein"),true);
+                break;
+        }
+
         r1.setBounds(75, 50, 100, 30);
         r2.setBounds(75, 100, 100, 30);
         ButtonGroup bg = new ButtonGroup();
@@ -218,17 +270,18 @@ public class Gui extends JFrame {
                 switch (aButton.getText()){
                     case "Bus":
                         interfaceContainer.routeData.setVehicleIdentifier("bus");
+                        vehicleIdentifier = "bus";
                         break;
                     case "Train":
                     case "Trein":
                         interfaceContainer.routeData.setVehicleIdentifier("train");
+                        vehicleIdentifier = "train";
                         break;
 
                 }
                 interfaceContainer.routeData.getTrajectorysWithVehicleIdentifier();
-//                System.out.println(interfaceContainer.routeData.getPossibleDepartureStation());
-                departureList = interfaceContainer.routeData.getPossibleDepartureStation();
-                arrivalList = interfaceContainer.routeData.getPossibleArrivalStation();
+                departureList = interfaceContainer.routeData.getPossibleDepartureStation(null);
+                arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(null);
                 updatePanel();
             }
         };
