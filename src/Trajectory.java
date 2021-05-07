@@ -89,5 +89,14 @@ public class Trajectory {
     public String getVehicleIdentifier(){
         return vehicleIdentifier;
     }
+
+    public boolean isStationInTrajectory(String station){
+        for (Station selectedStation : stationList){
+            if (station.equals(selectedStation.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
