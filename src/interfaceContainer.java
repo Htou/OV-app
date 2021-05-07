@@ -13,7 +13,6 @@ public class interfaceContainer {
         routeData = new RouteData();
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
         this.messages = ResourceBundle.getBundle("MessagesBundle");
-
     }
 
 
@@ -122,12 +121,6 @@ public class interfaceContainer {
         }
         return listTime;
 
-
-
-
-
-
-
         
     }
 
@@ -141,7 +134,6 @@ public class interfaceContainer {
         } else{
             return true;
         }
-
 
     }
 

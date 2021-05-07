@@ -26,6 +26,8 @@ public class Gui extends JFrame {
     private ArrayList<String> trajectoryStations = new ArrayList<String>();
     private String locationB;
     private interfaceContainer interfaceContainer;
+    private ArrayList<String> departureList = new ArrayList<String>();
+    private ArrayList<String> arrivalList = new ArrayList<String>();
 
 
     //make panels global variables
@@ -103,16 +105,30 @@ public class Gui extends JFrame {
         center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
 
+//        String[] comboBoxItems = {("instelling1"), ("instelling2")};
+//        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
+//        cb.setEditable(false);
+//        topPanel.add(cb);
 
-        JTextField fromTextField = new JTextField("Utrecht");
-        JTextField toTextField = new JTextField("Maarssen");
+
+
+
+        JComboBox<String> departureComboBox = new JComboBox<>();
+        for (String value : departureList) {
+
+            departureComboBox.addItem(value);
+        }
+        JComboBox<String> arrivalComboBox = new JComboBox<>();
+        for (String value : arrivalList) {
+            arrivalComboBox.addItem(value);
+        }
         JLabel fromLabel = new JLabel(messages.getString("Van"));
         JLabel toLabel = new JLabel(messages.getString("Naar"));
 
 
         //set size textfields
-        fromTextField.setPreferredSize(new Dimension(200, 20));
-        toTextField.setPreferredSize(new Dimension(200, 20));
+        departureComboBox.setPreferredSize(new Dimension(200, 20));
+        arrivalComboBox.setPreferredSize(new Dimension(200, 20));
 
 
         //center textfield
@@ -123,9 +139,9 @@ public class Gui extends JFrame {
         JLabel wrongLocationB = new JLabel();
 
 
-        centerTextfields.add(fromTextField);
+        centerTextfields.add(departureComboBox);
         centerTextfields.add(wrongLocationA);
-        centerTextfields.add(toTextField);
+        centerTextfields.add(arrivalComboBox);
         centerTextfields.add(wrongLocationB);
 
 
@@ -204,17 +220,16 @@ public class Gui extends JFrame {
                         interfaceContainer.routeData.setVehicleIdentifier("bus");
                         break;
                     case "Train":
-                        interfaceContainer.routeData.setVehicleIdentifier("train");
-                        break;
                     case "Trein":
                         interfaceContainer.routeData.setVehicleIdentifier("train");
                         break;
 
                 }
                 interfaceContainer.routeData.getTrajectorysWithVehicleIdentifier();
-                System.out.println(interfaceContainer.routeData.getPossibleDepartureStation());
-
-
+//                System.out.println(interfaceContainer.routeData.getPossibleDepartureStation());
+                departureList = interfaceContainer.routeData.getPossibleDepartureStation();
+                arrivalList = interfaceContainer.routeData.getPossibleArrivalStation();
+                updatePanel();
             }
         };
 
