@@ -8,6 +8,7 @@ public class RouteData {
     private double distance;
     private LocalTime time;
     private String vehicleIdentifier;
+    private Trajectory selectedTrajectory;
     private ArrayList<Trajectory> trajectoryList;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -74,6 +75,14 @@ public class RouteData {
 
     public void setTrajectoryList(ArrayList<Trajectory> trajectoryList) {
         this.trajectoryList = trajectoryList;
+    }
+
+    public Trajectory getSelectedTrajectory() {
+        return selectedTrajectory;
+    }
+
+    public void setSelectedTrajectory(Trajectory selectedTrajectory) {
+        this.selectedTrajectory = selectedTrajectory;
     }
 
     public ArrayList<Trajectory> getTrajectorysWithVehicleIdentifier() {
