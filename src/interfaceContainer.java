@@ -32,38 +32,45 @@ public class interfaceContainer {
         return generatedRoute;
     }
 
-    public int calcMinutesToStation(String station) {
-        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
+    public int calcMinutesToStation() {
+        Trajectory selectedTrajectory = routeData.getSelectedTrajectory(); // there is only one trajectory atm so it starts at Utrecht.
 
         //check if station is in list
         // if it return -1 the station name doesn't exist
 
-        int index = utrechtToAmsterdam.indexOf(station);
+        int indexA = selectedTrajectory.indexOf(routeData.getLocationA());
+        int indexB = selectedTrajectory.indexOf(routeData.getLocationB());
 
-        int minutes = 0;
-        for (int i = 0; i < index; i++) {
-            minutes = minutes + utrechtToAmsterdam.getTimeToNextStation(i);
+        //we start at 0 so the program can just go through the list and add the distances
+        int totalTime = 0;
+        for (int i = indexA; i < indexB; i++) {
+            totalTime = totalTime + selectedTrajectory.getTimeToNextStation(i);
         }
-        return minutes;
+
+        return totalTime;
 
     }
 
-    public double calcDistanceToStation(String station) {
-        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
+    public double calcDistanceToStation() {
+        Trajectory selectedTrajectory = routeData.getSelectedTrajectory(); // there is only one trajectory atm so it starts at Utrecht.
 
         //check if station is in list
         // if it return -1 the station name doesn't exist
 
-        int index = utrechtToAmsterdam.indexOf(station);
+        int indexA = selectedTrajectory.indexOf(routeData.getLocationA());
+        int indexB = selectedTrajectory.indexOf(routeData.getLocationB());
+
+        System.out.println(indexA);
+        System.out.println(indexB);
+
         //we start at 0 so the program can just go through the list and add the distances
         double totalDistance = 0.0;
-        for (int i = 0; i < index; i++) {
-            totalDistance = totalDistance + utrechtToAmsterdam.getDistanceToNextStation(i);
+        for (int i = indexA; i < indexB; i++) {
+            totalDistance = totalDistance + selectedTrajectory.getDistanceToNextStation(i);
         }
 
+        System.out.println(totalDistance);
         return totalDistance;
-
-
     }
 
     public ArrayList<LocalTime> generateListDepartureTimes(LocalTime travelTime, int listLength) {
