@@ -189,9 +189,6 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                selectedPanel = 2;
-                updatePanel();
-
 
 
                 /*
