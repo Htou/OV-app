@@ -106,12 +106,6 @@ public class Gui extends JFrame {
         center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
 
-//        String[] comboBoxItems = {("instelling1"), ("instelling2")};
-//        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-//        cb.setEditable(false);
-//        topPanel.add(cb);
-
-
         JComboBox<String> departureComboBox = new JComboBox<>();
         for (String value : departureList) {
             departureComboBox.addItem(value);
@@ -134,10 +128,11 @@ public class Gui extends JFrame {
                 } else {
                     departureList = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
                 }
+
                 arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
                 departureSelectedIndex = departureComboBox.getSelectedIndex();
-
                 interfaceContainer.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
+
 
                 updatePanel();
             }
@@ -156,7 +151,6 @@ public class Gui extends JFrame {
                 departureSelectedIndex = departureComboBox.getSelectedIndex();
 
                 interfaceContainer.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
-
                 updatePanel();
             }
         });
@@ -190,7 +184,6 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 locationA = interfaceContainer.routeData.getLocationA();
                 locationB = interfaceContainer.routeData.getLocationB();
 
@@ -354,13 +347,15 @@ public class Gui extends JFrame {
         panelRouteInformationAndStations.add(panelStationsInfo);
 
 
-        panelRouteInformation.add(new JLabel(messages.getString("Utrecht Centraal")));
+        panelRouteInformation.add(new JLabel(("Utrecht Centraal")));
 
         long distanceRoundOff = Math.round(distance);
 
 
         panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
         panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
+        panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type")+vehicleIdentifier.toString()));
+
 
         JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
         JScrollPane stationsPane = new JScrollPane();
