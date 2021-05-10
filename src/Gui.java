@@ -186,7 +186,9 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 locationA = interfaceContainer.routeData.getLocationA();
                 locationB = interfaceContainer.routeData.getLocationB();
-
+                Trajectory fetchedTrajectory = interfaceContainer.fetchTrajectory();
+                boolean valid = interfaceContainer.validateTrajectory(fetchedTrajectory);
+                System.out.println(valid);
 
                 /*
                 interfaceContainer.routeData.setLocationB(toTextField.getText());
