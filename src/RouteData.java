@@ -68,7 +68,7 @@ public class RouteData {
     }
 
 
-    public ArrayList<Trajectory> getTrajectoryList(int index) {
+    public ArrayList<Trajectory> getTrajectoryList() {
         return trajectoryList;
     }
 
