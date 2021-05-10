@@ -113,13 +113,6 @@ public class Gui extends JFrame {
         center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
 
-//        String[] comboBoxItems = {("instelling1"), ("instelling2")};
-//        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-//        cb.setEditable(false);
-//        topPanel.add(cb);
-
-
-
 
         JComboBox<String> departureComboBox = new JComboBox<>();
         for (String value : departureList) {
@@ -143,8 +136,10 @@ public class Gui extends JFrame {
                 } else {
                     departureList = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
                 }
+
                 arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
                 departureSelectedIndex = departureComboBox.getSelectedIndex();
+
                 updatePanel();
             }
         });
@@ -160,6 +155,7 @@ public class Gui extends JFrame {
                 }
                 arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
                 departureSelectedIndex = departureComboBox.getSelectedIndex();
+                    interfaceContainer.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
                 updatePanel();
             }
         });
@@ -360,8 +356,8 @@ public class Gui extends JFrame {
         long distanceRoundOff = Math.round(distance);
 
 
-            panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
-            panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
+        panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
+        panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
 
         JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
         JScrollPane stationsPane = new JScrollPane();
