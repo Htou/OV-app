@@ -7,7 +7,7 @@ public class RouteData {
     private String locationB;
     private double distance;
     private LocalTime time;
-    private String vehicleIdentifier = "train";
+    private String vehicleIdentifier;
     private ArrayList<Trajectory> trajectoryList;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -16,7 +16,7 @@ public class RouteData {
         time = LocalTime.parse(str, formatter);
 
         distance = 0.0;
-
+        vehicleIdentifier = "train";
         trajectoryList = new ArrayList();
     }
 
@@ -134,3 +134,4 @@ public class RouteData {
 
     }
 }
+

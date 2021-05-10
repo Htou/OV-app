@@ -133,13 +133,32 @@ public class interfaceContainer {
         }
     }
 
-    public int getTrajectory() {
-       String locationA = routeData.getLocationA();
-       String locationB =routeData.getLocationB();
+    public Trajectory fetchTrajectory() {
+        String locationA = routeData.getLocationA();
+        String locationB = routeData.getLocationB();
+        String vehicleID = routeData.getVehicleIdentifier();
 
-       ArrayList<Trajectory> trajectories = routeData.getTrajectoryList();
+        ArrayList<Trajectory> trajectories = routeData.getTrajectoryList();
 
+        for (Trajectory trajectory : trajectories) {
+            if (trajectory.getVehicleIdentifier().equals(vehicleID)) {
+
+                if (trajectory.getStops().contains(locationA) && trajectory.getStops().contains(locationB)) {
+                    return trajectory;
+                }
+            }
+        }
+        return null;
     }
 
+    public boolean validateTrajectory(Trajectory trajectory) {
+        String locationA = routeData.getLocationA();
+        String locationB = routeData.getLocationB();
 
+        if (trajectory.indexOf(locationA) < trajectory.indexOf(locationB)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

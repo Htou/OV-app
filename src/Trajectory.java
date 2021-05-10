@@ -98,5 +98,14 @@ public class Trajectory {
         }
         return false;
     }
+
+    public ArrayList<String> getStops() {
+        ArrayList<String> stops = new ArrayList<>();
+
+        for(Station station: stationList) {
+            stops.add(station.getName());
+        }
+        return stops;
+    }
 }
 
