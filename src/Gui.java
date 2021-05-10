@@ -189,6 +189,8 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                selectedPanel = 2;
+                updatePanel();
 
 
 
@@ -351,13 +353,14 @@ public class Gui extends JFrame {
         panelRouteInformationAndStations.add(panelStationsInfo);
 
 
-        panelRouteInformation.add(new JLabel(messages.getString("Utrecht Centraal")));
+        panelRouteInformation.add(new JLabel(("Utrecht Centraal")));
 
         long distanceRoundOff = Math.round(distance);
 
 
         panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
         panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
+        panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type")+vehicleIdentifier.toString()));
 
         JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
         JScrollPane stationsPane = new JScrollPane();
