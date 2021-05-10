@@ -190,7 +190,6 @@ public class Gui extends JFrame {
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-
                 /*
                 interfaceContainer.routeData.setLocationB(toTextField.getText());
 
