@@ -25,16 +25,10 @@ public class Gui extends JFrame {
     private double distance = 0.0;
     private ArrayList<String> trajectoryStations = new ArrayList<String>();
     private String locationB;
+    private String locationA;
     private interfaceContainer interfaceContainer;
     private ArrayList<String> departureList = new ArrayList<String>();
     private ArrayList<String> arrivalList = new ArrayList<String>();
-
-
-    //make panels global variables
-    private JPanel navigatePanel = new JPanel();
-    private JPanel trajectorysPanel = new JPanel();
-    private JPanel showTrackPanel = new JPanel();
-
 
     //for navigate gui
     private int departureSelectedIndex = 0;
@@ -63,7 +57,6 @@ public class Gui extends JFrame {
         this.interfaceContainer = new interfaceContainer();
         this.messages = interfaceContainer.messages;
         this.setTitle(messages.getString("Title"));
-
 
 
         updatePanel();
@@ -119,8 +112,6 @@ public class Gui extends JFrame {
 //        topPanel.add(cb);
 
 
-
-
         JComboBox<String> departureComboBox = new JComboBox<>();
         for (String value : departureList) {
             departureComboBox.addItem(value);
@@ -132,19 +123,22 @@ public class Gui extends JFrame {
         try {
             arrivalComboBox.setSelectedIndex(arrivalSelectedIndex);
             departureComboBox.setSelectedIndex(departureSelectedIndex);
-        }catch(Exception e){
+        } catch (Exception e) {
         }
 
         arrivalComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (arrivalComboBox.getSelectedIndex()==0){ // if the first selection is selected than we just fill in null so the list is complete
+                if (arrivalComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
                     departureList = interfaceContainer.routeData.getPossibleDepartureStation(null);
                 } else {
                     departureList = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
                 }
                 arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
                 departureSelectedIndex = departureComboBox.getSelectedIndex();
+
+                interfaceContainer.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
+
                 updatePanel();
             }
         });
@@ -153,13 +147,16 @@ public class Gui extends JFrame {
         departureComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (departureComboBox.getSelectedIndex()==0){ // if the first selection is selected than we just fill in null so the list is complete
+                if (departureComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
                     arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(null);
                 } else {
                     arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
                 }
                 arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
                 departureSelectedIndex = departureComboBox.getSelectedIndex();
+
+                interfaceContainer.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
+
                 updatePanel();
             }
         });
@@ -194,6 +191,8 @@ public class Gui extends JFrame {
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+                locationA = interfaceContainer.routeData.getLocationA();
+                locationB = interfaceContainer.routeData.getLocationB();
 
 
                 /*
@@ -248,12 +247,12 @@ public class Gui extends JFrame {
         //radio buttons
         JRadioButton r1 = new JRadioButton(messages.getString("Bus"));
         JRadioButton r2 = new JRadioButton(messages.getString("Trein"));
-        switch (vehicleIdentifier){
+        switch (vehicleIdentifier) {
             case "bus":
-                r1 = new JRadioButton(messages.getString("Bus"),true);
+                r1 = new JRadioButton(messages.getString("Bus"), true);
                 break;
             case "train":
-                r2 = new JRadioButton(messages.getString("Trein"),true);
+                r2 = new JRadioButton(messages.getString("Trein"), true);
                 break;
         }
 
@@ -267,7 +266,7 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 AbstractButton aButton = (AbstractButton) actionEvent.getSource();
 
-                switch (aButton.getText()){
+                switch (aButton.getText()) {
                     case "Bus":
                         interfaceContainer.routeData.setVehicleIdentifier("bus");
                         vehicleIdentifier = "bus";
@@ -360,8 +359,8 @@ public class Gui extends JFrame {
         long distanceRoundOff = Math.round(distance);
 
 
-            panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
-            panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
+        panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
+        panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
 
         JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
         JScrollPane stationsPane = new JScrollPane();
@@ -484,7 +483,7 @@ public class Gui extends JFrame {
                 changeLanguage(((JComboBox) e.getSource()).getSelectedIndex());
             }
         });
-        
+
         {
             return languagePanel;
         }
