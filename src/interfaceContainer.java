@@ -97,43 +97,47 @@ public class interfaceContainer {
                 System.out.println(newMinutes);
             }
 
-        } else{
+        } else {
             newMinutes = newMinutes - 30;
 
         }
-        if (newMinutes > 60){
+        if (newMinutes > 60) {
             newHours = newHours + 1;
             newMinutes = newMinutes - 60;
-        } else if (newMinutes <  0){
+        } else if (newMinutes < 0) {
             newHours = newHours - 1;
             newMinutes = newMinutes + 60;
         }
 
 
-
-
-        String departureTimeString = (String) (newHours+":"+newMinutes);
+        String departureTimeString = (String) (newHours + ":" + newMinutes);
         LocalTime departureTime = LocalTime.parse(departureTimeString, formatter);
         ArrayList<LocalTime> listTime = new ArrayList<>();
-        for (int i = 0; i < listLength; i++){
+        for (int i = 0; i < listLength; i++) {
             departureTime = departureTime.plusMinutes(increments);
             listTime.add(departureTime);
         }
         return listTime;
 
-        
     }
 
-    public boolean isRouteValid(String station){
+    public boolean isRouteValid(String station) {
         Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
 
         //will return -1 if in the route is not valid
         int index = utrechtToAmsterdam.indexOf(station);
-        if (index == -1){
+        if (index == -1) {
             return false;
-        } else{
+        } else {
             return true;
         }
+    }
+
+    public int getTrajectory() {
+       String locationA = routeData.getLocationA();
+       String locationB =routeData.getLocationB();
+
+       ArrayList<Trajectory> trajectories = routeData.getTrajectoryList();
 
     }
 
