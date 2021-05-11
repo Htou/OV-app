@@ -193,6 +193,9 @@ public class Gui extends JFrame {
                     interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
                     interfaceContainer.calcDistanceToStation();
                     interfaceContainer.calcMinutesToStation();
+                    trajectoryStations = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
+                    selectedPanel = 2;
+                    updatePanel();
                 }
 
                 /*
