@@ -190,7 +190,15 @@ public class Gui extends JFrame {
                 locationB = interfaceContainer.routeData.getLocationB();
                 Trajectory fetchedTrajectory = interfaceContainer.fetchTrajectory();
                 boolean valid = interfaceContainer.validateTrajectory(fetchedTrajectory);
-                System.out.println(valid);
+
+                if (valid == true) {
+                    interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
+                    interfaceContainer.calcDistanceToStation();
+                    interfaceContainer.calcMinutesToStation();
+                    trajectoryStations = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
+                    selectedPanel = 2;
+                    updatePanel();
+                }
 
                 /*
                 interfaceContainer.routeData.setLocationB(toTextField.getText());
