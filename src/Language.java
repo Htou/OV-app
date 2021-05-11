@@ -1,5 +1,6 @@
 public enum Language {
-        Nederlands,
-        English
+
+    Nederlands,
+    English
     }
 

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
     private ResourceBundle messages;
-    JComboBox<Language> comboBox;
+    private JComboBox<Language> comboBox;
     private Container mainContainer;
     private CardLayout cl;
 
@@ -29,6 +29,8 @@ public class Gui extends JFrame {
     private interfaceContainer interfaceContainer;
     private ArrayList<String> departureList = new ArrayList<String>();
     private ArrayList<String> arrivalList = new ArrayList<String>();
+
+    private int selectedLanguageOptionComboBox=0;
 
     //for navigate gui
     private int departureSelectedIndex = 0;
@@ -52,7 +54,7 @@ public class Gui extends JFrame {
         time = LocalTime.parse(str, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 1;
+        selectedPanel = 2;
 
         this.interfaceContainer = new interfaceContainer();
         this.messages = interfaceContainer.messages;
@@ -254,6 +256,7 @@ public class Gui extends JFrame {
             case "bus":
                 r1 = new JRadioButton(messages.getString("Bus"), true);
                 break;
+            case "trein":
             case "train":
                 r2 = new JRadioButton(messages.getString("Trein"), true);
                 break;
@@ -341,37 +344,39 @@ public class Gui extends JFrame {
 
         panelCenterNorth.add(new JLabel(messages.getString("Reisinformatie")));
 
-        JLabel arrival = new JLabel();
-
-
-        arrival.setText(locationB);
-        panelCenterNorth.add(arrival);
-
+        panelCenterNorth.add(new JLabel(messages.getString("Vertrektijden")));
 
         JPanel panelRouteInformationAndStations = new JPanel(new GridLayout(2, 1));
         panelCenterCenter.add(panelRouteInformationAndStations);
 
-        JPanel panelRouteInformation = new JPanel(new GridLayout(20, 1));
+        JPanel panelRouteInformation = new JPanel(new GridLayout(16, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
         panelRouteInformationAndStations.add(panelRouteInformation);
         panelRouteInformationAndStations.add(panelStationsInfo);
 
-
-        panelRouteInformation.add(new JLabel(("Utrecht Centraal")));
-
+        panelRouteInformation.add(new JLabel(messages.getString("Van_")+ locationA));
+        panelRouteInformation.add(new JLabel(messages.getString("Naar_")+ locationB));
         long distanceRoundOff = Math.round(distance);
 
 
         panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
         panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
-        panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type")+vehicleIdentifier.toString()));
 
+        if (vehicleIdentifier.equals("train")) {
+            panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type") + messages.getString("Trein")));
+        }else{
+            panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type")+vehicleIdentifier.toString()));
+        }
+        JPanel trajectoryInfoPanel= new JPanel(new BorderLayout());
+        panelStationsInfo.add(trajectoryInfoPanel);
 
         JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
-        JScrollPane stationsPane = new JScrollPane();
-        stationsPane.setViewportView(trajectoryStationsJList);
+        JScrollPane stationsInfoPane = new JScrollPane();
+        stationsInfoPane.setViewportView(trajectoryStationsJList);
         trajectoryStationsJList.setLayoutOrientation(JList.VERTICAL);
-        panelStationsInfo.add(stationsPane);
+        trajectoryInfoPanel.add(stationsInfoPane,BorderLayout.CENTER);
+        trajectoryInfoPanel.add(new JLabel("Route"),BorderLayout.NORTH);
+
 
 
         JList timeJList = new JList(times.toArray());
@@ -476,11 +481,15 @@ public class Gui extends JFrame {
 
         comboBox = new JComboBox<Language>();
         comboBox.setModel(new DefaultComboBoxModel<Language>(Language.values()));
-        // comboBox.setEditable(false);
-        if (messages.getLocale().equals(new Locale("en_EN")))
-            comboBox.setSelectedIndex(1);
-        else
+
+        if(selectedLanguageOptionComboBox==0){
+            selectedLanguageOptionComboBox=1;
             comboBox.setSelectedIndex(0);
+        }else{
+            selectedLanguageOptionComboBox=0;
+            comboBox.setSelectedIndex(1);
+        }
+
         languagePanel.add(comboBox);
 
         comboBox.addActionListener(new ActionListener() {
@@ -495,7 +504,9 @@ public class Gui extends JFrame {
     }
 
     private void changeLanguage(int index) {
+
         Language language = comboBox.getItemAt(index);
+
         getBundle(language);
 
         updatePanel();
