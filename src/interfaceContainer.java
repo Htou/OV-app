@@ -22,10 +22,9 @@ public class interfaceContainer {
         int indexA = selectedTrajectory.indexOf(routeData.getLocationA());
         int indexB = selectedTrajectory.indexOf(routeData.getLocationB());
 
-        for (int i = indexA; i < indexB; i++) {
-            if (selectedTrajectory.getStationName(i).equals(indexB)) {
-                generatedRoute.add(selectedTrajectory.getStationName(i));
-            }
+        for (int i = indexA; i <= indexB; i++) {
+            generatedRoute.add(selectedTrajectory.getStationName(i));
+
 
         }
         return generatedRoute;
