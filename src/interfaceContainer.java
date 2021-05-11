@@ -16,16 +16,15 @@ public class interfaceContainer {
     }
 
 
-    public ArrayList<String> generateRoute(String arrival) {
-        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0);
+    public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();
 
-        for (int i = 0; i < utrechtToAmsterdam.getStationList().size(); i++) {
-            if (utrechtToAmsterdam.getStationName(i).equals(arrival)) {
-                generatedRoute.add(utrechtToAmsterdam.getStationName(i));
-                break;
-            } else {
-                generatedRoute.add(utrechtToAmsterdam.getStationName(i));
+        int indexA = selectedTrajectory.indexOf(routeData.getLocationA());
+        int indexB = selectedTrajectory.indexOf(routeData.getLocationB());
+
+        for (int i = indexA; i < indexB; i++) {
+            if (selectedTrajectory.getStationName(i).equals(indexB)) {
+                generatedRoute.add(selectedTrajectory.getStationName(i));
             }
 
         }
