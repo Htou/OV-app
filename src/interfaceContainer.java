@@ -133,7 +133,7 @@ public class interfaceContainer {
         }
     }
 
-    public int getTrajectory() {
+    public void getTrajectory() {
        String locationA = routeData.getLocationA();
        String locationB =routeData.getLocationB();
 
