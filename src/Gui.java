@@ -53,7 +53,7 @@ public class Gui extends JFrame {
         travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 2;
+        selectedPanel = 1;
 
         this.interfaceContainer = new interfaceContainer();
         this.messages = interfaceContainer.messages;
@@ -67,19 +67,19 @@ public class Gui extends JFrame {
     public void updatePanel() {
         previousPanel = selectedPanel;
         switch (selectedPanel) {
-            case 1 -> {
+            case 1: {
                 mainContainer.add(navigateGui(), "1");
                 break;
             }
-            case 2 -> {
+            case 2: {
                 mainContainer.add(chosenTrajectoryInfoPanel(), "2");
                 break;
             }
-            case 3 -> {
+            case 3: {
                 mainContainer.add(trackPanelGui(), "3");
                 break;
             }
-            default -> {
+            default: {
                 System.out.println("exception error");
                 break;
             }
@@ -256,14 +256,16 @@ public class Gui extends JFrame {
         JRadioButton radioButtonBus = new JRadioButton(messages.getString("Bus"));
         JRadioButton radioButtonTrain = new JRadioButton(messages.getString("Trein"));
         switch (vehicleIdentifier) {
-            case "bus" -> {
+            case "bus": {
                 radioButtonBus = new JRadioButton(messages.getString("Bus"), true);
                 break;
             }
-            case "trein", "train" -> {
+            case "trein":
+            case "train": {
                 radioButtonTrain = new JRadioButton(messages.getString("Trein"), true);
+                break;
             }
-            default -> {
+            default: {
                 System.out.println("Exception");
                 break;
             }
@@ -280,16 +282,20 @@ public class Gui extends JFrame {
                 AbstractButton radioButton = (AbstractButton) actionEvent.getSource();
 
                 switch (radioButton.getText()) {
-                    case "Bus" -> {
+                    case "Bus": {
                         interfaceContainer.routeData.setVehicleIdentifier("bus");
                         vehicleIdentifier = "bus";
+                        break;
                     }
-                    case "Train", "Trein" -> {
+                    case "Train":
+                    case "Trein": {
                         interfaceContainer.routeData.setVehicleIdentifier("train");
                         vehicleIdentifier = "train";
+                        break;
                     }
-                    default -> {
+                    default: {
                         System.out.println("exception");
+                        break;
                     }
                 }
                 interfaceContainer.routeData.getTrajectorysWithVehicleIdentifier();
