@@ -21,20 +21,20 @@ public class Gui extends JFrame {
     // because swing is retarded a copy needs to be made of locationB
     // inside of the GUI because we can't call other methods from the methods in here.
     private ArrayList<LocalTime> times;
-    private LocalTime time;
+    private LocalTime travelTime;
     private double distance = 0.0;
-    private ArrayList<String> trajectoryStations = new ArrayList<String>();
-    private String locationB;
+    private ArrayList<String> stopsTrajectory = new ArrayList<String>();
     private String locationA;
+    private String locationB;
     private interfaceContainer interfaceContainer;
-    private ArrayList<String> departureList = new ArrayList<String>();
-    private ArrayList<String> arrivalList = new ArrayList<String>();
+    private ArrayList<String> departureListCombobox = new ArrayList<String>();
+    private ArrayList<String> arrivalListCombobox = new ArrayList<String>();
 
-    private int selectedLanguageOptionComboBox=0;
+    private int selectedLanguageOptionComboBox = 0;
 
     //for navigate gui
-    private int departureSelectedIndex = 0;
-    private int arrivalSelectedIndex = 0;
+    private int selectedDepartureIndex = 0;
+    private int selectedArrivalIndex = 0;
     private String vehicleIdentifier;
 
     public Gui() {
@@ -46,12 +46,11 @@ public class Gui extends JFrame {
         cl = new CardLayout();
 
         vehicleIdentifier = "train";
+        times = new ArrayList<LocalTime>();
 
-        times = new ArrayList<>();
-
-        String str = "00:00";
+        String standardTime = "00:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        time = LocalTime.parse(str, formatter);
+        travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
         selectedPanel = 2;
@@ -68,21 +67,24 @@ public class Gui extends JFrame {
     public void updatePanel() {
         previousPanel = selectedPanel;
         switch (selectedPanel) {
-            case 1: {
+            case 1 -> {
                 mainContainer.add(navigateGui(), "1");
                 break;
             }
-            case 2: {
-                mainContainer.add(trajectorysGui(), "2");
+            case 2 -> {
+                mainContainer.add(chosenTrajectoryInfoPanel(), "2");
                 break;
             }
-            case 3: {
+            case 3 -> {
                 mainContainer.add(trackPanelGui(), "3");
+                break;
+            }
+            default -> {
+                System.out.println("exception error");
                 break;
             }
         }
         cl.show(mainContainer, Integer.toString(selectedPanel));
-
     }
 
     private JPanel navigateGui() {
@@ -109,16 +111,16 @@ public class Gui extends JFrame {
         navigatePanel.add(center, BorderLayout.CENTER);
 
         JComboBox<String> departureComboBox = new JComboBox<>();
-        for (String value : departureList) {
+        for (String value : departureListCombobox) {
             departureComboBox.addItem(value);
         }
         JComboBox<String> arrivalComboBox = new JComboBox<>();
-        for (String value : arrivalList) {
+        for (String value : arrivalListCombobox) {
             arrivalComboBox.addItem(value);
         }
         try {
-            arrivalComboBox.setSelectedIndex(arrivalSelectedIndex);
-            departureComboBox.setSelectedIndex(departureSelectedIndex);
+            arrivalComboBox.setSelectedIndex(selectedArrivalIndex);
+            departureComboBox.setSelectedIndex(selectedDepartureIndex);
         } catch (Exception e) {
         }
 
@@ -126,13 +128,14 @@ public class Gui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (arrivalComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
-                    departureList = interfaceContainer.routeData.getPossibleDepartureStation(null);
+                    // bug fixing
+                    departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
                 } else {
-                    departureList = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
+                    departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
                 }
 
-                arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
-                departureSelectedIndex = departureComboBox.getSelectedIndex();
+                selectedArrivalIndex = arrivalComboBox.getSelectedIndex();
+                selectedDepartureIndex = departureComboBox.getSelectedIndex();
                 interfaceContainer.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
 
 
@@ -145,12 +148,12 @@ public class Gui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (departureComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
-                    arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(null);
+                    arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
                 } else {
-                    arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
+                    arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
                 }
-                arrivalSelectedIndex = arrivalComboBox.getSelectedIndex();
-                departureSelectedIndex = departureComboBox.getSelectedIndex();
+                selectedArrivalIndex = arrivalComboBox.getSelectedIndex();
+                selectedDepartureIndex = departureComboBox.getSelectedIndex();
 
                 interfaceContainer.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
                 updatePanel();
@@ -175,9 +178,9 @@ public class Gui extends JFrame {
         JLabel wrongLocationB = new JLabel();
 
 
+        centerTextfields.add(arrivalComboBox);
         centerTextfields.add(departureComboBox);
         centerTextfields.add(wrongLocationA);
-        centerTextfields.add(arrivalComboBox);
         centerTextfields.add(wrongLocationB);
 
 
@@ -195,7 +198,7 @@ public class Gui extends JFrame {
                     interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
                     interfaceContainer.calcDistanceToStation();
                     interfaceContainer.calcMinutesToStation();
-                    trajectoryStations = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
+                    stopsTrajectory = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
                     selectedPanel = 2;
                     updatePanel();
                 }
@@ -250,56 +253,61 @@ public class Gui extends JFrame {
         centerGrid.add(centerTextfields);
 
         //radio buttons
-        JRadioButton r1 = new JRadioButton(messages.getString("Bus"));
-        JRadioButton r2 = new JRadioButton(messages.getString("Trein"));
+        JRadioButton radioButtonBus = new JRadioButton(messages.getString("Bus"));
+        JRadioButton radioButtonTrain = new JRadioButton(messages.getString("Trein"));
         switch (vehicleIdentifier) {
-            case "bus":
-                r1 = new JRadioButton(messages.getString("Bus"), true);
+            case "bus" -> {
+                radioButtonBus = new JRadioButton(messages.getString("Bus"), true);
                 break;
-            case "trein":
-            case "train":
-                r2 = new JRadioButton(messages.getString("Trein"), true);
+            }
+            case "trein", "train" -> {
+                radioButtonTrain = new JRadioButton(messages.getString("Trein"), true);
+            }
+            default -> {
+                System.out.println("Exception");
                 break;
+            }
         }
 
-        r1.setBounds(75, 50, 100, 30);
-        r2.setBounds(75, 100, 100, 30);
+        radioButtonBus.setBounds(75, 50, 100, 30);
+        radioButtonTrain.setBounds(75, 100, 100, 30);
         ButtonGroup bg = new ButtonGroup();
-        bg.add(r1);
-        bg.add(r2);
+        bg.add(radioButtonBus);
+        bg.add(radioButtonTrain);
 
         ActionListener sliceActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                AbstractButton aButton = (AbstractButton) actionEvent.getSource();
+                AbstractButton radioButton = (AbstractButton) actionEvent.getSource();
 
-                switch (aButton.getText()) {
-                    case "Bus":
+                switch (radioButton.getText()) {
+                    case "Bus" -> {
                         interfaceContainer.routeData.setVehicleIdentifier("bus");
                         vehicleIdentifier = "bus";
-                        break;
-                    case "Train":
-                    case "Trein":
+                    }
+                    case "Train", "Trein" -> {
                         interfaceContainer.routeData.setVehicleIdentifier("train");
                         vehicleIdentifier = "train";
-                        break;
-
+                    }
+                    default -> {
+                        System.out.println("exception");
+                    }
                 }
                 interfaceContainer.routeData.getTrajectorysWithVehicleIdentifier();
-                departureList = interfaceContainer.routeData.getPossibleDepartureStation(null);
-                arrivalList = interfaceContainer.routeData.getPossibleArrivalStation(null);
+                departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
+                arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
                 updatePanel();
             }
         };
 
-        r1.addActionListener(sliceActionListener);
-        r2.addActionListener(sliceActionListener);
+        radioButtonBus.addActionListener(sliceActionListener);
+        radioButtonTrain.addActionListener(sliceActionListener);
 
 
         JPanel radioButtons = new JPanel();
         radioButtons.setLayout(new FlowLayout());
 
-        radioButtons.add(r1);
-        radioButtons.add(r2);
+        radioButtons.add(radioButtonBus);
+        radioButtons.add(radioButtonTrain);
 
         center.add(radioButtons);
 
@@ -307,7 +315,7 @@ public class Gui extends JFrame {
         center.add(centerGrid);
 
         ///////////////////////////////
-        //          bottom          //
+        //   bottom language pannel   //
         //////////////////////////////
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridBagLayout());
@@ -325,7 +333,7 @@ public class Gui extends JFrame {
 
     }
 
-    private JPanel trajectorysGui() {
+    private JPanel chosenTrajectoryInfoPanel() {
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
         JPanel panelCenter = new JPanel(new BorderLayout());
@@ -336,47 +344,46 @@ public class Gui extends JFrame {
         panel.add(panelNorth, BorderLayout.NORTH);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        JPanel panelCenterCenter = new JPanel(new GridLayout(1, 10));
+        JPanel panelInnerCenter = new JPanel(new GridLayout(1, 10));
         JPanel panelCenterNorth = new JPanel(new GridLayout(1, 2));
 
-        panelCenter.add(panelCenterCenter, BorderLayout.CENTER);
+        panelCenter.add(panelInnerCenter, BorderLayout.CENTER);
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
 
         panelCenterNorth.add(new JLabel(messages.getString("Reisinformatie")));
 
         panelCenterNorth.add(new JLabel(messages.getString("Vertrektijden")));
 
-        JPanel panelRouteInformationAndStations = new JPanel(new GridLayout(2, 1));
-        panelCenterCenter.add(panelRouteInformationAndStations);
+        JPanel panelRouteInfoAndStations = new JPanel(new GridLayout(2, 1));
+        panelInnerCenter.add(panelRouteInfoAndStations);
 
-        JPanel panelRouteInformation = new JPanel(new GridLayout(16, 1));
+        JPanel panelRouteInfo = new JPanel(new GridLayout(16, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
-        panelRouteInformationAndStations.add(panelRouteInformation);
-        panelRouteInformationAndStations.add(panelStationsInfo);
+        panelRouteInfoAndStations.add(panelRouteInfo);
+        panelRouteInfoAndStations.add(panelStationsInfo);
 
-        panelRouteInformation.add(new JLabel(messages.getString("Van_")+ locationA));
-        panelRouteInformation.add(new JLabel(messages.getString("Naar_")+ locationB));
+        panelRouteInfo.add(new JLabel(messages.getString("Van_") + locationA));
+        panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
         long distanceRoundOff = Math.round(distance);
 
 
-        panelRouteInformation.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
-        panelRouteInformation.add(new JLabel((messages.getString("Reistijd")) + time.toString()));
+        panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
+        panelRouteInfo.add(new JLabel((messages.getString("Reistijd")) + travelTime.toString()));
 
         if (vehicleIdentifier.equals("train")) {
-            panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type") + messages.getString("Trein")));
-        }else{
-            panelRouteInformation.add(new JLabel(messages.getString("Vervoer_type")+vehicleIdentifier.toString()));
+            panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + messages.getString("Trein")));
+        } else {
+            panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + vehicleIdentifier.toString()));
         }
-        JPanel trajectoryInfoPanel= new JPanel(new BorderLayout());
+        JPanel trajectoryInfoPanel = new JPanel(new BorderLayout());
         panelStationsInfo.add(trajectoryInfoPanel);
 
-        JList trajectoryStationsJList = new JList(trajectoryStations.toArray());
+        JList trajectoryStationsJList = new JList(stopsTrajectory.toArray());
         JScrollPane stationsInfoPane = new JScrollPane();
         stationsInfoPane.setViewportView(trajectoryStationsJList);
         trajectoryStationsJList.setLayoutOrientation(JList.VERTICAL);
-        trajectoryInfoPanel.add(stationsInfoPane,BorderLayout.CENTER);
-        trajectoryInfoPanel.add(new JLabel("Route"),BorderLayout.NORTH);
-
+        trajectoryInfoPanel.add(stationsInfoPane, BorderLayout.CENTER);
+        trajectoryInfoPanel.add(new JLabel("Route"), BorderLayout.NORTH);
 
 
         JList timeJList = new JList(times.toArray());
@@ -384,7 +391,7 @@ public class Gui extends JFrame {
         JScrollPane timesPane = new JScrollPane();
         timesPane.setViewportView(timeJList);
         timeJList.setLayoutOrientation(JList.VERTICAL);
-        panelCenterCenter.add(timesPane);
+        panelInnerCenter.add(timesPane);
 
         ////////////////////////////////
         ///         top       /////////
@@ -482,11 +489,11 @@ public class Gui extends JFrame {
         comboBox = new JComboBox<Language>();
         comboBox.setModel(new DefaultComboBoxModel<Language>(Language.values()));
 
-        if(selectedLanguageOptionComboBox==0){
-            selectedLanguageOptionComboBox=1;
+        if (selectedLanguageOptionComboBox == 0) {
+            selectedLanguageOptionComboBox = 1;
             comboBox.setSelectedIndex(0);
-        }else{
-            selectedLanguageOptionComboBox=0;
+        } else {
+            selectedLanguageOptionComboBox = 0;
             comboBox.setSelectedIndex(1);
         }
 
@@ -518,14 +525,6 @@ public class Gui extends JFrame {
             messages = ResourceBundle.getBundle("MessagesBundle", new Locale("en", "EN"));
         else
             messages = ResourceBundle.getBundle("MessagesBundle");
-        return messages;
-    }
-
-    public Language getLanguage() {
-        return (Language) this.comboBox.getSelectedItem();
-    }
-
-    public ResourceBundle getMessages() {
         return messages;
     }
 }

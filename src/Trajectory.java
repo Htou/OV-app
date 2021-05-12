@@ -10,26 +10,26 @@ public class Trajectory {
 
     String vehicleIdentifier;
 
-    public Trajectory(ArrayList<Station> stationList, int increments,int firstDepartureTime, String vehicleIdentifier){
+    public Trajectory(ArrayList<Station> stationList, int increments, int firstDepartureTime, String vehicleIdentifier) {
         this.stationList = stationList;
         this.increments = increments;
         this.firstDepartureTime = firstDepartureTime;
         this.vehicleIdentifier = vehicleIdentifier;
     }
 
-    public ArrayList<Station> getStationList(){
+    public ArrayList<Station> getStationList() {
         return stationList;
     }
 
-    public void setStationList(ArrayList<Station>newStationList ){
+    public void setStationList(ArrayList<Station> newStationList) {
         this.stationList = newStationList;
     }
 
-    public int indexOf(String station){
+    public int indexOf(String station) {
 
-        for (int i = 0; i < stationList.size(); i++){
+        for (int i = 0; i < stationList.size(); i++) {
             Station selStation = stationList.get(i);
-            if (selStation.getName().equals(station)){
+            if (selStation.getName().equals(station)) {
                 return i;
             }
         }
@@ -37,62 +37,64 @@ public class Trajectory {
 
     }
 
-    public double getDistanceToNextStation(int index){
+    public double getDistanceToNextStation(int index) {
         Station selStation = stationList.get(index);
         return selStation.getDistanceToNextStation();
 
 
     }
 
-    public String getStationName(int index){
+    public String getStationName(int index) {
         Station selStation = stationList.get(index);
         return selStation.getName();
 
     }
 
-    public double getDistanceToPreviousStation(int index){
+    public double getDistanceToPreviousStation(int index) {
         try {
-            Station selStation = stationList.get(index-1);
+            Station selStation = stationList.get(index - 1);
             return selStation.getDistanceToNextStation();
-        } catch(Exception e){
+        } catch (Exception e) {
             return 0;
         }
 
 
     }
 
-    public int getTimeToNextStation(int index){
+    public int getTimeToNextStation(int index) {
         Station selStation = stationList.get(index);
         return selStation.getTimeToNextStation();
 
 
     }
-    public int getTimePreviousStation(int index){
+
+    public int getTimePreviousStation(int index) {
         try {
             Station selStation = stationList.get(index - 1);
             return selStation.getTimeToNextStation();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
 
 
     }
 
-    public int getIncrements(){
+    public int getIncrements() {
         return increments;
     }
-    public int getFirstDepartureTime(){
+
+    public int getFirstDepartureTime() {
         return firstDepartureTime;
     }
 
-    public String getVehicleIdentifier(){
+    public String getVehicleIdentifier() {
         return vehicleIdentifier;
     }
 
-    public boolean isStationInTrajectory(String station){
-        for (Station selectedStation : stationList){
-            if (station.equals(selectedStation.getName())){
+    public boolean isStationInTrajectory(String station) {
+        for (Station selectedStation : stationList) {
+            if (station.equals(selectedStation.getName())) {
                 return true;
             }
         }
@@ -102,7 +104,7 @@ public class Trajectory {
     public ArrayList<String> getStops() {
         ArrayList<String> stops = new ArrayList<>();
 
-        for(Station station: stationList) {
+        for (Station station : stationList) {
             stops.add(station.getName());
         }
         return stops;
