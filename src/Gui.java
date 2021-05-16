@@ -59,6 +59,8 @@ public class Gui extends JFrame {
         this.messages = interfaceContainer.messages;
         this.setTitle(messages.getString("Title"));
 
+        departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
+        arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
 
         updatePanel();
     }
