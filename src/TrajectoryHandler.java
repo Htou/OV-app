@@ -30,7 +30,7 @@ public class TrajectoryHandler {
       stationUtrechtToZwolleTrain.add(new Station("'t Harde",7 ,11.6));
       stationUtrechtToZwolleTrain.add(new Station("Wezep",7 ,10.5));
       stationUtrechtToZwolleTrain.add(new Station("Zwolle Centraal",0 ,0));
-      Trajectory trajectoryUtrechtToZwolle = new Trajectory(stationUtrechtToZwolleTrain,30,20,"train");
+      Trajectory trajectoryUtrechtToZwolle = new Trajectory(stationUtrechtToZwolleTrain,30,21,"train");
 
 
 

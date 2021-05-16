@@ -58,8 +58,6 @@ public class interfaceContainer {
         int indexA = selectedTrajectory.indexOf(routeData.getLocationA());
         int indexB = selectedTrajectory.indexOf(routeData.getLocationB());
 
-        System.out.println(indexA);
-        System.out.println(indexB);
 
         //we start at 0 so the program can just go through the list and add the distances
         double totalDistance = 0.0;
@@ -67,20 +65,24 @@ public class interfaceContainer {
             totalDistance = totalDistance + selectedTrajectory.getDistanceToNextStation(i);
         }
 
-        System.out.println(totalDistance);
         return totalDistance;
     }
 
-    public ArrayList<LocalTime> generateListDepartureTimes(LocalTime travelTime, int listLength) {
+
+    public ArrayList<LocalTime> generateListDepartureTimes(LocalTime travelTime, int listLength, Trajectory trajectory, String location) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime newTime = LocalTime.parse("00:00", formatter);
-        int minutes = travelTime.getMinute();
 
 
-        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0);
-        int increments = utrechtToAmsterdam.getIncrements();
-        int firstDepartureTime = utrechtToAmsterdam.getFirstDepartureTime();
+        int increments = trajectory.getIncrements();
+        int firstDepartureTime = trajectory.getFirstDepartureTime();
+
+        ArrayList<Station> stationListTrajectory = trajectory.getStationList();
+        for (int i = 0; i < trajectory.indexOf(location); i++){
+            firstDepartureTime =  firstDepartureTime + stationListTrajectory.get(i).getTimeToNextStation();
+
+        }
+        // bug: fix that the firstDepartureTime can over 60
 
         //get local time
         LocalTime currentTime = LocalTime.parse("00:00", formatter).now();
@@ -90,40 +92,38 @@ public class interfaceContainer {
         int currentMinutes = Integer.parseInt(currentTimeSplit[1]);
         int currentHours = Integer.parseInt(currentTimeSplit[0]);
 
-        //currentMinutes = 10;
-
-        int newMinutes = firstDepartureTime;
-        int newHours = currentHours;
+        int departureHour = currentHours;
 
 
-        if (currentMinutes >= newMinutes) {
-            while (currentMinutes > newMinutes) {
-                newMinutes = newMinutes + increments;
-                System.out.println(newMinutes);
-            }
+        int departureMinute = firstDepartureTime;
+        while (!(currentMinutes <= departureMinute)) {
+            departureMinute = departureMinute + increments;
+        }
 
+        if (departureMinute > 60) {
+            departureMinute = departureMinute - increments;
+            departureHour = departureHour + 1;
+
+        }
+
+        //make time string
+        String departureTimeString;
+        if (departureHour == 24) { // if it's 24 than the time needs to be 00:minutes
+            departureTimeString = (String) ("00" + ":" + departureMinute);
         } else {
-            newMinutes = newMinutes - 30;
-
-        }
-        if (newMinutes > 60) {
-            newHours = newHours + 1;
-            newMinutes = newMinutes - 60;
-        } else if (newMinutes < 0) {
-            newHours = newHours - 1;
-            newMinutes = newMinutes + 60;
+            departureTimeString = (String) (departureHour + ":" + departureMinute);
         }
 
 
-        String departureTimeString = (String) (newHours + ":" + newMinutes);
         LocalTime departureTime = LocalTime.parse(departureTimeString, formatter);
-        ArrayList<LocalTime> listTime = new ArrayList<>();
+        ArrayList<LocalTime> listTime = new ArrayList<LocalTime>();
         for (int i = 0; i < listLength; i++) {
-            departureTime = departureTime.plusMinutes(increments);
             listTime.add(departureTime);
+            departureTime = departureTime.plusMinutes(increments);
         }
-        return listTime;
 
+
+        return listTime;
     }
 
     public boolean isRouteValid(String station) {

@@ -33,7 +33,6 @@ public class RouteData {
     public void resetTime() {
         time = LocalTime.parse("00:00", formatter);
 
-
     }
 
     public String getLocationA() {

@@ -196,11 +196,18 @@ public class Gui extends JFrame {
 
                 if (valid == true) {
                     interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
-                    interfaceContainer.calcDistanceToStation();
-                    interfaceContainer.calcMinutesToStation();
+                    interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
+                    interfaceContainer.routeData.setDistance(interfaceContainer.calcDistanceToStation());
+
+                    interfaceContainer.routeData.resetTime();
+                    interfaceContainer.routeData.addMinutesTime(interfaceContainer.calcMinutesToStation());
                     stopsTrajectory = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
-                    selectedPanel = 2;
-                    updatePanel();
+                    //interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20, fetchedTrajectory);
+                    times = interfaceContainer.generateListDepartureTimes(
+                            interfaceContainer.routeData.getTime(), 20,
+                            fetchedTrajectory,interfaceContainer.routeData.getLocationA());
+
+
                 }
 
                 /*
