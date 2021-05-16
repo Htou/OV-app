@@ -108,6 +108,9 @@ public class RouteData {
                 }
                 for (int i = 0; i < (trajectory.getStationList().size() - 1); i++) {
                     String stationName = trajectory.getStationName(i);
+                    if (arrivalStations.contains(stationName)){
+                        continue;
+                    }
                     arrivalStations.add(stationName);
 
                 }
@@ -133,6 +136,9 @@ public class RouteData {
                 }
                 for (int i = 1; i < (trajectory.getStationList().size()); i++) {
                     String stationName = trajectory.getStationName(i);
+                    if (arrivalStations.contains(stationName)){
+                        continue;
+                    }
                     arrivalStations.add(stationName);
 
                 }
