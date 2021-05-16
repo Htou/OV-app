@@ -179,8 +179,8 @@ public class Gui extends JFrame {
 
 
         centerTextfields.add(arrivalComboBox);
-        centerTextfields.add(departureComboBox);
         centerTextfields.add(wrongLocationA);
+        centerTextfields.add(departureComboBox);
         centerTextfields.add(wrongLocationB);
 
 
