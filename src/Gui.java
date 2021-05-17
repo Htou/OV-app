@@ -211,6 +211,9 @@ public class Gui extends JFrame {
                             interfaceContainer.routeData.getLocationA(),
                             interfaceContainer.routeData.getLocationB());
                     System.out.println(times);
+
+                    selectedPanel = 2;
+                    updatePanel();
                 }
 
                 /*
