@@ -369,7 +369,7 @@ public class Gui extends JFrame {
 
         panelCenterNorth.add(new JLabel(messages.getString("Reisinformatie")));
 
-        panelCenterNorth.add(new JLabel(messages.getString("Vertrektijden")));
+        panelCenterNorth.add(new JLabel(messages.getString("Reistijden")));
 
         JPanel panelRouteInfoAndStations = new JPanel(new GridLayout(2, 1));
         panelInnerCenter.add(panelRouteInfoAndStations);
