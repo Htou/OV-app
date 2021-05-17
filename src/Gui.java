@@ -203,12 +203,17 @@ public class Gui extends JFrame {
                     interfaceContainer.routeData.resetTime();
                     interfaceContainer.routeData.addMinutesTime(interfaceContainer.calcMinutesToStation());
                     stopsTrajectory = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
+                    interfaceContainer.routeData.setDistance(interfaceContainer.calcDistanceToStation());
                     //interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20, fetchedTrajectory);
                     times = interfaceContainer.getArrivalAndDepartureTimes(
                             20,
                             interfaceContainer.routeData.getSelectedTrajectory(),
                             interfaceContainer.routeData.getLocationA(),
                             interfaceContainer.routeData.getLocationB());
+
+
+                    distance = interfaceContainer.routeData.getDistance();
+                    travelTime = interfaceContainer.routeData.getTime();
 
                     selectedPanel = 2;
                     updatePanel();
