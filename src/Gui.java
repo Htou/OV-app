@@ -179,10 +179,9 @@ public class Gui extends JFrame {
         JLabel wrongLocationA = new JLabel();
         JLabel wrongLocationB = new JLabel();
 
-
-        centerTextfields.add(arrivalComboBox);
-        centerTextfields.add(wrongLocationA);
         centerTextfields.add(departureComboBox);
+        centerTextfields.add(wrongLocationA);
+        centerTextfields.add(arrivalComboBox);
         centerTextfields.add(wrongLocationB);
 
 
@@ -210,7 +209,6 @@ public class Gui extends JFrame {
                             interfaceContainer.routeData.getSelectedTrajectory(),
                             interfaceContainer.routeData.getLocationA(),
                             interfaceContainer.routeData.getLocationB());
-                    System.out.println(times);
 
                     selectedPanel = 2;
                     updatePanel();
