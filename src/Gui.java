@@ -20,7 +20,7 @@ public class Gui extends JFrame {
     private int previousPanel;
     // because swing is retarded a copy needs to be made of locationB
     // inside of the GUI because we can't call other methods from the methods in here.
-    private ArrayList<LocalTime> times;
+    private ArrayList<String> times;
     private LocalTime travelTime;
     private double distance = 0.0;
     private ArrayList<String> stopsTrajectory = new ArrayList<String>();
@@ -46,7 +46,7 @@ public class Gui extends JFrame {
         cl = new CardLayout();
 
         vehicleIdentifier = "train";
-        times = new ArrayList<LocalTime>();
+        times = new ArrayList<String>();
 
         String standardTime = "00:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -205,11 +205,12 @@ public class Gui extends JFrame {
                     interfaceContainer.routeData.addMinutesTime(interfaceContainer.calcMinutesToStation());
                     stopsTrajectory = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
                     //interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20, fetchedTrajectory);
-                    times = interfaceContainer.generateListDepartureTimes(
-                            interfaceContainer.routeData.getTime(), 20,
-                            fetchedTrajectory,interfaceContainer.routeData.getLocationA());
-
-
+                    times = interfaceContainer.getArrivalAndDepartureTimes(
+                            20,
+                            interfaceContainer.routeData.getSelectedTrajectory(),
+                            interfaceContainer.routeData.getLocationA(),
+                            interfaceContainer.routeData.getLocationB());
+                    System.out.println(times);
                 }
 
                 /*
