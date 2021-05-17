@@ -68,8 +68,22 @@ public class interfaceContainer {
         return totalDistance;
     }
 
+    public ArrayList<String> getArrivalAndDepartureTimes(int listLenght, Trajectory trajectory, String locationA, String locationB) {
+        ArrayList<LocalTime> departureTimes = generateListTravelTimes(listLenght, trajectory, locationA);
+        ArrayList<LocalTime> arrivalTimes = generateListTravelTimes(listLenght, trajectory, locationB);
 
-    public ArrayList<LocalTime> generateListDepartureTimes(LocalTime travelTime, int listLength, Trajectory trajectory, String location) {
+        ArrayList<String> listArrivalTimesDepartureTimes = new ArrayList<String>();
+
+        for(int i = 0; i < listLenght; i++) {
+            String stringDepartureTime = departureTimes.get(i).toString();
+            String stringArrivalTime = arrivalTimes.get(i).toString();
+
+            listArrivalTimesDepartureTimes.add(stringDepartureTime + "-" + stringArrivalTime);
+        }
+        return listArrivalTimesDepartureTimes;
+    }
+
+    private ArrayList<LocalTime> generateListTravelTimes( int listLength, Trajectory trajectory, String location) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -78,8 +92,8 @@ public class interfaceContainer {
         int firstDepartureTime = trajectory.getFirstDepartureTime();
 
         ArrayList<Station> stationListTrajectory = trajectory.getStationList();
-        for (int i = 0; i < trajectory.indexOf(location); i++){
-            firstDepartureTime =  firstDepartureTime + stationListTrajectory.get(i).getTimeToNextStation();
+        for (int i = 0; i < trajectory.indexOf(location); i++) {
+            firstDepartureTime = firstDepartureTime + stationListTrajectory.get(i).getTimeToNextStation();
 
         }
         // bug: fix that the firstDepartureTime can over 60
