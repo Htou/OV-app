@@ -53,7 +53,7 @@ public class Gui extends JFrame {
         travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 1;
+        selectedPanel = 4;
 
         this.interfaceContainer = new interfaceContainer();
         this.messages = interfaceContainer.messages;
@@ -81,6 +81,13 @@ public class Gui extends JFrame {
                 mainContainer.add(trackPanelGui(), "3");
                 break;
             }
+
+            case 4: {
+                mainContainer.add(loginScreenGui(), "4");
+                break;
+            }
+
+
             default: {
                 System.out.println("exception error");
                 break;
@@ -98,7 +105,7 @@ public class Gui extends JFrame {
         ////////////////////////////////
         ///         top       /////////
         ///////////////////////////////
-        navigatePanel.add(loginAndSettings(), BorderLayout.NORTH);
+        navigatePanel.add(loginAndSettings(true), BorderLayout.NORTH);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -418,7 +425,7 @@ public class Gui extends JFrame {
         ////////////////////////////////
         ///         top       /////////
         ///////////////////////////////
-        panel.add(loginAndSettings(), BorderLayout.NORTH);
+        panel.add(loginAndSettings(true), BorderLayout.NORTH);
 
 
         /////////////////////////
@@ -436,7 +443,7 @@ public class Gui extends JFrame {
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridLayout());
 
-        panel.add(loginAndSettings(), BorderLayout.NORTH); //north
+        panel.add(loginAndSettings(true), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
@@ -460,12 +467,94 @@ public class Gui extends JFrame {
         return panel;
     }
 
-    private JPanel loginAndSettings() {
+    private JPanel loginScreenGui(){
+
+        JPanel mainPannel = new JPanel(new BorderLayout());
+
+        ///////////////////////
+        //      north       ///
+        //////////////////////
+        mainPannel.add(loginAndSettings(true), BorderLayout.NORTH);
+
+
+        ////////////////////////
+        //      center       ///
+        ////////////////////////
+        JLabel userLabel = new JLabel("GEBRUIKERSNAAM");
+        JLabel passwordLabel = new JLabel("PASWOORD");
+        JTextField userTextField = new JTextField();
+        JPasswordField passwordField = new JPasswordField();
+        JButton loginButton = new JButton("LOGIN");
+        JButton resetButton = new JButton("RESET");
+        JCheckBox showPassword = new JCheckBox("Laat Paswoord zien");
+
+
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        mainPannel.add(centerPanel, BorderLayout.CENTER);
+
+
+
+        userTextField.setPreferredSize(new Dimension(200, 20));
+        passwordField.setPreferredSize(new Dimension(200, 20));
+
+        JPanel centerPanelGridLayout = new JPanel(new GridLayout(3,1));
+        centerPanel.add(centerPanelGridLayout);
+
+
+
+        JPanel loginTextFields = new JPanel(new GridLayout(2,2));
+        centerPanelGridLayout.add(loginTextFields);
+
+        loginTextFields.add(userLabel);
+        loginTextFields.add(userTextField);
+        loginTextFields.add(passwordLabel);
+        loginTextFields.add(passwordField);
+
+        centerPanelGridLayout.add(new JLabel());
+
+        JPanel resetAndLoginButton = new JPanel(new GridLayout(1,5));
+        resetAndLoginButton.add(new JLabel());
+        centerPanelGridLayout.add(resetAndLoginButton);
+        resetAndLoginButton.add(loginButton);
+        resetAndLoginButton.add(new JLabel());
+        resetAndLoginButton.add(resetButton);
+        resetAndLoginButton.add(new JLabel());
+
+
+
+
+
+
+
+
+
+
+
+
+        ////////////////////////
+        //      south       ///
+        ////////////////////////
+
+        mainPannel.add(languageAndGoBackPanel(true), BorderLayout.SOUTH);
+
+        return mainPannel;
+
+
+
+    }
+
+    private JPanel loginAndSettings(boolean loginButton) {
 
         int rows = 5;
         JPanel topPanel = new JPanel(new GridLayout(1, 5));
-        JButton login = new JButton(("Login"));
-        topPanel.add(login);
+
+        if (loginButton == true) {
+            JButton login = new JButton(("Login"));
+            topPanel.add(login);
+        } else{
+            topPanel.add(new JLabel());
+        }
+
 
         for (int i = 0; i < (rows - 1); i++) {
             topPanel.add(new JLabel());
