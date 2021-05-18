@@ -486,13 +486,13 @@ public class Gui extends JFrame {
         ////////////////////////
         //      center       ///
         ////////////////////////
-        JLabel userLabel = new JLabel("GEBRUIKERSNAAM");
-        JLabel passwordLabel = new JLabel("PASWOORD");
+        JLabel userLabel = new JLabel(messages.getString("GEBRUIKERSNAAM"));
+        JLabel passwordLabel = new JLabel(messages.getString("PASWOORD"));
         JTextField userTextField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JButton loginButton = new JButton("LOGIN");
         JButton resetButton = new JButton("RESET");
-        JCheckBox showPassword = new JCheckBox("Laat Paswoord zien");
+        JCheckBox showPassword = new JCheckBox(messages.getString("Laat_Paswoord_zien"));
 
 
         JPanel centerPanel = new JPanel(new GridBagLayout());
