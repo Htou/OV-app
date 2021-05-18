@@ -511,8 +511,9 @@ public class Gui extends JFrame {
         loginTextFields.add(passwordField);
         loginTextFields.add(new JLabel());
         loginTextFields.add(showPassword);
+        JLabel loginIncorrect = new JLabel();
 
-        centerPanelGridLayout.add(new JLabel());
+        centerPanelGridLayout.add(loginIncorrect);
 
         JPanel resetAndLoginButton = new JPanel(new GridLayout(1, 5));
         resetAndLoginButton.add(new JLabel());
@@ -535,6 +536,8 @@ public class Gui extends JFrame {
                     boolean profileExists = interfaceContainer.checkIfProfileExists(userText,pwdText);
                     if (profileExists == true){
                         interfaceContainer.saveProfile(userText,pwdText);
+                    } else{
+                        loginIncorrect.setText("Login incorrect");
                     }
 
                 }
