@@ -540,6 +540,21 @@ public class Gui extends JFrame {
                 }
             }
         });
+        showPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == showPassword) {
+                    if (showPassword.isSelected()) {
+                        passwordField.setEchoChar((char) 0);
+                    } else {
+                        passwordField.setEchoChar('*');
+                    }
+
+
+                }
+            }
+        }
+        );
 
         resetButton.addActionListener(new ActionListener() {
             @Override
