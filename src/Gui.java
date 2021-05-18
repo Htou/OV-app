@@ -467,6 +467,7 @@ public class Gui extends JFrame {
         return panel;
     }
 
+
     private JPanel loginScreenGui(){
 
         JPanel mainPannel = new JPanel(new BorderLayout());
@@ -512,7 +513,7 @@ public class Gui extends JFrame {
 
         centerPanelGridLayout.add(new JLabel());
 
-        JPanel resetAndLoginButton = new JPanel(new GridLayout(1,5));
+        JPanel resetAndLoginButton = new JPanel(new GridLayout(1, 5));
         resetAndLoginButton.add(new JLabel());
         centerPanelGridLayout.add(resetAndLoginButton);
         resetAndLoginButton.add(loginButton);
@@ -521,13 +522,21 @@ public class Gui extends JFrame {
         resetAndLoginButton.add(new JLabel());
 
 
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
 
+            }
+        });
+
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
 
-
-
-
+            }
+        });
 
 
 
