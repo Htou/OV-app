@@ -17,6 +17,7 @@ public class Gui extends JFrame {
 
 
     private int selectedPanel;
+    private ArrayList<Integer> previousPanelList = new ArrayList<Integer>();
     private int previousPanel;
     // because swing is retarded a copy needs to be made of locationB
     // inside of the GUI because we can't call other methods from the methods in here.
@@ -67,12 +68,23 @@ public class Gui extends JFrame {
 
         departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
         arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
+        previousPanel = selectedPanel;
         updatePanel();
     }
 
-
     public void updatePanel() {
+
+
+        try {
+            if (previousPanel != selectedPanel){
+                previousPanelList.add(previousPanel);
+            }
+        }catch (Exception e){
+            previousPanelList.add(selectedPanel);
+        }
+
         previousPanel = selectedPanel;
+
         switch (selectedPanel) {
             case 1: {
                 mainContainer.add(navigateGui(), "1");
@@ -636,8 +648,13 @@ public class Gui extends JFrame {
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    selectedPanel = selectedPanel - 1;
-                    updatePanel();
+                    try {
+                        selectedPanel = previousPanelList.get(previousPanelList.size() - 1);
+                        previousPanelList.remove(previousPanelList.size() - 1);
+                        updatePanel();
+                    }
+                    catch(Exception b) {
+                    }
                 }
             });
         } else {
