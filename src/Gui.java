@@ -61,7 +61,6 @@ public class Gui extends JFrame {
 
         departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
         arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
-
         updatePanel();
     }
 
@@ -503,13 +502,15 @@ public class Gui extends JFrame {
 
 
 
-        JPanel loginTextFields = new JPanel(new GridLayout(2,2));
+        JPanel loginTextFields = new JPanel(new GridLayout(3,2));
         centerPanelGridLayout.add(loginTextFields);
 
         loginTextFields.add(userLabel);
         loginTextFields.add(userTextField);
         loginTextFields.add(passwordLabel);
         loginTextFields.add(passwordField);
+        loginTextFields.add(new JLabel());
+        loginTextFields.add(showPassword);
 
         centerPanelGridLayout.add(new JLabel());
 
@@ -525,7 +526,20 @@ public class Gui extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == loginButton) {
+                    String userText;
+                    String pwdText;
+                    userText = userTextField.getText();
+                    pwdText = passwordField.getText();
+                    if (userText.equalsIgnoreCase("selma") && pwdText.equalsIgnoreCase("12345")) {
 
+                          JOptionPane.showMessageDialog(loginButton,"Succesvol ingelogd");
+                    } else {
+
+                        JOptionPane.showMessageDialog(loginButton, "Verkeerde Gebruikersnaam of Paswoord");
+                    }
+
+                }
 
             }
         });
@@ -533,8 +547,10 @@ public class Gui extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
+                if (e.getSource() == resetButton) {
+                    userTextField.setText("");
+                    passwordField.setText("");
+                }
             }
         });
 
