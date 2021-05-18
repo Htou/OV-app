@@ -30,7 +30,13 @@ public class Gui extends JFrame {
     private ArrayList<String> departureListCombobox = new ArrayList<String>();
     private ArrayList<String> arrivalListCombobox = new ArrayList<String>();
 
+
+
+    private boolean isLogin = false;
+    private String username;
     private int selectedLanguageOptionComboBox = 0;
+
+
 
     //for navigate gui
     private int selectedDepartureIndex = 0;
@@ -536,6 +542,10 @@ public class Gui extends JFrame {
                     boolean profileExists = interfaceContainer.checkIfProfileExists(userText,pwdText);
                     if (profileExists == true){
                         interfaceContainer.saveProfile(userText,pwdText);
+                        isLogin = true;
+                        username = userText;
+                        selectedPanel = 1;
+                        updatePanel();
                     } else{
                         loginIncorrect.setText("Login incorrect");
                     }
@@ -543,6 +553,7 @@ public class Gui extends JFrame {
                 }
             }
         });
+
         showPassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -585,18 +596,24 @@ public class Gui extends JFrame {
 
     private JPanel loginAndSettings(boolean loginButton) {
 
-        int rows = 5;
-        JPanel topPanel = new JPanel(new GridLayout(1, 5));
+        int colums = 5;
+        JPanel topPanel = new JPanel(new GridLayout(1, colums));
 
-        if (loginButton == true) {
-            JButton login = new JButton(("Login"));
-            topPanel.add(login);
+        if (isLogin == false) {
+            if (loginButton == true) {
+                JButton login = new JButton(("Login"));
+                topPanel.add(login);
+                topPanel.add(new JLabel());
+            } else {
+                topPanel.add(new JLabel());
+            }
         } else{
-            topPanel.add(new JLabel());
+            topPanel.add(new JLabel("         Gebruiker:"));
+            topPanel.add(new JLabel( username));
         }
 
 
-        for (int i = 0; i < (rows - 1); i++) {
+        for (int i = 0; i < (colums - 2); i++) {
             topPanel.add(new JLabel());
         }
 
