@@ -7,12 +7,19 @@ public class interfaceContainer {
     public RouteData routeData;
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
+    private ProfileData profiles;
 
     public interfaceContainer() {
         trajectoryList = new TrajectoryHandler();
         routeData = new RouteData();
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
         this.messages = ResourceBundle.getBundle("MessagesBundle");
+
+        ProfileHandler profileHandler = new ProfileHandler();
+
+        profiles = new ProfileData(profileHandler.loadProfiles());
+
+        System.out.println(profiles.getProfiles());
     }
 
 
@@ -22,10 +29,9 @@ public class interfaceContainer {
         int indexA = selectedTrajectory.indexOf(routeData.getLocationA());
         int indexB = selectedTrajectory.indexOf(routeData.getLocationB());
 
+
         for (int i = indexA; i <= indexB; i++) {
             generatedRoute.add(selectedTrajectory.getStationName(i));
-
-
         }
         return generatedRoute;
     }
