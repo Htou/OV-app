@@ -531,16 +531,13 @@ public class Gui extends JFrame {
                     String pwdText;
                     userText = userTextField.getText();
                     pwdText = passwordField.getText();
-                    if (userText.equalsIgnoreCase("selma") && pwdText.equalsIgnoreCase("12345")) {
 
-                          JOptionPane.showMessageDialog(loginButton,"Succesvol ingelogd");
-                    } else {
-
-                        JOptionPane.showMessageDialog(loginButton, "Verkeerde Gebruikersnaam of Paswoord");
+                    boolean profileExists = interfaceContainer.checkIfProfileExists(userText,pwdText);
+                    if (profileExists == true){
+                        interfaceContainer.saveProfile(userText,pwdText);
                     }
 
                 }
-
             }
         });
 

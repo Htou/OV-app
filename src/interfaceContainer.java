@@ -7,7 +7,7 @@ public class interfaceContainer {
     public RouteData routeData;
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
-    private ProfileData profiles;
+    public ProfileData profiles;
 
     public interfaceContainer() {
         trajectoryList = new TrajectoryHandler();
@@ -15,13 +15,30 @@ public class interfaceContainer {
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
         this.messages = ResourceBundle.getBundle("MessagesBundle");
 
+
         ProfileHandler profileHandler = new ProfileHandler();
-
         profiles = new ProfileData(profileHandler.loadProfiles());
-
-        System.out.println(profiles.getProfiles());
     }
 
+
+
+
+    public boolean checkIfProfileExists(String name, String password){
+        for (Profile profile : profiles.getProfiles()){
+            if (profile.getName().equals(name) && profile.getPassword().equals(password)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void saveProfile(String name, String password){
+        for (Profile profile : profiles.getProfiles()){
+            if (profile.getName().equals(name) && profile.getPassword().equals(password)){
+                profiles.setSelectedProfile(profile);
+            }
+        }
+    }
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class ProfileData {
     private ArrayList<Profile> profiles;
+    private Profile selectedProfile;
 
 
 
@@ -13,5 +14,14 @@ public class ProfileData {
     public ArrayList<Profile> getProfiles(){
         return this.profiles;
     }
+
+    public Profile getSelectedProfile(){
+        return selectedProfile;
+    }
+
+    public void setSelectedProfile(Profile selectedProfile){
+        this.selectedProfile = selectedProfile;
+    }
+
 }
 
