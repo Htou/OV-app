@@ -657,7 +657,7 @@ public class Gui extends JFrame {
         comboBox = new JComboBox<Language>();
         comboBox.setModel(new DefaultComboBoxModel<Language>(Language.values()));
 
-        if (selectedLanguageOptionComboBox == 0) {
+        if ((messages.getString("taal").equals("NE"))) {
             selectedLanguageOptionComboBox = 1;
             comboBox.setSelectedIndex(0);
         } else {
