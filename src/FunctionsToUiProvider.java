@@ -7,7 +7,8 @@ public class FunctionsToUiProvider {
     public RouteData routeData;
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
-    public ProfileData profiles;
+    public ProfileList profiles;
+    private Profile selectedProfile;
 
     public FunctionsToUiProvider() {
         trajectoryList = new TrajectoryHandler();
@@ -17,7 +18,7 @@ public class FunctionsToUiProvider {
 
 
         ProfileHandler profileHandler = new ProfileHandler();
-        profiles = new ProfileData(profileHandler.loadProfiles());
+        profiles = new ProfileList(profileHandler.loadProfiles());
     }
 
 
@@ -32,10 +33,20 @@ public class FunctionsToUiProvider {
         return false;
     }
 
+    //Saves selected profile
+    public void setSelectedProfile(Profile selectedProfile){
+        this.selectedProfile = selectedProfile;
+    }
+
+    // fetches selected profile
+    public Profile getSelectedProfile(){
+        return this.selectedProfile;
+    }
+
     public void saveLoggedInProfile(String name, String password){
         for (Profile profile : profiles.getProfiles()){
             if (profile.getName().equals(name) && profile.getPassword().equals(password)){
-                profiles.setSelectedProfile(profile);
+                setSelectedProfile(profile);
             }
         }
     }
@@ -193,4 +204,6 @@ public class FunctionsToUiProvider {
             return false;
         }
     }
+
+
 }
