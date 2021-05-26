@@ -32,7 +32,7 @@ public class interfaceContainer {
         return false;
     }
 
-    public void saveProfile(String name, String password){
+    public void saveLoggedInProfile(String name, String password){
         for (Profile profile : profiles.getProfiles()){
             if (profile.getName().equals(name) && profile.getPassword().equals(password)){
                 profiles.setSelectedProfile(profile);
@@ -92,8 +92,8 @@ public class interfaceContainer {
     }
 
     public ArrayList<String> getArrivalAndDepartureTimes(int listLenght, Trajectory trajectory, String locationA, String locationB) {
-        ArrayList<LocalTime> departureTimes = generateListTravelTimes(listLenght, trajectory, locationA);
-        ArrayList<LocalTime> arrivalTimes = generateListTravelTimes(listLenght, trajectory, locationB);
+        ArrayList<LocalTime> departureTimes = generateListArrivalTimesAtLocation(listLenght, trajectory, locationA);
+        ArrayList<LocalTime> arrivalTimes = generateListArrivalTimesAtLocation(listLenght, trajectory, locationB);
 
         ArrayList<String> listArrivalTimesDepartureTimes = new ArrayList<String>();
 
@@ -106,17 +106,16 @@ public class interfaceContainer {
         return listArrivalTimesDepartureTimes;
     }
 
-    private ArrayList<LocalTime> generateListTravelTimes( int listLength, Trajectory trajectory, String location) {
-
+    private ArrayList<LocalTime> generateListArrivalTimesAtLocation(int listLength, Trajectory trajectory, String location) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-
-        int increments = trajectory.getIncrements();
+        int possibleIncrementsBetweenDepartureTimes = trajectory.getIncrements();
         int firstDepartureTime = trajectory.getFirstDepartureTime();
 
         ArrayList<Station> stationListTrajectory = trajectory.getStationList();
         for (int i = 0; i < trajectory.indexOf(location); i++) {
             firstDepartureTime = firstDepartureTime + stationListTrajectory.get(i).getTimeToNextStation();
+            // refactor this code
 
         }
         // bug: fix that the firstDepartureTime can over 60
@@ -131,19 +130,20 @@ public class interfaceContainer {
 
         int departureHour = currentHours;
 
-
+        // calculate closest departure time
         int departureMinute = firstDepartureTime;
         while (!(currentMinutes <= departureMinute)) {
-            departureMinute = departureMinute + increments;
+            departureMinute = departureMinute + possibleIncrementsBetweenDepartureTimes;
         }
 
+        // if departure time is over 60 minutes it converts it to a new hour with the current departure time
         if (departureMinute > 60) {
-            departureMinute = departureMinute - increments;
+            departureMinute = departureMinute - possibleIncrementsBetweenDepartureTimes;
             departureHour = departureHour + 1;
 
         }
 
-        //make time string
+        //if departure time is 24 hour it converts it to 00 hours midnight in the string
         String departureTimeString;
         if (departureHour == 24) { // if it's 24 than the time needs to be 00:minutes
             departureTimeString = (String) ("00" + ":" + departureMinute);
@@ -151,31 +151,20 @@ public class interfaceContainer {
             departureTimeString = (String) (departureHour + ":" + departureMinute);
         }
 
-
+        // generates list of possible departure times or arrival times, it depends on the locationA-B
         LocalTime departureTime = LocalTime.parse(departureTimeString, formatter);
-        ArrayList<LocalTime> listTime = new ArrayList<LocalTime>();
+        ArrayList<LocalTime> listDepartureTimes = new ArrayList<LocalTime>();
         for (int i = 0; i < listLength; i++) {
-            listTime.add(departureTime);
-            departureTime = departureTime.plusMinutes(increments);
+            listDepartureTimes.add(departureTime);
+            departureTime = departureTime.plusMinutes(possibleIncrementsBetweenDepartureTimes);
         }
 
-
-        return listTime;
+        return listDepartureTimes;
     }
 
-    public boolean isRouteValid(String station) {
-        Trajectory utrechtToAmsterdam = trajectoryList.getTrajectory(0); // there is only one trajectory atm so it starts at Utrecht.
 
-        //will return -1 if in the route is not valid
-        int index = utrechtToAmsterdam.indexOf(station);
-        if (index == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public Trajectory fetchTrajectory() {
+    // filters the right trajectory out that the user needs to navigate and sends it to the gui
+    public Trajectory fetchRightTrajectory() {
         String locationA = routeData.getLocationA();
         String locationB = routeData.getLocationB();
         String vehicleID = routeData.getVehicleIdentifier();
@@ -193,6 +182,7 @@ public class interfaceContainer {
         return null;
     }
 
+    // validates if fetched trajectory exists or is possible
     public boolean validateTrajectory(Trajectory trajectory) {
         String locationA = routeData.getLocationA();
         String locationB = routeData.getLocationB();
