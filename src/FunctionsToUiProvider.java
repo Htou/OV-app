@@ -3,13 +3,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class interfaceContainer {
+public class FunctionsToUiProvider {
     public RouteData routeData;
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
     public ProfileData profiles;
 
-    public interfaceContainer() {
+    public FunctionsToUiProvider() {
         trajectoryList = new TrajectoryHandler();
         routeData = new RouteData();
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
@@ -161,8 +161,8 @@ public class interfaceContainer {
 
         return listDepartureTimes;
     }
-
-
+    
+    
     // filters the right trajectory out that the user needs to navigate and sends it to the gui
     public Trajectory fetchRightTrajectory() {
         String locationA = routeData.getLocationA();
@@ -181,7 +181,7 @@ public class interfaceContainer {
         }
         return null;
     }
-
+    
     // validates if fetched trajectory exists or is possible
     public boolean validateTrajectory(Trajectory trajectory) {
         String locationA = routeData.getLocationA();

@@ -27,7 +27,7 @@ public class Gui extends JFrame {
     private ArrayList<String> stopsTrajectory = new ArrayList<String>();
     private String locationA;
     private String locationB;
-    private interfaceContainer interfaceContainer;
+    private FunctionsToUiProvider FunctionsToUiProvider;
     private ArrayList<String> departureListCombobox = new ArrayList<String>();
     private ArrayList<String> arrivalListCombobox = new ArrayList<String>();
 
@@ -62,12 +62,12 @@ public class Gui extends JFrame {
         mainContainer.setLayout(cl);
         selectedPanel = 4;
 
-        this.interfaceContainer = new interfaceContainer();
-        this.messages = interfaceContainer.messages;
+        this.FunctionsToUiProvider = new FunctionsToUiProvider();
+        this.messages = FunctionsToUiProvider.messages;
         this.setTitle(messages.getString("Title"));
 
-        departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
-        arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
+        departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
+        arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(null);
         previousPanel = selectedPanel;
         updatePanel();
     }
@@ -155,14 +155,14 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (arrivalComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
                     // bug fixing
-                    departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
+                    departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
                 } else {
-                    departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
+                    departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
                 }
 
                 selectedArrivalIndex = arrivalComboBox.getSelectedIndex();
                 selectedDepartureIndex = departureComboBox.getSelectedIndex();
-                interfaceContainer.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
+                FunctionsToUiProvider.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
 
 
                 updatePanel();
@@ -174,14 +174,14 @@ public class Gui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (departureComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
-                    arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
+                    arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(null);
                 } else {
-                    arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
+                    arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
                 }
                 selectedArrivalIndex = arrivalComboBox.getSelectedIndex();
                 selectedDepartureIndex = departureComboBox.getSelectedIndex();
 
-                interfaceContainer.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
+                FunctionsToUiProvider.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
                 updatePanel();
             }
         });
@@ -214,30 +214,30 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                locationA = interfaceContainer.routeData.getLocationA();
-                locationB = interfaceContainer.routeData.getLocationB();
-                Trajectory fetchedTrajectory = interfaceContainer.fetchRightTrajectory();
-                boolean valid = interfaceContainer.validateTrajectory(fetchedTrajectory);
+                locationA = FunctionsToUiProvider.routeData.getLocationA();
+                locationB = FunctionsToUiProvider.routeData.getLocationB();
+                Trajectory fetchedTrajectory = FunctionsToUiProvider.fetchRightTrajectory();
+                boolean valid = FunctionsToUiProvider.validateTrajectory(fetchedTrajectory);
 
                 if (valid == true) {
-                    interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
-                    interfaceContainer.routeData.setSelectedTrajectory(fetchedTrajectory);
-                    interfaceContainer.routeData.setDistance(interfaceContainer.calcDistanceToStation());
+                    FunctionsToUiProvider.routeData.setSelectedTrajectory(fetchedTrajectory);
+                    FunctionsToUiProvider.routeData.setSelectedTrajectory(fetchedTrajectory);
+                    FunctionsToUiProvider.routeData.setDistance(FunctionsToUiProvider.calcDistanceToStation());
 
-                    interfaceContainer.routeData.resetTime();
-                    interfaceContainer.routeData.addMinutesTime(interfaceContainer.calcMinutesToStation());
-                    stopsTrajectory = interfaceContainer.generateRoute(interfaceContainer.routeData.getSelectedTrajectory());
-                    interfaceContainer.routeData.setDistance(interfaceContainer.calcDistanceToStation());
+                    FunctionsToUiProvider.routeData.resetTime();
+                    FunctionsToUiProvider.routeData.addMinutesTime(FunctionsToUiProvider.calcMinutesToStation());
+                    stopsTrajectory = FunctionsToUiProvider.generateRoute(FunctionsToUiProvider.routeData.getSelectedTrajectory());
+                    FunctionsToUiProvider.routeData.setDistance(FunctionsToUiProvider.calcDistanceToStation());
                     //interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20, fetchedTrajectory);
-                    times = interfaceContainer.getArrivalAndDepartureTimes(
+                    times = FunctionsToUiProvider.getArrivalAndDepartureTimes(
                             20,
-                            interfaceContainer.routeData.getSelectedTrajectory(),
-                            interfaceContainer.routeData.getLocationA(),
-                            interfaceContainer.routeData.getLocationB());
+                            FunctionsToUiProvider.routeData.getSelectedTrajectory(),
+                            FunctionsToUiProvider.routeData.getLocationA(),
+                            FunctionsToUiProvider.routeData.getLocationB());
 
 
-                    distance = interfaceContainer.routeData.getDistance();
-                    travelTime = interfaceContainer.routeData.getTime();
+                    distance = FunctionsToUiProvider.routeData.getDistance();
+                    travelTime = FunctionsToUiProvider.routeData.getTime();
 
                     selectedPanel = 2;
                     updatePanel();
@@ -323,13 +323,13 @@ public class Gui extends JFrame {
 
                 switch (radioButton.getText()) {
                     case "Bus": {
-                        interfaceContainer.routeData.setVehicleIdentifier("bus");
+                        FunctionsToUiProvider.routeData.setVehicleIdentifier("bus");
                         vehicleIdentifier = "bus";
                         break;
                     }
                     case "Train":
                     case "Trein": {
-                        interfaceContainer.routeData.setVehicleIdentifier("train");
+                        FunctionsToUiProvider.routeData.setVehicleIdentifier("train");
                         vehicleIdentifier = "train";
                         break;
                     }
@@ -338,9 +338,9 @@ public class Gui extends JFrame {
                         break;
                     }
                 }
-                interfaceContainer.routeData.getTrajectorysWithVehicleIdentifier();
-                departureListCombobox = interfaceContainer.routeData.getPossibleDepartureStation(null);
-                arrivalListCombobox = interfaceContainer.routeData.getPossibleArrivalStation(null);
+                FunctionsToUiProvider.routeData.getTrajectorysWithVehicleIdentifier();
+                departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
+                arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(null);
                 updatePanel();
             }
         };
@@ -551,9 +551,9 @@ public class Gui extends JFrame {
                     userText = userTextField.getText();
                     pwdText = passwordField.getText();
 
-                    boolean profileExists = interfaceContainer.checkIfProfileExists(userText,pwdText);
+                    boolean profileExists = FunctionsToUiProvider.checkIfProfileExists(userText,pwdText);
                     if (profileExists == true){
-                        interfaceContainer.saveLoggedInProfile(userText,pwdText);
+                        FunctionsToUiProvider.saveLoggedInProfile(userText,pwdText);
                         isLogin = true;
                         username = userText;
                         selectedPanel = 1;
