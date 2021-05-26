@@ -94,7 +94,7 @@ public class RouteData {
         return newTrajectoryList;
     }
 
-
+    // From location it generates all possible departureStations and if location == null, return full list of all departure stations
     public ArrayList<String> getPossibleDepartureStation(String arrivalStation) {
         ArrayList<String> arrivalStations = new ArrayList<>();
         arrivalStations.add("kies start locatie");
