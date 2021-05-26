@@ -216,7 +216,7 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 locationA = interfaceContainer.routeData.getLocationA();
                 locationB = interfaceContainer.routeData.getLocationB();
-                Trajectory fetchedTrajectory = interfaceContainer.fetchTrajectory();
+                Trajectory fetchedTrajectory = interfaceContainer.fetchRightTrajectory();
                 boolean valid = interfaceContainer.validateTrajectory(fetchedTrajectory);
 
                 if (valid == true) {
@@ -553,7 +553,7 @@ public class Gui extends JFrame {
 
                     boolean profileExists = interfaceContainer.checkIfProfileExists(userText,pwdText);
                     if (profileExists == true){
-                        interfaceContainer.saveProfile(userText,pwdText);
+                        interfaceContainer.saveLoggedInProfile(userText,pwdText);
                         isLogin = true;
                         username = userText;
                         selectedPanel = 1;
