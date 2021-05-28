@@ -1,3 +1,4 @@
+import java.io.File;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,15 +11,21 @@ public class FunctionsToUiProvider {
     public ProfileList profiles;
     private Profile selectedProfile;
 
+
     public FunctionsToUiProvider() {
         trajectoryList = new TrajectoryHandler();
         routeData = new RouteData();
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
         this.messages = ResourceBundle.getBundle("MessagesBundle");
 
+        final String fname = "profiles.json";
+
+        File file = new File( fname );
+
 
         ProfileHandler profileHandler = new ProfileHandler();
         profiles = new ProfileList(profileHandler.loadProfiles());
+        profiles.load(file);
     }
 
 
