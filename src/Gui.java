@@ -10,11 +10,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
+    private JXBrowser jxbrowser;
     private ResourceBundle messages;
     private JComboBox<Language> comboBox;
     private Container mainContainer;
     private CardLayout cl;
-
 
     private int selectedPanel;
     private ArrayList<Integer> previousPanelList = new ArrayList<Integer>();
@@ -32,11 +32,9 @@ public class Gui extends JFrame {
     private ArrayList<String> arrivalListCombobox = new ArrayList<String>();
 
 
-
     private boolean isLogin = false;
     private String username;
     private int selectedLanguageOptionComboBox = 0;
-
 
 
     //for navigate gui
@@ -60,10 +58,11 @@ public class Gui extends JFrame {
         travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 4;
+        selectedPanel = 2;
 
         this.FunctionsToUiProvider = new FunctionsToUiProvider();
         this.messages = FunctionsToUiProvider.messages;
+        this.jxbrowser = FunctionsToUiProvider.jxbrowser;
         this.setTitle(messages.getString("Title"));
 
         departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
@@ -74,12 +73,11 @@ public class Gui extends JFrame {
 
     public void updatePanel() {
 
-
         try {
-            if (previousPanel != selectedPanel){
+            if (previousPanel != selectedPanel) {
                 previousPanelList.add(previousPanel);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             previousPanelList.add(selectedPanel);
         }
 
@@ -412,6 +410,18 @@ public class Gui extends JFrame {
         panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
         long distanceRoundOff = Math.round(distance);
 
+        JButton showMap = new JButton();
+        panelRouteInfo.add(showMap);
+        showMap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                selectedPanel =3;
+                updatePanel();
+                jxbrowser.drawMap("utrecht", "amsterdam");
+
+            }
+        });
+
 
         panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
         panelRouteInfo.add(new JLabel((messages.getString("Reistijd")) + travelTime.toString()));
@@ -472,8 +482,12 @@ public class Gui extends JFrame {
         ///         Center      ////////
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
-        panelCenter.add(new JButton(("Kaart")));
+
+        panelCenter.add(jxbrowser.view, BorderLayout.CENTER);
         panelCenter.add(centerPanelRight);
+        jxbrowser.loadUrl();
+
+
 
         /////////////////////////
         //      bottom      ////
@@ -485,7 +499,7 @@ public class Gui extends JFrame {
     }
 
 
-    private JPanel loginScreenGui(){
+    private JPanel loginScreenGui() {
 
         JPanel mainPannel = new JPanel(new BorderLayout());
 
@@ -511,16 +525,14 @@ public class Gui extends JFrame {
         mainPannel.add(centerPanel, BorderLayout.CENTER);
 
 
-
         userTextField.setPreferredSize(new Dimension(200, 20));
         passwordField.setPreferredSize(new Dimension(200, 20));
 
-        JPanel centerPanelGridLayout = new JPanel(new GridLayout(3,1));
+        JPanel centerPanelGridLayout = new JPanel(new GridLayout(3, 1));
         centerPanel.add(centerPanelGridLayout);
 
 
-
-        JPanel loginTextFields = new JPanel(new GridLayout(3,2));
+        JPanel loginTextFields = new JPanel(new GridLayout(3, 2));
         centerPanelGridLayout.add(loginTextFields);
 
         loginTextFields.add(userLabel);
@@ -551,14 +563,14 @@ public class Gui extends JFrame {
                     userText = userTextField.getText();
                     pwdText = passwordField.getText();
 
-                    boolean profileExists = FunctionsToUiProvider.checkIfProfileExists(userText,pwdText);
-                    if (profileExists == true){
-                        FunctionsToUiProvider.saveLoggedInProfile(userText,pwdText);
+                    boolean profileExists = FunctionsToUiProvider.checkIfProfileExists(userText, pwdText);
+                    if (profileExists == true) {
+                        FunctionsToUiProvider.saveLoggedInProfile(userText, pwdText);
                         isLogin = true;
                         username = userText;
                         selectedPanel = 1;
                         updatePanel();
-                    } else{
+                    } else {
                         loginIncorrect.setText("Login incorrect");
                     }
 
@@ -567,19 +579,19 @@ public class Gui extends JFrame {
         });
 
         showPassword.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == showPassword) {
-                    if (showPassword.isSelected()) {
-                        passwordField.setEchoChar((char) 0);
-                    } else {
-                        passwordField.setEchoChar('*');
-                    }
+                                           @Override
+                                           public void actionPerformed(ActionEvent e) {
+                                               if (e.getSource() == showPassword) {
+                                                   if (showPassword.isSelected()) {
+                                                       passwordField.setEchoChar((char) 0);
+                                                   } else {
+                                                       passwordField.setEchoChar('*');
+                                                   }
 
 
-                }
-            }
-        }
+                                               }
+                                           }
+                                       }
         );
 
         resetButton.addActionListener(new ActionListener() {
@@ -593,7 +605,6 @@ public class Gui extends JFrame {
         });
 
 
-
         ////////////////////////
         //      south       ///
         ////////////////////////
@@ -601,7 +612,6 @@ public class Gui extends JFrame {
         mainPannel.add(languageAndGoBackPanel(true), BorderLayout.SOUTH);
 
         return mainPannel;
-
 
 
     }
@@ -619,9 +629,9 @@ public class Gui extends JFrame {
             } else {
                 topPanel.add(new JLabel());
             }
-        } else{
+        } else {
             topPanel.add(new JLabel("         Gebruiker:"));
-            topPanel.add(new JLabel( username));
+            topPanel.add(new JLabel(username));
         }
 
 
@@ -652,8 +662,7 @@ public class Gui extends JFrame {
                         selectedPanel = previousPanelList.get(previousPanelList.size() - 1);
                         previousPanelList.remove(previousPanelList.size() - 1);
                         updatePanel();
-                    }
-                    catch(Exception b) {
+                    } catch (Exception b) {
                     }
                 }
             });
@@ -712,6 +721,8 @@ public class Gui extends JFrame {
             messages = ResourceBundle.getBundle("MessagesBundle");
         return messages;
     }
+
+
 }
 
 
