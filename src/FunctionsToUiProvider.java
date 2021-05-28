@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 public class FunctionsToUiProvider {
     public RouteData routeData;
+    public JXBrowser jxbrowser;
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
     public ProfileList profiles;
@@ -14,8 +15,9 @@ public class FunctionsToUiProvider {
         trajectoryList = new TrajectoryHandler();
         routeData = new RouteData();
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
-        this.messages = ResourceBundle.getBundle("MessagesBundle");
 
+        this.messages = ResourceBundle.getBundle("MessagesBundle");
+        this.jxbrowser = new JXBrowser();
 
         ProfileHandler profileHandler = new ProfileHandler();
         profiles = new ProfileList(profileHandler.loadProfiles());
