@@ -639,10 +639,8 @@ public class Gui extends JFrame {
             topPanel.add(new JLabel());
         }
 
-        String[] comboBoxItems = {("instelling1"), ("instelling2")};
-        JComboBox<String> cb = new JComboBox<>(comboBoxItems);
-        cb.setEditable(false);
-        topPanel.add(cb);
+        JButton travelHistoryButton = new JButton("Reisgeschiedenis");
+        topPanel.add(travelHistoryButton);
 
         return topPanel;
 
