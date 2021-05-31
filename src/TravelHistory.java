@@ -7,7 +7,7 @@ public class TravelHistory {
     private LocalDate travelDate;
     private LocalTime startTravelTime;
     private LocalTime endTravelTime;
-    private LocalTime travelTime;
+    private LocalTime totalTravelTime;
 
     TravelHistory(){
         this.locationA = "";
@@ -54,12 +54,12 @@ public class TravelHistory {
         return this.endTravelTime;
     }
 
-    public void setTravelTime (LocalTime travelTime) {
-        this.travelTime = travelTime;
+    public void setTotalTravelTime(LocalTime totalTravelTime) {
+        this.totalTravelTime = totalTravelTime;
     }
 
     public LocalTime setTravelTime () {
-        return this.travelTime;
+        return this.totalTravelTime;
     }
 
 }
