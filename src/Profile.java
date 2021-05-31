@@ -21,6 +21,5 @@ public class Profile {
         return this.travelHistorylist;
     }
 
-
 }
 
