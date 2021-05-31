@@ -1,6 +1,5 @@
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.dom.InputElement;
-import com.teamdev.jxbrowser.dom.Node;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.engine.RenderingMode;
@@ -21,6 +20,7 @@ public class JXBrowser {
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED)
                         .licenseKey("1BNDHFSC1FZ7ZZCU2Y1OPJOXDKVS1TVAWRPQMGTFV98ADATIG5YXAXODH1O5IUVC03P6ZX")
                         .build());
+
         this.browser = engine.newBrowser();
         this.view = BrowserView.newInstance(browser);
         this.htmlFile = "/home/yawgmoth/Dropbox/HU-ADSD/S1/Periode1/OV-app/src/index.html";
@@ -38,7 +38,6 @@ public class JXBrowser {
 
             System.out.println(searchLocationA);
             System.out.println(searchLocationB);
-
 
             document.findElementById("departure").ifPresent(element -> ((InputElement) element).value(searchLocationA));
             document.findElementById("destination").ifPresent(element -> ((InputElement) element).value(searchLocationB));
