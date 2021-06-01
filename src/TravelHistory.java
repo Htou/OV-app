@@ -12,6 +12,10 @@ public class TravelHistory {
     TravelHistory(){
         this.locationA = "";
         this.locationB = "";
+        this.travelDate = LocalDate.now();
+        this.startTravelTime = LocalTime.now();
+        this.endTravelTime= LocalTime.now();
+        this.totalTravelTime = LocalTime.MAX;
     }
 
     public void setLocationA(String locationA) {
