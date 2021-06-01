@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
-    private JXBrowser jxbrowser;
+ //   private JXBrowser jxbrowser;
     private ResourceBundle messages;
     private JComboBox<Language> comboBox;
     private Container mainContainer;
@@ -62,7 +62,7 @@ public class Gui extends JFrame {
 
         this.FunctionsToUiProvider = new FunctionsToUiProvider();
         this.messages = FunctionsToUiProvider.messages;
-        this.jxbrowser = FunctionsToUiProvider.jxbrowser;
+      //  this.jxbrowser = FunctionsToUiProvider.jxbrowser;
         this.setTitle(messages.getString("Title"));
 
         departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
@@ -417,7 +417,7 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 selectedPanel =3;
                 updatePanel();
-                jxbrowser.drawMap("utrecht", "amsterdam");
+              //  jxbrowser.drawMap("utrecht", "amsterdam");
 
             }
         });
@@ -483,9 +483,9 @@ public class Gui extends JFrame {
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
 
-        panelCenter.add(jxbrowser.view, BorderLayout.CENTER);
+    //    panelCenter.add(jxbrowser.view, BorderLayout.CENTER);
         panelCenter.add(centerPanelRight);
-        jxbrowser.loadUrl();
+      //  jxbrowser.loadUrl();
 
 
 
