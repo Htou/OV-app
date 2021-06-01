@@ -10,25 +10,25 @@ import java.io.IOException;
 public class Profile {
     private String name;
     private String password;
+    private TravelHistoryList travelHistorylist;
+  
 
-public Profile(){
-
-}
     public Profile(String name, String password) {
         this.name = name;
         this.password = password;
-    }
-
-    public Profile( String name ) {
-        this.name = name;
+        this.travelHistorylist = new TravelHistoryList();
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
+    }
+
+    public TravelHistoryList getTravelHistory() {
+        return this.travelHistorylist;
     }
 
     //Convert a profile instance to a JSONObject
