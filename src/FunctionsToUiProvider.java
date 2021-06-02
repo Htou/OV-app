@@ -28,18 +28,13 @@ public class FunctionsToUiProvider {
   //      this.jxbrowser = new JXBrowser();
 
 
-        ProfileHandler profileHandler = new ProfileHandler();
-        profiles = new ProfileList(profileHandler.loadProfiles());
-
-        profiles.save(file);
-
         this.profilesData = DataHandler.loadProfileList();
     }
 
 
 
     public boolean checkIfProfileExists(String name, String password){
-        for (Profile profile : profiles.getProfiles()){
+        for (Profile profile : profiles.getProfileList()){
             if (profile.getName().equals(name) && profile.getPassword().equals(password)){
                 return true;
             }
@@ -60,7 +55,7 @@ public class FunctionsToUiProvider {
     }
 
     public void saveLoggedInProfile(String name, String password){
-        for (Profile profile : profiles.getProfiles()){
+        for (Profile profile : profiles.getProfileList()){
             if (profile.getName().equals(name) && profile.getPassword().equals(password)){
                 setSelectedProfile(profile);
             }
