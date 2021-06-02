@@ -164,7 +164,7 @@ public class DataHandler {
 
         TrajectoryList trajectorys = new TrajectoryList();
         trajectorys.setTrajectoryList(trajectoryList);
-        DataHandler.saveTrajectoryData(trajectorys);
+//        DataHandler.saveTrajectoryData(trajectorys);
 
     }
 
