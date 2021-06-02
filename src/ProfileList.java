@@ -10,11 +10,11 @@ public class ProfileList {
 //    final String fname = "profiles.json";
 //
 //    File file = new File( fname );
+    private ArrayList<Profile> profiles = new ArrayList<>();
+
 
     public ProfileList(){
     }
-
-    private ArrayList<Profile> profiles = new ArrayList<>();
 
     //addprofile to profileList
     public void addProfile( Profile profile )

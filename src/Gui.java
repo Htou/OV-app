@@ -3,6 +3,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Gui extends JFrame {
     private int selectedArrivalIndex = 0;
     private String vehicleIdentifier;
 
-    public Gui() {
+    public Gui() throws IOException {
         this.setSize(600, 600);
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

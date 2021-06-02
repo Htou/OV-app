@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,10 +11,12 @@ public class FunctionsToUiProvider {
     private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
     public ProfileList profiles;
+    public ProfileList profilesData;
+
     private Profile selectedProfile;
 
 
-    public FunctionsToUiProvider() {
+    public FunctionsToUiProvider() throws IOException {
         trajectoryList = new TrajectoryHandler();
         routeData = new RouteData();
         routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
@@ -27,9 +30,11 @@ public class FunctionsToUiProvider {
 
         ProfileHandler profileHandler = new ProfileHandler();
         profiles = new ProfileList(profileHandler.loadProfiles());
-        profiles.load(file);
-    }
 
+        profiles.save(file);
+
+        this.profilesData = DataHandler.loadProfileList();
+    }
 
 
 
@@ -40,6 +45,8 @@ public class FunctionsToUiProvider {
             }
         }
         return false;
+
+//        profileList = DataHandler.loadProfileList();
     }
 
     //Saves selected profile
