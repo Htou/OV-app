@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Gui extends JFrame {
- //   private JXBrowser jxbrowser;
+    //   private JXBrowser jxbrowser;
     private ResourceBundle messages;
     private JComboBox<Language> comboBox;
     private Container mainContainer;
@@ -63,7 +63,7 @@ public class Gui extends JFrame {
 
         this.FunctionsToUiProvider = new FunctionsToUiProvider();
         this.messages = FunctionsToUiProvider.messages;
-      //  this.jxbrowser = FunctionsToUiProvider.jxbrowser;
+        //  this.jxbrowser = FunctionsToUiProvider.jxbrowser;
         this.setTitle(messages.getString("Title"));
 
         departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
@@ -100,6 +100,11 @@ public class Gui extends JFrame {
 
             case 4: {
                 mainContainer.add(loginScreenGui(), "4");
+                break;
+            }
+
+            case 5: {
+                mainContainer.add(travelHistoryPanel(), "5");
                 break;
             }
 
@@ -416,9 +421,9 @@ public class Gui extends JFrame {
         showMap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                selectedPanel =3;
+                selectedPanel = 3;
                 updatePanel();
-              //  jxbrowser.drawMap("utrecht", "amsterdam");
+                //  jxbrowser.drawMap("utrecht", "amsterdam");
 
             }
         });
@@ -484,10 +489,9 @@ public class Gui extends JFrame {
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
 
-    //    panelCenter.add(jxbrowser.view, BorderLayout.CENTER);
+        //    panelCenter.add(jxbrowser.view, BorderLayout.CENTER);
         panelCenter.add(centerPanelRight);
-      //  jxbrowser.loadUrl();
-
+        //  jxbrowser.loadUrl();
 
 
         /////////////////////////
@@ -615,6 +619,32 @@ public class Gui extends JFrame {
         return mainPannel;
 
 
+    }
+
+    private JPanel travelHistoryPanel() {
+        JPanel travelHistoryPanel = new JPanel(new BorderLayout());
+        JList travelHistoryJList = new JList(FunctionsToUiProvider.profileList.getProfileList().get(0).getTravelHistorylist().getTravelHistoryListToString().toArray());
+
+        JScrollPane travelHistoryPane = new JScrollPane();
+        travelHistoryPane.setViewportView(travelHistoryJList);
+        travelHistoryJList.setLayoutOrientation(JList.VERTICAL);
+        travelHistoryPanel.add(travelHistoryPane, BorderLayout.CENTER);
+
+        ////////////////////////////////
+        ///         top       /////////
+        ///////////////////////////////
+
+
+        travelHistoryPanel.add(loginAndSettings(true), BorderLayout.NORTH);
+
+
+        /////////////////////////
+        //      bottom      ////
+        ////////////////////////
+
+        travelHistoryPanel.add(languageAndGoBackPanel(true), BorderLayout.SOUTH);
+
+        return travelHistoryPanel;
     }
 
     private JPanel loginAndSettings(boolean loginButton) {
