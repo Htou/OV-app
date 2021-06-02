@@ -6,16 +6,12 @@ public class TravelHistory {
     private String locationB;
     private LocalDate travelDate;
     private LocalTime startTravelTime;
-    private LocalTime endTravelTime;
-    private LocalTime totalTravelTime;
 
-    TravelHistory(){
+    public TravelHistory(){
         this.locationA = "";
         this.locationB = "";
         this.travelDate = LocalDate.now();
         this.startTravelTime = LocalTime.now();
-        this.endTravelTime= LocalTime.now();
-        this.totalTravelTime = LocalTime.MAX;
     }
 
     public void setLocationA(String locationA) {
@@ -27,7 +23,7 @@ public class TravelHistory {
     }
 
     public void setLocationB(String locationB) {
-        this.locationA = locationB;
+        this.locationB = locationB;
     }
 
     public String getLocationB() {
@@ -38,32 +34,30 @@ public class TravelHistory {
         this.travelDate = LocalDate.now();
     }
 
-    public LocalDate getTravelDate() {
-        return this.travelDate;
+    public String getTravelDateToString() {
+        return this.travelDate.toString();
     }
 
     public void setStartTravelTime (LocalTime startTravelTime){
         this.startTravelTime = startTravelTime;
     }
 
-    public LocalTime getStartTravelTime() {
-        return this.startTravelTime;
+    public String getStartTravelTimeToString() {
+        return this.startTravelTime.toString();
     }
 
-    public void setEndTravelTime(LocalTime endTravelTime) {
-        this.endTravelTime = endTravelTime;
-    }
+    public String getTravelHistoryToString() {
+        StringBuilder travelHistoryString = new StringBuilder();
 
-    public LocalTime getEndTravelTime() {
-        return this.endTravelTime;
-    }
+        travelHistoryString.append(getLocationA());
+        travelHistoryString.append(" --- ");
+        travelHistoryString.append(getLocationB());
+        travelHistoryString.append(", ");
+        travelHistoryString.append(getStartTravelTimeToString());
+        travelHistoryString.append(", ");
+        travelHistoryString.append(getTravelDateToString());
 
-    public void setTotalTravelTime(LocalTime totalTravelTime) {
-        this.totalTravelTime = totalTravelTime;
-    }
-
-    public LocalTime setTravelTime () {
-        return this.totalTravelTime;
+        return travelHistoryString.toString();
     }
 
 }
