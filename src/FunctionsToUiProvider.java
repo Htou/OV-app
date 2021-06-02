@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +7,6 @@ import java.util.ResourceBundle;
 public class FunctionsToUiProvider {
     public RouteData routeData;
  //   public JXBrowser jxbrowser;
-    private TrajectoryHandler trajectoryList;
     public ResourceBundle messages;
     public ProfileList profileList;
 
@@ -16,12 +14,18 @@ public class FunctionsToUiProvider {
 
 
     public FunctionsToUiProvider() throws IOException {
-        trajectoryList = new TrajectoryHandler();
-        routeData = new RouteData();
-        routeData.setTrajectoryList(trajectoryList.loadTrainTrajectory());
-        final String fname = "profiles.json";
 
-        File file = new File( fname );
+
+        routeData = new RouteData();
+
+
+        routeData.setTrajectoryList(DataHandler.loadTrajectoryData());
+        profileList = DataHandler.loadProfileList();
+
+
+
+
+
 
         this.messages = ResourceBundle.getBundle("MessagesBundle");
   //      this.jxbrowser = new JXBrowser();

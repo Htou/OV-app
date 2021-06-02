@@ -9,16 +9,27 @@ public class RouteData {
     private LocalTime time;
     private String vehicleIdentifier;
     private Trajectory selectedTrajectory;
-    private ArrayList<Trajectory> trajectoryList;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-
+    private TrajectoryList trajectoryList;
+    private DateTimeFormatter formatter;
     public RouteData() {
-        String str = "00:00";
-        time = LocalTime.parse(str, formatter);
 
-        distance = 0.0;
-        vehicleIdentifier = "train";
-        trajectoryList = new ArrayList();
+        formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        this.locationA = "";
+        this.locationB = "";
+
+        this.distance = 0.0;
+        this.vehicleIdentifier = "train";
+        String str = "00:00";
+        this.time = LocalTime.parse(str, formatter);
+
+
+        this.trajectoryList = new TrajectoryList();
+
+        ArrayList<Station> stationList = new ArrayList<Station>();
+        this.selectedTrajectory = new Trajectory(stationList,0,0,"");
+
+
     }
 
 
@@ -69,11 +80,11 @@ public class RouteData {
 
 
     public ArrayList<Trajectory> getTrajectoryList() {
-        return trajectoryList;
+        return trajectoryList.getTrajectoryList();
     }
 
     public void setTrajectoryList(ArrayList<Trajectory> trajectoryList) {
-        this.trajectoryList = trajectoryList;
+        this.trajectoryList.setTrajectoryList(trajectoryList);
     }
 
     public Trajectory getSelectedTrajectory() {
@@ -86,7 +97,7 @@ public class RouteData {
 
     public ArrayList<Trajectory> getTrajectorysWithVehicleIdentifier() {
         ArrayList<Trajectory> newTrajectoryList = new ArrayList<>();
-        for (Trajectory trajectory : trajectoryList) {
+        for (Trajectory trajectory : trajectoryList.getTrajectoryList()) {
             if (trajectory.getVehicleIdentifier().equals(getVehicleIdentifier())) {
                 newTrajectoryList.add(trajectory);
             }
@@ -98,7 +109,7 @@ public class RouteData {
     public ArrayList<String> getPossibleDepartureStation(String arrivalStation) {
         ArrayList<String> arrivalStations = new ArrayList<>();
         arrivalStations.add("kies start locatie");
-        for (Trajectory trajectory : trajectoryList) {
+        for (Trajectory trajectory : trajectoryList.getTrajectoryList()) {
             if (trajectory.getVehicleIdentifier().equals(getVehicleIdentifier())) {
                 if (arrivalStation == null) {
 
@@ -123,7 +134,7 @@ public class RouteData {
         ArrayList<String> arrivalStations = new ArrayList<>();
         arrivalStations.add("kies eind locatie");
 
-        for (Trajectory trajectory : trajectoryList) {
+        for (Trajectory trajectory : trajectoryList.getTrajectoryList()) {
             if (trajectory.getVehicleIdentifier().equals(getVehicleIdentifier())) {
 
 
