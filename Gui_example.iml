@@ -19,7 +19,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/jxbrowser-7.15-cross-desktop-win_mac_linux (1)/lib/jxbrowser-7.15.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/simple_jar/lib/jxbrowser-7.15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -28,7 +28,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/jxbrowser-7.15-cross-desktop-win_mac_linux (1)/lib/jxbrowser-javafx-7.15.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/simple_jar/lib/jxbrowser-javafx-7.15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -37,7 +37,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/jxbrowser-7.15-cross-desktop-win_mac_linux (1)/lib/jxbrowser-linux64-7.15.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/simple_jar/lib/jxbrowser-linux64-7.15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -46,7 +46,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/jxbrowser-7.15-cross-desktop-win_mac_linux (1)/lib/jxbrowser-swing-7.15.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/simple_jar/lib/jxbrowser-swing-7.15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -55,16 +55,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/jxbrowser-7.15-cross-desktop-win_mac_linux (1)/lib/jxbrowser-swt-7.15.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/JSON/jars/json-20210307.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/simple_jar/lib/jxbrowser-swt-7.15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
