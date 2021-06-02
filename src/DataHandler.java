@@ -18,7 +18,7 @@ public class DataHandler {
 
 
     public static void saveProfileList(ProfileList profileList) throws IOException {
-        Writer writer = new FileWriter("/home/yawgmoth/Dropbox/HU-ADSD/S1/Periode1/OV-app/src/ProfileData.json");
+        Writer writer = new FileWriter("src/ProfileData.json");
         Gson gson = new Gson();
         // 1. Java object to JSON file
         gson.toJson(profileList, writer);
