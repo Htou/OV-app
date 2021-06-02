@@ -3,14 +3,13 @@
 public class Profile {
     private String name;
     private String password;
-    private TravelHistoryList travelHistorylist;
+    private TravelHistoryList travelHistoryList;
 
 
     public Profile(String name, String password) {
         this.name = name;
         this.password = password;
-        TravelHistory travelHistory = new TravelHistory();
-        this.travelHistorylist = new TravelHistoryList(travelHistory);
+        this.travelHistoryList = new TravelHistoryList();
     }
 
     public String getName() {
@@ -21,8 +20,8 @@ public class Profile {
         return this.password;
     }
 
-    public TravelHistoryList getTravelHistory() {
-        return this.travelHistorylist;
+    public TravelHistoryList getTravelHistorylist() {
+        return this.travelHistoryList;
     }
 
 }
