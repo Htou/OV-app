@@ -1,23 +1,23 @@
 import java.util.ArrayList;
 
 public class TravelHistoryList {
-    private ArrayList<TravelHistory> travelHistoryList;
+    private ArrayList<String> travelHistoryListing;
 
-    TravelHistoryList(TravelHistory travelHistory){
-        this.travelHistoryList = new ArrayList<TravelHistory>();
-        travelHistoryList.add(travelHistory);
+    public TravelHistoryList(){
+        this.travelHistoryListing = new ArrayList<String>();
+        TravelHistory travelHistory = new TravelHistory();
+        addTravelHistoryString(travelHistory.getTravelHistoryToString());
     }
 
-    public void addTravelHistory(TravelHistory travelHistory) {
-        this.travelHistoryList.add(travelHistory);
+    public void addTravelHistoryString(String travelHistoryString) {
+        this.travelHistoryListing.add(travelHistoryString);
     }
 
-
-    public ArrayList getTravelHistoryList(){
-        return this.travelHistoryList;
+    public ArrayList getTravelHistoryListToString(){
+        return this.travelHistoryListing;
     }
 
-    public TravelHistory getHistory(int index) {
-        return this.travelHistoryList.get(index);
+    public String getHistoryString(int index) {
+        return this.travelHistoryListing.get(index);
     }
 }
