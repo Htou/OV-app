@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +13,9 @@ public class FunctionsToUiProvider {
 
     private Profile selectedProfile;
 
+    private String fNameTrajectoryData = "src/TrajectoryData.json";
+    private String fNameProfileData = "src/ProfileData.json";
+
 
     public FunctionsToUiProvider() throws IOException {
 
@@ -19,8 +23,8 @@ public class FunctionsToUiProvider {
         routeData = new RouteData();
 
 
-        routeData.setTrajectoryList(DataHandler.loadTrajectoryData());
-        profileList = DataHandler.loadProfileList();
+        this.routeData.setTrajectoryList(DataHandler.loadTrajectoryData(fNameTrajectoryData));
+        this.profileList = DataHandler.loadProfileList(fNameProfileData);
 
 
 
@@ -31,10 +35,17 @@ public class FunctionsToUiProvider {
   //      this.jxbrowser = new JXBrowser();
 
 
-        this.profileList = DataHandler.loadProfileList();
     }
 
+    public boolean ifProfileJsonFileExists(){
+        File profileFile = new File(fNameProfileData);
+        return profileFile.exists();
+    }
 
+    public boolean ifTrajectoryDataJsonFileExists(){
+        File trajectoryFile = new File(fNameTrajectoryData);
+        return trajectoryFile.exists();
+    }
 
     public boolean checkIfProfileExists(String name, String password){
         for (Profile profile : profileList.getProfileList()){
@@ -161,9 +172,10 @@ public class FunctionsToUiProvider {
             departureMinute = departureMinute + possibleIncrementsBetweenDepartureTimes;
         }
 
+
         // if departure time is over 60 minutes it converts it to a new hour with the current departure time
-        if (departureMinute > 60) {
-            departureMinute = departureMinute - possibleIncrementsBetweenDepartureTimes;
+        while(departureMinute > 60) {
+            departureMinute = departureMinute - 60;
             departureHour = departureHour + 1;
 
         }

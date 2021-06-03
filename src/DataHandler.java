@@ -9,35 +9,33 @@ import java.util.ArrayList;
 
 public class DataHandler {
 
-    public static ProfileList loadProfileList() {
+    public static ProfileList loadProfileList(String fName) {
         try {
             Gson gson = new Gson();
-            Reader reader = new FileReader("src/ProfileData.json");
+            Reader reader = new FileReader(fName);
 
             ProfileList profileList = gson.fromJson(reader, ProfileList.class);
 
             reader.close();
             return profileList;
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
 
-    public static void saveProfileList(ProfileList profileList)  {
+    public static void saveProfileList(ProfileList profileList, String fName)  {
         try {
-            Writer writer = new FileWriter("src/ProfileData.json");
+            Writer writer = new FileWriter(fName);
             Gson gson = new Gson();
             // 1. Java object to JSON file
             gson.toJson(profileList, writer);
             writer.flush(); //flush data to file   <---
-        } catch(Exception e){
-            e.printStackTrace();
+        } catch(Exception e){ ;
 
         }
     }
 
-    public static void createUserProfile() {
+    public static void createUserProfile(String fName) {
 
             //ProfileList profileList = DataHandler.loadProfileList();
             ProfileList profileList = new ProfileList();
@@ -50,41 +48,40 @@ public class DataHandler {
             profileList.addProfile(profile);
             profileList.addProfile(profile);
 
-            DataHandler.saveProfileList(profileList);
+            DataHandler.saveProfileList(profileList, fName);
 
     }
 
     ///////////////////
     //  routedata   //
     //////////////////
-    public static ArrayList<Trajectory> loadTrajectoryData() {
+    public static ArrayList<Trajectory> loadTrajectoryData(String fName) {
         try {
             Gson gson = new Gson();
-            Reader reader = new FileReader("src/TrajectoryData.json");
+            Reader reader = new FileReader(fName);
 
             TrajectoryList trajectoryData = gson.fromJson(reader, TrajectoryList.class);
 
             reader.close();
             return trajectoryData.getTrajectoryList();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
 
-    public static void saveTrajectoryData(TrajectoryList trajectoryData)  {
+    public static void saveTrajectoryData(TrajectoryList trajectoryData, String fName)  {
         try {
-            Writer writer = new FileWriter("src/TrajectoryData.json");
+            Writer writer = new FileWriter(fName);
             Gson gson = new Gson();
             // 1. Java object to JSON file
             gson.toJson(trajectoryData, writer);
             writer.flush(); //flush data to file   <---
         } catch(Exception e){
-            e.printStackTrace();
         }
     }
 
-    public static void createTrajectoryDataJSONFile() {
+    public static void createTrajectoryDataJSONFile(String fName) {
+        /*
 
          ArrayList<Trajectory> trajectoryList = new ArrayList();
 
@@ -166,6 +163,7 @@ public class DataHandler {
         trajectorys.setTrajectoryList(trajectoryList);
 //        DataHandler.saveTrajectoryData(trajectorys);
 
-    }
+         */
 
+    }
 }
