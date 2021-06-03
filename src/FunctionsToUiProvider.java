@@ -7,11 +7,12 @@ import java.util.ResourceBundle;
 
 public class FunctionsToUiProvider {
     public RouteData routeData;
- //   public JXBrowser jxbrowser;
+    public JXBrowser jxBrowser;
     public ResourceBundle messages;
     public ProfileList profileList;
 
     private Profile selectedProfile;
+    private int profileIndex;
 
     private String fNameTrajectoryData = "src/TrajectoryData.json";
     private String fNameProfileData = "src/ProfileData.json";
@@ -23,23 +24,24 @@ public class FunctionsToUiProvider {
         this.routeData.setTrajectoryList(DataHandler.loadTrajectoryData(fNameTrajectoryData));
         this.profileList = DataHandler.loadProfileList(fNameProfileData);
         this.messages = ResourceBundle.getBundle("MessagesBundle");
-  //      this.jxbrowser = new JXBrowser();
+        this.jxBrowser = new JXBrowser();
+        this.profileIndex = 0;
 
     }
 
-    public boolean ifProfileJsonFileExists(){
+    public boolean ifProfileJsonFileExists() {
         File profileFile = new File(fNameProfileData);
         return profileFile.exists();
     }
 
-    public boolean ifTrajectoryDataJsonFileExists(){
+    public boolean ifTrajectoryDataJsonFileExists() {
         File trajectoryFile = new File(fNameTrajectoryData);
         return trajectoryFile.exists();
     }
 
-    public boolean checkIfProfileExists(String name, String password){
-        for (Profile profile : profileList.getProfileList()){
-            if (profile.getName().equals(name) && profile.getPassword().equals(password)){
+    public boolean checkIfProfileExists(String name, String password) {
+        for (Profile profile : profileList.getProfileList()) {
+            if (profile.getName().equals(name) && profile.getPassword().equals(password)) {
                 return true;
             }
         }
@@ -49,25 +51,44 @@ public class FunctionsToUiProvider {
     }
 
     //Saves selected profile
-    public void setSelectedProfile(Profile selectedProfile){
+    public void setSelectedProfile(Profile selectedProfile) {
         this.selectedProfile = selectedProfile;
     }
 
     // fetches selected profile
-    public Profile getSelectedProfile(){
+    public Profile getSelectedProfile() {
         return this.selectedProfile;
     }
 
-    public void saveLoggedInProfile(String name, String password){
-        for (Profile profile : profileList.getProfileList()){
-            if (profile.getName().equals(name) && profile.getPassword().equals(password)){
+    public void saveLoggedInProfile(String name, String password) {
+        for (Profile profile : profileList.getProfileList()) {
+            profileIndex = +1;
+            if (profile.getName().equals(name) && profile.getPassword().equals(password)) {
                 setSelectedProfile(profile);
             }
         }
     }
 
     public ArrayList getTravelHistoryListSelectedProfile() {
-        return getSelectedProfile().getTravelHistorylist().getTravelHistoryListToString();
+        if (selectedProfile != null) {
+            System.out.println(selectedProfile.getTravelHistorylist().getTravelHistoryListToString());
+            return selectedProfile.getTravelHistorylist().getTravelHistoryListToString();
+        }
+
+        ArrayList<String> noTravelHistoryList = new ArrayList<String>();
+        noTravelHistoryList.add("No travel History, please login with your account for your travel history.");
+
+        return noTravelHistoryList;
+    }
+
+    public void addTravelHistoryListSelectedProfile() {
+        TravelHistory travelHistory = new TravelHistory(routeData.getLocationA(), routeData.getLocationB());
+
+
+        profileList.getProfileList().get(profileIndex).getTravelHistorylist().addTravelHistoryString(travelHistory.getTravelHistoryToString());
+
+        DataHandler.saveProfileList(profileList, fNameProfileData);
+        System.out.println("Added new Travel History to profile list");
     }
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
@@ -127,7 +148,7 @@ public class FunctionsToUiProvider {
 
         ArrayList<String> listArrivalTimesDepartureTimes = new ArrayList<String>();
 
-        for(int i = 0; i < listLenght; i++) {
+        for (int i = 0; i < listLenght; i++) {
             String stringDepartureTime = departureTimes.get(i).toString();
             String stringArrivalTime = arrivalTimes.get(i).toString();
 
@@ -168,7 +189,7 @@ public class FunctionsToUiProvider {
 
 
         // if departure time is over 60 minutes it converts it to a new hour with the current departure time
-        while(departureMinute > 60) {
+        while (departureMinute > 60) {
             departureMinute = departureMinute - 60;
             departureHour = departureHour + 1;
 
@@ -192,8 +213,8 @@ public class FunctionsToUiProvider {
 
         return listDepartureTimes;
     }
-    
-    
+
+
     // filters the right trajectory out that the user needs to navigate and sends it to the gui
     public Trajectory fetchRightTrajectory() {
         String locationA = routeData.getLocationA();
@@ -212,7 +233,7 @@ public class FunctionsToUiProvider {
         }
         return null;
     }
-    
+
     // validates if fetched trajectory exists or is possible
     public boolean validateTrajectory(Trajectory trajectory) {
         String locationA = routeData.getLocationA();
