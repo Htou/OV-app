@@ -7,9 +7,9 @@ public class TravelHistory {
     private LocalDate travelDate;
     private LocalTime startTravelTime;
 
-    public TravelHistory(){
-        this.locationA = "";
-        this.locationB = "";
+    public TravelHistory(String locationA, String locationB) {
+        this.locationA = locationA;
+        this.locationB = locationB;
         this.travelDate = LocalDate.now();
         this.startTravelTime = LocalTime.now();
     }
