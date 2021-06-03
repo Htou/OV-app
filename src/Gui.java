@@ -474,7 +474,7 @@ public class Gui extends JFrame {
                 }
                 selectedPanel = 3;
                 updatePanel();
-                  jxBrowser.drawMap("utrecht", "amsterdam");
+                  jxBrowser.drawMap(locationA, locationB);
             }
         });
 
