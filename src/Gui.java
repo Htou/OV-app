@@ -249,39 +249,6 @@ public class Gui extends JFrame {
                     updatePanel();
                 }
 
-                /*
-                interfaceContainer.routeData.setLocationB(toTextField.getText());
-
-
-                if (interfaceContainer.isRouteValid(interfaceContainer.routeData.getLocationB())) {
-                    interfaceContainer.routeData.getLocationB();
-
-                    interfaceContainer.routeData.resetTime();
-                    interfaceContainer.routeData.setDistance(interfaceContainer.calcDistanceToStation(interfaceContainer.routeData.getLocationB()));
-                    interfaceContainer.routeData.addMinutesTime(interfaceContainer.calcMinutesToStation(interfaceContainer.routeData.getLocationB()));
-
-
-                    times = interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20);
-                    distance = interfaceContainer.routeData.getDistance();
-                    time = interfaceContainer.routeData.getTime();
-                    trajectoryStations = interfaceContainer.generateRoute(interfaceContainer.routeData.getLocationB());
-                    locationB = interfaceContainer.routeData.getLocationB();
-
-
-                    trajectorysPanel = trajectorysGui();
-
-
-                    selectedPanel = 2;
-                    updatePanel();
-
-                    wrongLocationB.setText(messages.getString("Verkeerde_invoer_probeer_het_nogmaals"));
-
-
-
-                }
-
-                 */
-
             }
         });
 
