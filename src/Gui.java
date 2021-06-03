@@ -73,10 +73,10 @@ public class Gui extends JFrame {
 
 
         //if the file for trajectorys doesn't exist than it gives a error.
-        try{
+        try {
             departureListCombobox = functionsToUiProvider.routeData.getPossibleDepartureStation(null);
             arrivalListCombobox = functionsToUiProvider.routeData.getPossibleArrivalStation(null);
-        } catch(Exception e){
+        } catch (Exception e) {
         }
 
         previousPanel = selectedPanel;
@@ -132,23 +132,23 @@ public class Gui extends JFrame {
         cl.show(mainContainer, Integer.toString(selectedPanel));
     }
 
-    public JPanel startUpAndErrorPanel(){
-        JPanel panel = new JPanel(new GridLayout(30,1));
+    public JPanel startUpAndErrorPanel() {
+        JPanel panel = new JPanel(new GridLayout(30, 1));
 
         boolean profileExist = functionsToUiProvider.ifProfileJsonFileExists();
         boolean trajectoryExist = functionsToUiProvider.ifTrajectoryDataJsonFileExists();
 
-        if (profileExist && trajectoryExist){
+        if (profileExist && trajectoryExist) {
             selectedPanel = 1;
             updatePanel();
             return panel;
         }
 
-        if (profileExist == false){
+        if (profileExist == false) {
             panel.add(new JLabel("The file for the profiles don't exist"));
         }
 
-        if (trajectoryExist == false){
+        if (trajectoryExist == false) {
             panel.add(new JLabel("The file for the trajectorys don't exist"));
         }
 
@@ -284,9 +284,8 @@ public class Gui extends JFrame {
 
                     selectedPanel = 2;
                     updatePanel();
-                } else{
+                } else {
                     wrongLocationB.setText("Geslecteerde route is fout");
-
 
 
                 }
@@ -419,7 +418,7 @@ public class Gui extends JFrame {
 
         JPanel panelRouteInfo = new JPanel(new GridLayout(16, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
-        Color myColor = new Color( 150,255, 250);
+        Color myColor = new Color(150, 255, 250);
         panelRouteInfo.setBackground(myColor);
         panelRouteInfoAndStations.add(panelRouteInfo);
         panelRouteInfoAndStations.add(panelStationsInfo);
@@ -494,7 +493,6 @@ public class Gui extends JFrame {
         panel.add(loginAndSettings(true), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
-
 
 
         ////////////////////////////////
@@ -635,7 +633,8 @@ public class Gui extends JFrame {
 
     private JPanel travelHistoryPanel() {
         JPanel travelHistoryPanel = new JPanel(new BorderLayout());
-        JList travelHistoryJList = new JList(functionsToUiProvider.profileList.getProfileList().get(0).getTravelHistorylist().getTravelHistoryListToString().toArray());
+
+        JList travelHistoryJList = new JList(functionsToUiProvider.getTravelHistoryListSelectedProfile().toArray());
 
         JScrollPane travelHistoryPane = new JScrollPane();
         travelHistoryPane.setViewportView(travelHistoryJList);
@@ -667,7 +666,7 @@ public class Gui extends JFrame {
         if (isLogin == false) {
             if (loginButton == true) {
                 JButton login = new JButton(("Login"));
-                Color myColor = new Color( 209,251, 255);
+                Color myColor = new Color(209, 251, 255);
 
                 login.setBackground(myColor);
                 topPanel.add(login);
@@ -675,7 +674,7 @@ public class Gui extends JFrame {
 
                 login.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        selectedPanel=4;
+                        selectedPanel = 4;
                         updatePanel();
                     }
                 });
@@ -694,7 +693,7 @@ public class Gui extends JFrame {
         }
 
         JButton travelHistoryButton = new JButton("Reisgeschiedenis");
-        Color myColor = new Color( 150,255, 250);
+        Color myColor = new Color(150, 255, 250);
         travelHistoryButton.setBackground(myColor);
         topPanel.add(travelHistoryButton);
 
@@ -709,7 +708,7 @@ public class Gui extends JFrame {
         //add empty spaces to bottom grid
         if (goBack == true) {
             JButton goBackButton = new JButton(messages.getString("Vorige"));
-            Color myColor = new Color( 150,255, 250);
+            Color myColor = new Color(150, 255, 250);
             goBackButton.setBackground(myColor);
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
