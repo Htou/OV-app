@@ -17,39 +17,45 @@ public class DataHandler {
             ProfileList profileList = gson.fromJson(reader, ProfileList.class);
 
             reader.close();
+
+            System.out.println("Profile list has loaded");
+
             return profileList;
         } catch (Exception e) {
+
         }
         return null;
     }
 
-    public static void saveProfileList(ProfileList profileList, String fName)  {
+    public static void saveProfileList(ProfileList profileList, String fName) {
         try {
             Writer writer = new FileWriter(fName);
             Gson gson = new Gson();
             // 1. Java object to JSON file
             gson.toJson(profileList, writer);
-            writer.flush(); //flush data to file   <---
-        } catch(Exception e){ ;
+            writer.flush(); //flush data to file
+
+            System.out.println("profile list has exported to json");//   <---
+        } catch (Exception e) {
+
 
         }
     }
 
     public static void createUserProfile(String fName) {
 
-            //ProfileList profileList = DataHandler.loadProfileList();
-            ProfileList profileList = new ProfileList();
-            Profile profile = new Profile("Hichem", "123");
+        //ProfileList profileList = DataHandler.loadProfileList();
+        ProfileList profileList = new ProfileList();
+        Profile profile1 = new Profile("Hichem", "123");
+        Profile profile2 = new Profile("Hichem", "123");
+        Profile profile3 = new Profile("Hichem", "123");
 
-            profileList.addProfile(profile);
-            profileList.addProfile(profile);
-            profileList.addProfile(profile);
-            profileList.addProfile(profile);
-            profileList.addProfile(profile);
-            profileList.addProfile(profile);
+        profileList.addProfile(profile1);
+        profileList.addProfile(profile2);
+        profileList.addProfile(profile3);
 
-            DataHandler.saveProfileList(profileList, fName);
 
+        DataHandler.saveProfileList(profileList, fName);
     }
 
     ///////////////////
@@ -69,14 +75,14 @@ public class DataHandler {
         return null;
     }
 
-    public static void saveTrajectoryData(TrajectoryList trajectoryData, String fName)  {
+    public static void saveTrajectoryData(TrajectoryList trajectoryData, String fName) {
         try {
             Writer writer = new FileWriter(fName);
             Gson gson = new Gson();
             // 1. Java object to JSON file
             gson.toJson(trajectoryData, writer);
             writer.flush(); //flush data to file   <---
-        } catch(Exception e){
+        } catch (Exception e) {
         }
     }
 
