@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import static java.awt.Color.*;
 
 public class Gui extends JFrame {
-    //   private JXBrowser jxbrowser;
+    private JXBrowser jxBrowser;
     private ResourceBundle messages;
     private JComboBox<Language> comboBox;
     private Container mainContainer;
@@ -43,12 +43,11 @@ public class Gui extends JFrame {
     private int selectedLanguageOptionComboBox = 0;
 
 
-
     private Border emptyBorder = BorderFactory.createEmptyBorder();
     //colours
-    private Color blue = new Color(32,142,188);
-    private Color blueGreen = new Color(95,177,182);
-    private Color green = new Color(140,203,177);
+    private Color blue = new Color(32, 142, 188);
+    private Color blueGreen = new Color(95, 177, 182);
+    private Color green = new Color(140, 203, 177);
 
     //for navigate gui
     private int selectedDepartureIndex = 0;
@@ -79,7 +78,7 @@ public class Gui extends JFrame {
 
         this.functionsToUiProvider = new FunctionsToUiProvider();
         this.messages = functionsToUiProvider.messages;
-        //  this.jxbrowser = FunctionsToUiProvider.jxbrowser;
+        this.jxBrowser = functionsToUiProvider.jxBrowser;
         this.setTitle(messages.getString("Title"));
 
 
@@ -162,7 +161,6 @@ public class Gui extends JFrame {
         if (trajectoryExist == false) {
             panel.add(new JLabel("The file for the trajectorys don't exist"));
         }
-
 
         return panel;
     }
@@ -393,8 +391,8 @@ public class Gui extends JFrame {
         ImageIcon imageIcon = null;
         try {
 
-             imageIcon = new ImageIcon(new ImageIcon("src/recoures/logo.png").getImage().getScaledInstance(700, 166, Image.SCALE_DEFAULT));
-        }catch (Exception e) {
+            imageIcon = new ImageIcon(new ImageIcon("src/recoures/logo.png").getImage().getScaledInstance(700, 166, Image.SCALE_DEFAULT));
+        } catch (Exception e) {
         }
 
         JLabel picLabel = new JLabel(imageIcon);
@@ -466,15 +464,17 @@ public class Gui extends JFrame {
         panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
         long distanceRoundOff = Math.round(distance);
 
-        JButton showMap = new JButton();
+        JButton showMap = new JButton("Navigeren");
         panelRouteInfo.add(showMap);
         showMap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if (functionsToUiProvider.getSelectedProfile() != null) {
+                    functionsToUiProvider.addTravelHistoryListSelectedProfile();
+                }
                 selectedPanel = 3;
                 updatePanel();
-                //  jxbrowser.drawMap("utrecht", "amsterdam");
-
+                  jxBrowser.drawMap("utrecht", "amsterdam");
             }
         });
 
@@ -539,9 +539,9 @@ public class Gui extends JFrame {
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
 
-        //    panelCenter.add(jxbrowser.view, BorderLayout.CENTER);
+        panelCenter.add(jxBrowser.view, BorderLayout.CENTER);
         panelCenter.add(centerPanelRight);
-        //  jxbrowser.loadUrl();
+        jxBrowser.loadUrl();
 
 
         /////////////////////////
@@ -734,6 +734,12 @@ public class Gui extends JFrame {
         }
 
         JButton travelHistoryButton = new JButton("Reisgeschiedenis");
+        travelHistoryButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                selectedPanel = 5;
+                updatePanel();
+            }
+        });
         travelHistoryButton.setBackground(blue);
         topPanel.add(travelHistoryButton);
 
