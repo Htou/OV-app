@@ -5,8 +5,6 @@ public class TravelHistoryList {
 
     public TravelHistoryList(){
         this.travelHistoryListing = new ArrayList<String>();
-        TravelHistory travelHistory = new TravelHistory();
-        addTravelHistoryString(travelHistory.getTravelHistoryToString());
     }
 
     public void addTravelHistoryString(String travelHistoryString) {
