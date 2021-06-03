@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +29,7 @@ public class Gui extends JFrame {
     private ArrayList<String> stopsTrajectory = new ArrayList<String>();
     private String locationA;
     private String locationB;
-    private FunctionsToUiProvider FunctionsToUiProvider;
+    private FunctionsToUiProvider functionsToUiProvider;
     private ArrayList<String> departureListCombobox = new ArrayList<String>();
     private ArrayList<String> arrivalListCombobox = new ArrayList<String>();
 
@@ -50,6 +49,10 @@ public class Gui extends JFrame {
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        ImageIcon logo = new ImageIcon("src/recoures/logo_small.png");
+        this.setIconImage(logo.getImage());
+
+
         mainContainer = this.getContentPane();
         cl = new CardLayout();
 
@@ -61,15 +64,21 @@ public class Gui extends JFrame {
         travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 1;
+        selectedPanel = 6;
 
-        this.FunctionsToUiProvider = new FunctionsToUiProvider();
-        this.messages = FunctionsToUiProvider.messages;
+        this.functionsToUiProvider = new FunctionsToUiProvider();
+        this.messages = functionsToUiProvider.messages;
         //  this.jxbrowser = FunctionsToUiProvider.jxbrowser;
         this.setTitle(messages.getString("Title"));
 
-        departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
-        arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(null);
+
+        //if the file for trajectorys doesn't exist than it gives a error.
+        try{
+            departureListCombobox = functionsToUiProvider.routeData.getPossibleDepartureStation(null);
+            arrivalListCombobox = functionsToUiProvider.routeData.getPossibleArrivalStation(null);
+        } catch(Exception e){
+        }
+
         previousPanel = selectedPanel;
         updatePanel();
     }
@@ -110,6 +119,10 @@ public class Gui extends JFrame {
                 break;
             }
 
+            case 6: {
+                mainContainer.add(startUpAndErrorPanel(), "6");
+                break;
+            }
 
             default: {
                 System.out.println("exception error");
@@ -117,6 +130,30 @@ public class Gui extends JFrame {
             }
         }
         cl.show(mainContainer, Integer.toString(selectedPanel));
+    }
+
+    public JPanel startUpAndErrorPanel(){
+        JPanel panel = new JPanel(new GridLayout(30,1));
+
+        boolean profileExist = functionsToUiProvider.ifProfileJsonFileExists();
+        boolean trajectoryExist = functionsToUiProvider.ifTrajectoryDataJsonFileExists();
+
+        if (profileExist && trajectoryExist){
+            selectedPanel = 1;
+            updatePanel();
+            return panel;
+        }
+
+        if (profileExist == false){
+            panel.add(new JLabel("The file for the profiles don't exist"));
+        }
+
+        if (trajectoryExist == false){
+            panel.add(new JLabel("The file for the trajectorys don't exist"));
+        }
+
+
+        return panel;
     }
 
     private JPanel navigateGui() {
@@ -137,7 +174,7 @@ public class Gui extends JFrame {
         ///     center      //
         //////////////////////
         JPanel center = new JPanel();
-        center.setBorder(new LineBorder(black, 3));
+
 
         center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
@@ -161,14 +198,14 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (arrivalComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
                     // bug fixing
-                    departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
+                    departureListCombobox = functionsToUiProvider.routeData.getPossibleDepartureStation(null);
                 } else {
-                    departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
+                    departureListCombobox = functionsToUiProvider.routeData.getPossibleDepartureStation(arrivalComboBox.getSelectedItem().toString());
                 }
 
                 selectedArrivalIndex = arrivalComboBox.getSelectedIndex();
                 selectedDepartureIndex = departureComboBox.getSelectedIndex();
-                FunctionsToUiProvider.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
+                functionsToUiProvider.routeData.setLocationB(arrivalComboBox.getSelectedItem().toString());
 
 
                 updatePanel();
@@ -180,14 +217,14 @@ public class Gui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (departureComboBox.getSelectedIndex() == 0) { // if the first selection is selected than we just fill in null so the list is complete
-                    arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(null);
+                    arrivalListCombobox = functionsToUiProvider.routeData.getPossibleArrivalStation(null);
                 } else {
-                    arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
+                    arrivalListCombobox = functionsToUiProvider.routeData.getPossibleArrivalStation(departureComboBox.getSelectedItem().toString());
                 }
                 selectedArrivalIndex = arrivalComboBox.getSelectedIndex();
                 selectedDepartureIndex = departureComboBox.getSelectedIndex();
 
-                FunctionsToUiProvider.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
+                functionsToUiProvider.routeData.setLocationA(departureComboBox.getSelectedItem().toString());
                 updatePanel();
             }
         });
@@ -220,33 +257,38 @@ public class Gui extends JFrame {
         centerTextfields.add(navigate);
         navigate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                locationA = FunctionsToUiProvider.routeData.getLocationA();
-                locationB = FunctionsToUiProvider.routeData.getLocationB();
-                Trajectory fetchedTrajectory = FunctionsToUiProvider.fetchRightTrajectory();
-                boolean valid = FunctionsToUiProvider.validateTrajectory(fetchedTrajectory);
+                locationA = functionsToUiProvider.routeData.getLocationA();
+                locationB = functionsToUiProvider.routeData.getLocationB();
+                Trajectory fetchedTrajectory = functionsToUiProvider.fetchRightTrajectory();
+                boolean valid = functionsToUiProvider.validateTrajectory(fetchedTrajectory);
 
                 if (valid == true) {
-                    FunctionsToUiProvider.routeData.setSelectedTrajectory(fetchedTrajectory);
-                    FunctionsToUiProvider.routeData.setSelectedTrajectory(fetchedTrajectory);
-                    FunctionsToUiProvider.routeData.setDistance(FunctionsToUiProvider.calcDistanceToStation());
+                    functionsToUiProvider.routeData.setSelectedTrajectory(fetchedTrajectory);
+                    functionsToUiProvider.routeData.setSelectedTrajectory(fetchedTrajectory);
+                    functionsToUiProvider.routeData.setDistance(functionsToUiProvider.calcDistanceToStation());
 
-                    FunctionsToUiProvider.routeData.resetTime();
-                    //FunctionsToUiProvider.routeData.addMinutesTime(FunctionsToUiProvider.calcMinutesToStation());
-                    stopsTrajectory = FunctionsToUiProvider.generateRoute(FunctionsToUiProvider.routeData.getSelectedTrajectory());
-                    FunctionsToUiProvider.routeData.setDistance(FunctionsToUiProvider.calcDistanceToStation());
+                    functionsToUiProvider.routeData.resetTime();
+                    functionsToUiProvider.routeData.addMinutesTime(functionsToUiProvider.calcMinutesToStation());
+                    stopsTrajectory = functionsToUiProvider.generateRoute(functionsToUiProvider.routeData.getSelectedTrajectory());
+                    functionsToUiProvider.routeData.setDistance(functionsToUiProvider.calcDistanceToStation());
                     //interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20, fetchedTrajectory);
-                    times = FunctionsToUiProvider.getArrivalAndDepartureTimes(
+                    times = functionsToUiProvider.getArrivalAndDepartureTimes(
                             20,
-                            FunctionsToUiProvider.routeData.getSelectedTrajectory(),
-                            FunctionsToUiProvider.routeData.getLocationA(),
-                            FunctionsToUiProvider.routeData.getLocationB());
+                            functionsToUiProvider.routeData.getSelectedTrajectory(),
+                            functionsToUiProvider.routeData.getLocationA(),
+                            functionsToUiProvider.routeData.getLocationB());
 
 
-                    distance = FunctionsToUiProvider.routeData.getDistance();
-                    travelTime = FunctionsToUiProvider.routeData.getTime();
+                    distance = functionsToUiProvider.routeData.getDistance();
+                    travelTime = functionsToUiProvider.routeData.getTime();
 
                     selectedPanel = 2;
                     updatePanel();
+                } else{
+                    wrongLocationB.setText("Geslecteerde route is fout");
+
+
+
                 }
 
             }
@@ -296,13 +338,13 @@ public class Gui extends JFrame {
 
                 switch (radioButton.getText()) {
                     case "Bus": {
-                        FunctionsToUiProvider.routeData.setVehicleIdentifier("bus");
+                        functionsToUiProvider.routeData.setVehicleIdentifier("bus");
                         vehicleIdentifier = "bus";
                         break;
                     }
                     case "Train":
                     case "Trein": {
-                        FunctionsToUiProvider.routeData.setVehicleIdentifier("train");
+                        functionsToUiProvider.routeData.setVehicleIdentifier("train");
                         vehicleIdentifier = "train";
                         break;
                     }
@@ -311,9 +353,9 @@ public class Gui extends JFrame {
                         break;
                     }
                 }
-                FunctionsToUiProvider.routeData.getTrajectorysWithVehicleIdentifier();
-                departureListCombobox = FunctionsToUiProvider.routeData.getPossibleDepartureStation(null);
-                arrivalListCombobox = FunctionsToUiProvider.routeData.getPossibleArrivalStation(null);
+                functionsToUiProvider.routeData.getTrajectorysWithVehicleIdentifier();
+                departureListCombobox = functionsToUiProvider.routeData.getPossibleDepartureStation(null);
+                arrivalListCombobox = functionsToUiProvider.routeData.getPossibleArrivalStation(null);
                 updatePanel();
             }
         };
@@ -338,7 +380,6 @@ public class Gui extends JFrame {
         //////////////////////////////
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridBagLayout());
-        bottom.setBorder(new LineBorder(black, 3));
 
         bottom.setLayout(new BorderLayout());
 
@@ -454,8 +495,6 @@ public class Gui extends JFrame {
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        panelCenter.setBorder(new LineBorder(blue, 3));
-        panelSouth.setBorder(new LineBorder(green, 3));
 
 
         ////////////////////////////////
@@ -476,7 +515,6 @@ public class Gui extends JFrame {
 
         return panel;
     }
-
 
     private JPanel loginScreenGui() {
 
@@ -542,9 +580,9 @@ public class Gui extends JFrame {
                     userText = userTextField.getText();
                     pwdText = passwordField.getText();
 
-                    boolean profileExists = FunctionsToUiProvider.checkIfProfileExists(userText, pwdText);
+                    boolean profileExists = functionsToUiProvider.checkIfProfileExists(userText, pwdText);
                     if (profileExists == true) {
-                        FunctionsToUiProvider.saveLoggedInProfile(userText, pwdText);
+                        functionsToUiProvider.saveLoggedInProfile(userText, pwdText);
                         isLogin = true;
                         username = userText;
                         selectedPanel = 1;
@@ -597,7 +635,7 @@ public class Gui extends JFrame {
 
     private JPanel travelHistoryPanel() {
         JPanel travelHistoryPanel = new JPanel(new BorderLayout());
-        JList travelHistoryJList = new JList(FunctionsToUiProvider.profileList.getProfileList().get(0).getTravelHistorylist().getTravelHistoryListToString().toArray());
+        JList travelHistoryJList = new JList(functionsToUiProvider.profileList.getProfileList().get(0).getTravelHistorylist().getTravelHistoryListToString().toArray());
 
         JScrollPane travelHistoryPane = new JScrollPane();
         travelHistoryPane.setViewportView(travelHistoryJList);
@@ -629,7 +667,7 @@ public class Gui extends JFrame {
         if (isLogin == false) {
             if (loginButton == true) {
                 JButton login = new JButton(("Login"));
-                Color myColor = new Color( 150,255, 250);
+                Color myColor = new Color( 209,251, 255);
 
                 login.setBackground(myColor);
                 topPanel.add(login);
