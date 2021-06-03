@@ -61,7 +61,7 @@ public class Gui extends JFrame {
         travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 2;
+        selectedPanel = 1;
 
         this.FunctionsToUiProvider = new FunctionsToUiProvider();
         this.messages = FunctionsToUiProvider.messages;
@@ -231,7 +231,7 @@ public class Gui extends JFrame {
                     FunctionsToUiProvider.routeData.setDistance(FunctionsToUiProvider.calcDistanceToStation());
 
                     FunctionsToUiProvider.routeData.resetTime();
-                    FunctionsToUiProvider.routeData.addMinutesTime(FunctionsToUiProvider.calcMinutesToStation());
+                    //FunctionsToUiProvider.routeData.addMinutesTime(FunctionsToUiProvider.calcMinutesToStation());
                     stopsTrajectory = FunctionsToUiProvider.generateRoute(FunctionsToUiProvider.routeData.getSelectedTrajectory());
                     FunctionsToUiProvider.routeData.setDistance(FunctionsToUiProvider.calcDistanceToStation());
                     //interfaceContainer.generateListDepartureTimes(interfaceContainer.routeData.getTime(), 20, fetchedTrajectory);
