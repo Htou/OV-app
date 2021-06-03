@@ -66,6 +66,10 @@ public class FunctionsToUiProvider {
         }
     }
 
+    public ArrayList getTravelHistoryListSelectedProfile() {
+        return getSelectedProfile().getTravelHistorylist().getTravelHistoryListToString();
+    }
+
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();
 
