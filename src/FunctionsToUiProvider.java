@@ -61,9 +61,11 @@ public class FunctionsToUiProvider {
     }
 
     public void saveLoggedInProfile(String name, String password) {
+
         for (Profile profile : profileList.getProfileList()) {
-            profileIndex = +1;
+
             if (profile.getName().equals(name) && profile.getPassword().equals(password)) {
+                profileIndex = profileList.getProfileList().indexOf(profile);
                 setSelectedProfile(profile);
             }
         }
