@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static java.awt.Color.*;
+
 public class Gui extends JFrame {
     //   private JXBrowser jxbrowser;
     private ResourceBundle messages;
@@ -135,7 +137,7 @@ public class Gui extends JFrame {
         ///     center      //
         //////////////////////
         JPanel center = new JPanel();
-        center.setBorder(new LineBorder(Color.black, 3));
+        center.setBorder(new LineBorder(black, 3));
 
         center.setLayout(new GridLayout(3, 1));
         navigatePanel.add(center, BorderLayout.CENTER);
@@ -369,7 +371,7 @@ public class Gui extends JFrame {
         //////////////////////////////
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridBagLayout());
-        bottom.setBorder(new LineBorder(Color.black, 3));
+        bottom.setBorder(new LineBorder(black, 3));
 
         bottom.setLayout(new BorderLayout());
 
@@ -399,9 +401,9 @@ public class Gui extends JFrame {
 
         panelCenter.add(panelInnerCenter, BorderLayout.CENTER);
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
+        panelCenterNorth.setBackground(RED);
 
         panelCenterNorth.add(new JLabel(messages.getString("Reisinformatie")));
-
         panelCenterNorth.add(new JLabel(messages.getString("Reistijden")));
 
         JPanel panelRouteInfoAndStations = new JPanel(new GridLayout(2, 1));
@@ -409,6 +411,8 @@ public class Gui extends JFrame {
 
         JPanel panelRouteInfo = new JPanel(new GridLayout(16, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
+        Color myColor = new Color( 150,255, 250);
+        panelRouteInfo.setBackground(myColor);
         panelRouteInfoAndStations.add(panelRouteInfo);
         panelRouteInfoAndStations.add(panelStationsInfo);
 
@@ -444,8 +448,10 @@ public class Gui extends JFrame {
         JScrollPane stationsInfoPane = new JScrollPane();
         stationsInfoPane.setViewportView(trajectoryStationsJList);
         trajectoryStationsJList.setLayoutOrientation(JList.VERTICAL);
+        trajectoryStationsJList.setBackground(LIGHT_GRAY);
         trajectoryInfoPanel.add(stationsInfoPane, BorderLayout.CENTER);
         trajectoryInfoPanel.add(new JLabel("Route"), BorderLayout.NORTH);
+        trajectoryInfoPanel.setBackground(RED);
 
 
         JList timeJList = new JList(times.toArray());
@@ -454,6 +460,7 @@ public class Gui extends JFrame {
         timesPane.setViewportView(timeJList);
         timeJList.setLayoutOrientation(JList.VERTICAL);
         panelInnerCenter.add(timesPane);
+        timeJList.setBackground(LIGHT_GRAY);
 
         ////////////////////////////////
         ///         top       /////////
@@ -480,8 +487,8 @@ public class Gui extends JFrame {
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
-        panelCenter.setBorder(new LineBorder(Color.blue, 3));
-        panelSouth.setBorder(new LineBorder(Color.green, 3));
+        panelCenter.setBorder(new LineBorder(blue, 3));
+        panelSouth.setBorder(new LineBorder(green, 3));
 
 
         ////////////////////////////////
@@ -655,8 +662,19 @@ public class Gui extends JFrame {
         if (isLogin == false) {
             if (loginButton == true) {
                 JButton login = new JButton(("Login"));
+                Color myColor = new Color( 150,255, 250);
+
+                login.setBackground(myColor);
                 topPanel.add(login);
                 topPanel.add(new JLabel());
+
+                login.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        selectedPanel=4;
+                        updatePanel();
+                    }
+                });
+
             } else {
                 topPanel.add(new JLabel());
             }
@@ -671,6 +689,8 @@ public class Gui extends JFrame {
         }
 
         JButton travelHistoryButton = new JButton("Reisgeschiedenis");
+        Color myColor = new Color( 150,255, 250);
+        travelHistoryButton.setBackground(myColor);
         topPanel.add(travelHistoryButton);
 
         return topPanel;
@@ -684,6 +704,8 @@ public class Gui extends JFrame {
         //add empty spaces to bottom grid
         if (goBack == true) {
             JButton goBackButton = new JButton(messages.getString("Vorige"));
+            Color myColor = new Color( 150,255, 250);
+            goBackButton.setBackground(myColor);
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
