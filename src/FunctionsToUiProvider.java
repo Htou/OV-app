@@ -18,22 +18,12 @@ public class FunctionsToUiProvider {
 
 
     public FunctionsToUiProvider() throws IOException {
-
-
         routeData = new RouteData();
-
 
         this.routeData.setTrajectoryList(DataHandler.loadTrajectoryData(fNameTrajectoryData));
         this.profileList = DataHandler.loadProfileList(fNameProfileData);
-
-
-
-
-
-
         this.messages = ResourceBundle.getBundle("MessagesBundle");
   //      this.jxbrowser = new JXBrowser();
-
 
     }
 
