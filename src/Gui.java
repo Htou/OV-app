@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +42,13 @@ public class Gui extends JFrame {
     private String username;
     private int selectedLanguageOptionComboBox = 0;
 
+
+
+    private Border emptyBorder = BorderFactory.createEmptyBorder();
+    //colours
+    private Color blue = new Color(32,142,188);
+    private Color blueGreen = new Color(95,177,182);
+    private Color green = new Color(140,203,177);
 
     //for navigate gui
     private int selectedDepartureIndex = 0;
@@ -159,7 +170,7 @@ public class Gui extends JFrame {
     private JPanel navigateGui() {
         JPanel navigatePanel = new JPanel();
 
-        navigatePanel.setLayout(new BorderLayout(8, 6));
+        navigatePanel.setLayout(new BorderLayout());
 
 
         ////////////////////////////////
@@ -370,14 +381,42 @@ public class Gui extends JFrame {
         radioButtons.add(radioButtonBus);
         radioButtons.add(radioButtonTrain);
 
-        center.add(radioButtons);
+        radioButtons.setBackground(blue);
+        radioButtonTrain.setBackground(blue);
+        radioButtonBus.setBackground(blue);
+
+
+        JPanel logoAndRadioButtons = new JPanel(new BorderLayout());
+
+        //logo
+
+
+        ImageIcon imageIcon = null;
+        try {
+
+             imageIcon = new ImageIcon(new ImageIcon("src/recoures/logo.png").getImage().getScaledInstance(700, 166, Image.SCALE_DEFAULT));
+        }catch (Exception e) {
+        }
+
+        JLabel picLabel = new JLabel(imageIcon);
+        logoAndRadioButtons.add(picLabel);
+
+
+        JPanel radiobuttonsPanel = new JPanel();
+        radiobuttonsPanel.setBackground(blue);
+        radiobuttonsPanel.add(radioButtons);
+
+
+        logoAndRadioButtons.add(radiobuttonsPanel, BorderLayout.SOUTH);
+
+        center.add(logoAndRadioButtons);
 
 
         center.add(centerGrid);
 
-        ///////////////////////////////
-        //   bottom language pannel   //
-        //////////////////////////////
+        ////////////////////////////////
+        //   bottom language panel   //
+        ////////////////////////////////
         JPanel bottom = new JPanel();
         bottom.setLayout(new GridBagLayout());
 
@@ -663,13 +702,15 @@ public class Gui extends JFrame {
 
         int colums = 5;
         JPanel topPanel = new JPanel(new GridLayout(1, colums));
+        topPanel.setBackground(blue);
 
         if (isLogin == false) {
             if (loginButton == true) {
                 JButton login = new JButton(("Login"));
-                Color myColor = new Color( 209,251, 255);
+                login.setBorderPainted(false);
 
-                login.setBackground(myColor);
+
+                login.setBackground(blue);
                 topPanel.add(login);
                 topPanel.add(new JLabel());
 
@@ -694,8 +735,8 @@ public class Gui extends JFrame {
         }
 
         JButton travelHistoryButton = new JButton("Reisgeschiedenis");
-        Color myColor = new Color( 150,255, 250);
-        travelHistoryButton.setBackground(myColor);
+        travelHistoryButton.setBorderPainted(false);
+        travelHistoryButton.setBackground(blue);
         topPanel.add(travelHistoryButton);
 
         return topPanel;
@@ -705,12 +746,14 @@ public class Gui extends JFrame {
 
     private JPanel languageAndGoBackPanel(boolean goBack) {
         JPanel languagePanel = new JPanel(new GridLayout(1, 4));
+        languagePanel.setBackground(blue);
 
         //add empty spaces to bottom grid
         if (goBack == true) {
             JButton goBackButton = new JButton(messages.getString("Vorige"));
-            Color myColor = new Color( 150,255, 250);
-            goBackButton.setBackground(myColor);
+
+            goBackButton.setBackground(blue);
+            goBackButton.setBorderPainted(false);
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -729,8 +772,11 @@ public class Gui extends JFrame {
 
         languagePanel.add(new JLabel());
 
+
         //languagePanel label
         JPanel languageLabel = new JPanel(new GridLayout(1, 2));
+        languageLabel.setBackground(blue);
+
         languagePanel.add(languageLabel);
         languageLabel.add(new JLabel());
 
