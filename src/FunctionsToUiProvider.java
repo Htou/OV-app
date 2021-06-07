@@ -197,13 +197,11 @@ public class FunctionsToUiProvider {
 
         }
 
+        System.out.println(departureHour+ " "+ departureMinute );
         //if departure time is 24 hour it converts it to 00 hours midnight in the string
-        String departureTimeString;
-        if (departureHour == 24) { // if it's 24 than the time needs to be 00:minutes
-            departureTimeString = (String) ("00" + ":" + departureMinute);
-        } else {
-            departureTimeString = (String) (departureHour + ":" + departureMinute);
-        }
+        String departureTimeString = generateTimeNumber(departureHour,true)+":"+generateTimeNumber(departureMinute,false);
+        System.out.println(departureTimeString);
+
 
         // generates list of possible departure times or arrival times, it depends on the locationA-B
         LocalTime departureTime = LocalTime.parse(departureTimeString, formatter);
@@ -216,6 +214,17 @@ public class FunctionsToUiProvider {
         return listDepartureTimes;
     }
 
+    private String generateTimeNumber(int number,boolean hour){
+        String returnNumber;
+        if (number<10){
+            return ("0"+number);
+        }
+
+        if (hour == true && number == 24){
+            return ("00");
+        }
+        return String.valueOf(number);
+    }
 
     // filters the right trajectory out that the user needs to navigate and sends it to the gui
     public Trajectory fetchRightTrajectory() {
