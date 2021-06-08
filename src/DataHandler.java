@@ -41,21 +41,21 @@ public class DataHandler {
         }
     }
 
-    public static void createUserProfile(String fName) {
-
-        //ProfileList profileList = DataHandler.loadProfileList();
-        ProfileList profileList = new ProfileList();
-        Profile profile1 = new Profile("Hichem", "123");
-        Profile profile2 = new Profile("Hichem", "123");
-        Profile profile3 = new Profile("Hichem", "123");
-
-        profileList.addProfile(profile1);
-        profileList.addProfile(profile2);
-        profileList.addProfile(profile3);
 
 
-        DataHandler.saveProfileList(profileList, fName);
-    }
+//        //ProfileList profileList = DataHandler.loadProfileList();
+//        ProfileList profileList = new ProfileList();
+//        Profile profile1 = new Profile("Hichem", "123");
+//        Profile profile2 = new Profile("Hichem", "123");
+//        Profile profile3 = new Profile("Hichem", "123");
+//
+//        profileList.addProfile(profile1);
+//        profileList.addProfile(profile2);
+//        profileList.addProfile(profile3);
+//
+//
+//        DataHandler.saveTestProfileList(profileList, "/home/yawgmoth/Dropbox/HU-ADSD/S1/Periode1/OV-app/src/test.json");
+//    }
 
     ///////////////////
     //  routedata   //
