@@ -12,6 +12,18 @@
           "Neude --- Nepveulaan, 21:27:00.865351177, 2021-06-03",
           "Janskerkhof --- KNMI, De Bilt, 21:27:52.845207231, 2021-06-03"
         ]
+      },
+      "favoriteTravelList": {
+        "favoriteTravelListing": [
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test"
+        ]
       }
     },
     {
@@ -25,6 +37,18 @@
           "Neude --- Wittevrouwen, 21:07:00.579710213, 2021-06-03",
           "Neude --- Oorsprongpark, 21:09:39.464332029, 2021-06-03"
         ]
+      },
+      "favoriteTravelList": {
+        "favoriteTravelListing": [
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test"
+        ]
       }
     },
     {
@@ -33,6 +57,18 @@
       "travelHistoryList": {
         "travelHistoryListing": [
           "Stadsschouwburg --- Nepveulaan, 21:40:58.217428440, 2021-06-03"
+        ]
+      },
+      "favoriteTravelList": {
+        "favoriteTravelListing": [
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test",
+          "test"
         ]
       }
     }
