@@ -539,7 +539,7 @@ public class Gui extends JFrame {
         ///////////////////////////////
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
 
-        panelCenter.add(jxBrowser.view, BorderLayout.CENTER);
+        panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
         panelCenter.add(centerPanelRight);
         jxBrowser.loadUrl();
 
