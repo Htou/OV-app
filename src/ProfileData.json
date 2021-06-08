@@ -15,14 +15,10 @@
       },
       "favoriteTravelList": {
         "favoriteTravelListing": [
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test"
+          {
+            "favoriteLocationA": "test",
+            "favoriteLocationB": "test"
+          }
         ]
       }
     },
@@ -40,14 +36,10 @@
       },
       "favoriteTravelList": {
         "favoriteTravelListing": [
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test"
+          {
+            "favoriteLocationA": "test",
+            "favoriteLocationB": "test"
+          }
         ]
       }
     },
@@ -61,14 +53,10 @@
       },
       "favoriteTravelList": {
         "favoriteTravelListing": [
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test",
-          "test"
+          {
+            "favoriteLocationA": "test",
+            "favoriteLocationB": "test"
+          }
         ]
       }
     }
