@@ -1,18 +1,18 @@
 import java.util.ArrayList;
 
 public class FavoriteTravelList {
-    private ArrayList<FavoriteTravel> favoriteTravelList;
+    private ArrayList<FavoriteTravel> favoriteTravelListing;
 
     FavoriteTravelList() {
-        this.favoriteTravelList = new ArrayList<FavoriteTravel>();
+        this.favoriteTravelListing = new ArrayList<FavoriteTravel>();
     }
 
     public void AddFavoriteTravelToFavoriteTravelList(FavoriteTravel favoriteTravel) {
-        this.favoriteTravelList.add(favoriteTravel);
+        this.favoriteTravelListing.add(favoriteTravel);
     }
 
     public ArrayList<FavoriteTravel> getFavoriteTravelList() {
-        return this.favoriteTravelList;
+        return this.favoriteTravelListing;
     }
 
 }
