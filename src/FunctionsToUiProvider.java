@@ -20,6 +20,7 @@ public class FunctionsToUiProvider {
 
     public FunctionsToUiProvider() throws IOException {
         routeData = new RouteData();
+        //DataHandler.createTrajectoryDataJSONFile(fNameTrajectoryData);
 
         this.routeData.setTrajectoryList(DataHandler.loadTrajectoryData(fNameTrajectoryData));
         this.profileList = DataHandler.loadProfileList(fNameProfileData);
