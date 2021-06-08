@@ -763,6 +763,7 @@ public class Gui extends JFrame {
                         selectedPanel = previousPanelList.get(previousPanelList.size() - 1);
                         previousPanelList.remove(previousPanelList.size() - 1);
                         updatePanel();
+                        previousPanelList.remove(previousPanelList.size() - 1);
                     } catch (Exception b) {
                     }
                 }
