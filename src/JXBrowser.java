@@ -8,22 +8,24 @@ import com.teamdev.jxbrowser.frame.Frame;
 
 public class JXBrowser {
 
-    private static final RenderingMode HARDWARE_ACCELERATED = RenderingMode.HARDWARE_ACCELERATED;
-
     private Engine engine;
     private String htmlFile;
-    public Browser browser;
-    public BrowserView view;
+    private Browser browser;
+    private BrowserView view;
 
     JXBrowser() {
         this.engine = Engine.newInstance(
-                EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+                EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED)
                         .licenseKey("1BNDHFSC1FZ7ZZCU2Y1OPJOXDKVS1TVAWRPQMGTFV98ADATIG5YXAXODH1O5IUVC03P6ZX")
                         .build());
 
         this.browser = engine.newBrowser();
         this.view = BrowserView.newInstance(browser);
         this.htmlFile = "/home/yawgmoth/Dropbox/HU-ADSD/S1/Periode1/OV-app/src/index.html";
+    }
+
+    public BrowserView getBrowserView () {
+        return this.view;
     }
 
     public void loadUrl() {
