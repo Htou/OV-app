@@ -86,7 +86,7 @@ public class DataHandler {
     }
 
     public static void createTrajectoryDataJSONFile(String fName) {
-        /*
+/*
 
          ArrayList<Trajectory> trajectoryList = new ArrayList();
 
@@ -123,36 +123,36 @@ public class DataHandler {
         //===========================================================================================================
         ArrayList<Station> utrechtToAmesfoortBus = new ArrayList();
         utrechtToAmesfoortBus.add(new Station("Utrecht CS",4 ,1.5));
-        utrechtToAmesfoortBus.add(new Station("Vredenburg",1 ,2.4));
-        utrechtToAmesfoortBus.add(new Station("Neude",1 ,0.3));
-        utrechtToAmesfoortBus.add(new Station("Janskerkhof",1 ,1.0));
-        utrechtToAmesfoortBus.add(new Station("Stadsschouwburg",2 ,1.5));
-        utrechtToAmesfoortBus.add(new Station("Wittevrouwen",1 ,2.4));
-        utrechtToAmesfoortBus.add(new Station("Oorsprongpark",2 ,1.7));
-        utrechtToAmesfoortBus.add(new Station("Archimedeslaan",1 ,2.6));
-        utrechtToAmesfoortBus.add(new Station("Steinenburglaan",1 ,0.8));
-        utrechtToAmesfoortBus.add(new Station("Kerklaan, De Bilt",3 ,3.4));
-        utrechtToAmesfoortBus.add(new Station("KNMI, De Bilt",3 ,5.3));
-        utrechtToAmesfoortBus.add(new Station("Amesfoortseweg, De Bilt",0,0)); // end station
+        utrechtToAmesfoortBus.add(new Station("Vredenburg Utrecht",1 ,2.4));
+        utrechtToAmesfoortBus.add(new Station("Neude Utrecht",1 ,0.3));
+        utrechtToAmesfoortBus.add(new Station("Janskerkhof Utrecht",1 ,1.0));
+        utrechtToAmesfoortBus.add(new Station("Stadsschouwburg Utrecht",2 ,1.5));
+        utrechtToAmesfoortBus.add(new Station("Wittevrouwen Utrecht",1 ,2.4));
+        utrechtToAmesfoortBus.add(new Station("Oorsprongpark Utrecht",2 ,1.7));
+        utrechtToAmesfoortBus.add(new Station("Archimedeslaan Utrecht",1 ,2.6));
+        utrechtToAmesfoortBus.add(new Station("Steinenburglaan De Bilt",1 ,0.8));
+        utrechtToAmesfoortBus.add(new Station("Kerklaan De Bilt",3 ,3.4));
+        utrechtToAmesfoortBus.add(new Station("KNMI De Bilt",3 ,5.3));
+        utrechtToAmesfoortBus.add(new Station("Amesfoortseweg De Bilt",0,0)); // end station
         Trajectory trajectoryUtrechtToAmesfoort = new Trajectory(utrechtToAmesfoortBus,30,20,"bus");
 
 
         ArrayList<Station> utrechtToZeistBus = new ArrayList();
         utrechtToZeistBus.add(new Station("Utrecht CS",4 ,1.5));
-        utrechtToZeistBus.add(new Station("Neude",1 ,0.3));
-        utrechtToZeistBus.add(new Station("Janskerkhof",1 ,1.0));
-        utrechtToZeistBus.add(new Station("Stadsschouwburg",2 ,1.5));
-        utrechtToZeistBus.add(new Station("Wittevrouwen",1 ,2.4));
-        utrechtToZeistBus.add(new Station("Oorsprongpark",2 ,1.7));
-        utrechtToZeistBus.add(new Station("KNMI, De Bilt",4 ,2.4));// end station
-        utrechtToZeistBus.add(new Station("Jordanlaan",5 ,1.5));// end station
-        utrechtToZeistBus.add(new Station("Winkelcentrum Vollenhove",1 ,0.3));// end station
-        utrechtToZeistBus.add(new Station("Gunningenlaan Vollenhove",1 ,0.5));// end station
-        utrechtToZeistBus.add(new Station("L-Flat",1 ,0.7));// end station
-        utrechtToZeistBus.add(new Station("De Dreef/Panweg",3 ,0.6));// end station
-        utrechtToZeistBus.add(new Station("Nepveulaan",4 ,1.5));// end station
-        utrechtToZeistBus.add(new Station("Schaerweijdelaan",3 ,1.5));// end station
-        utrechtToZeistBus.add(new Station("Steylaan",3 ,0.7));// end station
+        utrechtToZeistBus.add(new Station("Neude Utrecht",1 ,0.3));
+        utrechtToZeistBus.add(new Station("Janskerkhof Utrecht",1 ,1.0));
+        utrechtToZeistBus.add(new Station("Stadsschouwburg Utrecht",2 ,1.5));
+        utrechtToZeistBus.add(new Station("Wittevrouwen Utrecht",1 ,2.4));
+        utrechtToZeistBus.add(new Station("Oorsprongpark Utrecht",2 ,1.7));
+        utrechtToZeistBus.add(new Station("KNMI De Bilt",4 ,2.4));// end station
+        utrechtToZeistBus.add(new Station("Jordanlaan Utrecht",5 ,1.5));// end station
+        utrechtToZeistBus.add(new Station("Winkelcentrum Vollenhove Zeist",1 ,0.3));// end station
+        utrechtToZeistBus.add(new Station("Gunningenlaan Vollenhove Zeist",1 ,0.5));// end station
+        utrechtToZeistBus.add(new Station("L-Flat Zeist",1 ,0.7));// end station
+        utrechtToZeistBus.add(new Station("De Dreef/Panweg Zeist",3 ,0.6));// end station
+        utrechtToZeistBus.add(new Station("Nepveulaan Zeist",4 ,1.5));// end station
+        utrechtToZeistBus.add(new Station("Schaerweijdelaan Zeist",3 ,1.5));// end station
+        utrechtToZeistBus.add(new Station("Steylaan Zeist",3 ,0.7));// end station
         utrechtToZeistBus.add(new Station("Bussation zeist",0 ,0));// end station
         Trajectory trajectoryUtrechtToZeist = new Trajectory(utrechtToZeistBus,30,20, "bus");
 
@@ -166,9 +166,11 @@ public class DataHandler {
 
         TrajectoryList trajectorys = new TrajectoryList();
         trajectorys.setTrajectoryList(trajectoryList);
-//        DataHandler.saveTrajectoryData(trajectorys);
+       DataHandler.saveTrajectoryData(trajectorys,fName);
 
-         */
 
+
+
+ */
     }
 }
