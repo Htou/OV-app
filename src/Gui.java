@@ -74,7 +74,9 @@ public class Gui extends JFrame {
         travelTime = LocalTime.parse(standardTime, formatter);
 
         mainContainer.setLayout(cl);
-        selectedPanel = 6;
+
+        //panel
+        selectedPanel = 7;
 
         this.functionsToUiProvider = new FunctionsToUiProvider();
         this.messages = functionsToUiProvider.messages;
@@ -131,6 +133,11 @@ public class Gui extends JFrame {
 
             case 6: {
                 mainContainer.add(startUpAndErrorPanel(), "6");
+                break;
+            }
+
+            case 7: {
+                mainContainer.add(favoritePanelGui(), "7");
                 break;
             }
 
@@ -807,6 +814,57 @@ public class Gui extends JFrame {
         {
             return languagePanel;
         }
+    }
+
+    private JPanel favoritePanelGui() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panelCenter = new JPanel(new GridLayout(1, 2));
+        JPanel panelSouth = new JPanel(new GridLayout());
+
+        panel.add(loginAndSettings(true), BorderLayout.NORTH); //north
+        panel.add(panelCenter, BorderLayout.CENTER);
+        panel.add(panelSouth, BorderLayout.SOUTH);
+
+
+        ////////////////////////////////
+        ///         Center      ////////
+        ///////////////////////////////
+
+
+        ///////////////////////////
+        ///     CENTER LEFT     //
+        //////////////////////////
+
+
+
+        JPanel favorites = new JPanel(new GridLayout());
+        panelCenter.add(favorites);
+
+        JList favoritesList = new JList();
+
+        JScrollPane timesPane = new JScrollPane();
+
+        timesPane.setViewportView(favoritesList);
+        favoritesList.setLayoutOrientation(JList.VERTICAL);
+        favorites.add(timesPane);
+        favoritesList.setBackground(LIGHT_GRAY);
+
+
+        ///////////////////////////
+        ///     CENTER RIGHT     //
+        //////////////////////////
+
+        JPanel centerPanelRight = new JPanel(new GridBagLayout());
+        panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
+
+
+        /////////////////////////
+        //      bottom      ////
+        ////////////////////////
+
+        panelSouth.add(languageAndGoBackPanel(true));
+
+        return panel;
     }
 
     private void changeLanguage(int index) {
