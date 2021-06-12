@@ -481,7 +481,7 @@ public class Gui extends JFrame {
                 }
                 selectedPanel = 3;
                 updatePanel();
-                  jxBrowser.drawMap(locationA, locationB);
+                jxBrowser.drawMap(locationA, locationB);
             }
         });
 
@@ -836,17 +836,16 @@ public class Gui extends JFrame {
         //////////////////////////
 
 
-
         JPanel favorites = new JPanel(new GridLayout());
         panelCenter.add(favorites);
 
         JList favoritesList = new JList();
 
-        JScrollPane timesPane = new JScrollPane();
+        JScrollPane favoritesPane = new JScrollPane();
 
-        timesPane.setViewportView(favoritesList);
+        favoritesPane.setViewportView(favoritesList);
         favoritesList.setLayoutOrientation(JList.VERTICAL);
-        favorites.add(timesPane);
+        favorites.add(favoritesPane);
         favoritesList.setBackground(LIGHT_GRAY);
 
 
