@@ -11,7 +11,7 @@ public class FavoriteTravelList {
         this.favoriteTravelListing.add(favoriteTravel);
     }
 
-    public ArrayList<FavoriteTravel> getFavoriteTravelList() {
+    public ArrayList<FavoriteTravel> getFavoriteTravelListing() {
         return this.favoriteTravelListing;
     }
 
