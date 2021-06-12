@@ -24,4 +24,14 @@ public class FavoriteTravel {
         return this.favoriteLocationB;
     }
 
+    public String getFavoriteTravelToString() {
+        StringBuilder favoriteTravelString = new StringBuilder();
+
+        favoriteTravelString.append(getFavoriteLocationA());
+        favoriteTravelString.append(" --- ");
+        favoriteTravelString.append(getFavoriteLocationB());
+
+        return favoriteTravelString.toString();
+    }
+
 }
