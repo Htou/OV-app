@@ -79,7 +79,7 @@ public class FunctionsToUiProvider {
         }
 
         ArrayList<String> noTravelHistoryList = new ArrayList<String>();
-        noTravelHistoryList.add("No travel History, please login with your account for your travel history.");
+        noTravelHistoryList.add("No travel History, please login with your account to view your travel history.");
 
         return noTravelHistoryList;
     }
@@ -93,6 +93,25 @@ public class FunctionsToUiProvider {
         DataHandler.saveProfileList(profileList, fNameProfileData);
         System.out.println("Added new Travel History to profile list");
     }
+
+    public ArrayList getFavoriteTravelsListSelectedProfile() {
+
+        if (selectedProfile != null) {
+            ArrayList<String> favoriteTravelsToStringList = new ArrayList<String>();
+
+            for (FavoriteTravel favoriteTravel : selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
+                favoriteTravelsToStringList.add(favoriteTravel.getFavoriteTravelToString());
+            }
+
+            return favoriteTravelsToStringList;
+        }
+
+        ArrayList<String> noFavoriteTravelsList = new ArrayList<String>();
+        noFavoriteTravelsList.add("No travel favorite travels, please login and add a travel to your favorite travels.");
+
+        return noFavoriteTravelsList;
+    }
+
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();
@@ -198,9 +217,9 @@ public class FunctionsToUiProvider {
 
         }
 
-        System.out.println(departureHour+ " "+ departureMinute );
+        System.out.println(departureHour + " " + departureMinute);
         //if departure time is 24 hour it converts it to 00 hours midnight in the string
-        String departureTimeString = generateTimeNumber(departureHour,true)+":"+generateTimeNumber(departureMinute,false);
+        String departureTimeString = generateTimeNumber(departureHour, true) + ":" + generateTimeNumber(departureMinute, false);
         System.out.println(departureTimeString);
 
 
@@ -215,13 +234,13 @@ public class FunctionsToUiProvider {
         return listDepartureTimes;
     }
 
-    private String generateTimeNumber(int number,boolean hour){
+    private String generateTimeNumber(int number, boolean hour) {
         String returnNumber;
-        if (number<10){
-            return ("0"+number);
+        if (number < 10) {
+            return ("0" + number);
         }
 
-        if (hour == true && number == 24){
+        if (hour == true && number == 24) {
             return ("00");
         }
         return String.valueOf(number);
