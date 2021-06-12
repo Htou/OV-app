@@ -79,7 +79,7 @@ public class FunctionsToUiProvider {
         }
 
         ArrayList<String> noTravelHistoryList = new ArrayList<String>();
-        noTravelHistoryList.add("No travel History, please login with your account for your travel history.");
+        noTravelHistoryList.add("No travel History, please login with your account to view your travel history.");
 
         return noTravelHistoryList;
     }
@@ -93,6 +93,8 @@ public class FunctionsToUiProvider {
         DataHandler.saveProfileList(profileList, fNameProfileData);
         System.out.println("Added new Travel History to profile list");
     }
+
+
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();
