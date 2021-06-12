@@ -839,7 +839,7 @@ public class Gui extends JFrame {
         JPanel favorites = new JPanel(new GridLayout());
         panelCenter.add(favorites);
 
-        JList favoritesList = new JList();
+        JList favoritesList = new JList(functionsToUiProvider.getFavoriteTravelsListSelectedProfile().toArray());
 
         JScrollPane favoritesPane = new JScrollPane();
 
