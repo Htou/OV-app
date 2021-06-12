@@ -15,8 +15,13 @@ public class FavoriteTravel {
         return this.favoriteLocationA;
     }
 
+
     public void setFavoriteLocationB(String locationB) {
         this.favoriteLocationB = locationB;
+    }
+
+    public String getFavoriteLocationB() {
+        return this.favoriteLocationB;
     }
 
 }
