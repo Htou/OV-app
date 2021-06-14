@@ -73,7 +73,7 @@ public class Gui extends JFrame {
         mainContainer.setLayout(cl);
 
         //panel
-        //start panel 6 to load json files.
+        //start panel 0 to load json files.
         selectedPanel = 0;
 
         this.functionsToUiProvider = new FunctionsToUiProvider();
@@ -434,6 +434,32 @@ public class Gui extends JFrame {
 
     }
 
+
+    public JPanel routeInfoPanel(){
+        int rowPanelRouteInfo = 16;
+        JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
+        JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
+        Color myColor = new Color(150, 255, 250);
+        panelRouteInfo.setBackground(myColor);
+
+        panelRouteInfo.add(new JLabel(messages.getString("Van_") + locationA));
+        panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
+        long distanceRoundOff = Math.round(distance);
+
+
+
+
+        panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
+        panelRouteInfo.add(new JLabel((messages.getString("Reistijd")) + travelTime.toString()));
+
+        if (vehicleIdentifier.equals("train")) {
+            panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + messages.getString("Trein")));
+        } else {
+            panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + vehicleIdentifier.toString()));
+        }
+
+        return panelRouteInfo;
+    }
     private JPanel chosenTrajectoryInfoPanel() {
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
@@ -456,9 +482,20 @@ public class Gui extends JFrame {
         panelCenterNorth.add(new JLabel(messages.getString("Reistijden")));
 
         JPanel panelRouteInfoAndStations = new JPanel(new GridLayout(2, 1));
+
         panelInnerCenter.add(panelRouteInfoAndStations);
 
 
+        JPanel panelRouteInfo = routeInfoPanel();
+        JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
+        Color myColor = new Color(150, 255, 250);
+        panelRouteInfo.setBackground(myColor);
+        panelRouteInfoAndStations.add(panelRouteInfo);
+        panelRouteInfoAndStations.add(panelStationsInfo);
+
+
+
+/*
         int rowPanelRouteInfo = 16;
         JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
@@ -482,6 +519,35 @@ public class Gui extends JFrame {
         } else {
             panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + vehicleIdentifier.toString()));
         }
+ */
+        for (int i = 0; i < 16 - 7; i++){
+            panelRouteInfo.add(new JLabel());
+
+        }
+
+        JPanel mapAndFavorite = new JPanel(new GridLayout(1,2));
+        JButton showMap = new JButton("Navigeren");
+        JButton addToFavorite = new JButton("Voeg toe aan favorieten");
+        mapAndFavorite.add(showMap);
+        mapAndFavorite.add(addToFavorite);
+        panelRouteInfo.add(mapAndFavorite);
+
+        showMap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (functionsToUiProvider.getSelectedProfile() != null) {
+                    functionsToUiProvider.addTravelHistoryListSelectedProfile();
+                }
+                selectedPanel = 3;
+                updatePanel();
+                jxBrowser.drawMap(locationA, locationB);
+            }
+        });
+
+
+
+
+
         JPanel trajectoryInfoPanel = new JPanel(new BorderLayout());
         panelStationsInfo.add(trajectoryInfoPanel);
 
@@ -505,29 +571,7 @@ public class Gui extends JFrame {
 
 
 
-        for (int i = 0; i < rowPanelRouteInfo - 7; i++){
-            panelRouteInfo.add(new JLabel());
 
-        }
-
-        JPanel mapAndFavorite = new JPanel(new GridLayout(1,2));
-        JButton showMap = new JButton("Navigeren");
-        JButton addToFavorite = new JButton("Voeg toe aan favorieten");
-        mapAndFavorite.add(showMap);
-        mapAndFavorite.add(addToFavorite);
-        panelRouteInfo.add(mapAndFavorite);
-
-        showMap.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (functionsToUiProvider.getSelectedProfile() != null) {
-                    functionsToUiProvider.addTravelHistoryListSelectedProfile();
-                }
-                selectedPanel = 3;
-                updatePanel();
-                jxBrowser.drawMap(locationA, locationB);
-            }
-        });
 
         ////////////////////////////////
         ///         top       /////////
@@ -558,12 +602,20 @@ public class Gui extends JFrame {
         ////////////////////////////////
         ///         Center      ////////
         ///////////////////////////////
-        JPanel centerPanelRight = new JPanel(new GridBagLayout());
+
+
+        JPanel routeInfo = new JPanel(new GridLayout(2,1));
+        JPanel routeInfoBorderLayout = new JPanel(new BorderLayout());
+        routeInfoBorderLayout.add(routeInfoPanel(), BorderLayout.CENTER);
+        routeInfoBorderLayout.add(new JLabel("Route Info"),BorderLayout.NORTH);
 
         panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
-        panelCenter.add(centerPanelRight);
         jxBrowser.loadUrl();
 
+
+        routeInfo.add(routeInfoBorderLayout);
+        routeInfo.add(new JLabel());
+        panelCenter.add(routeInfo);
 
         /////////////////////////
         //      bottom      ////
