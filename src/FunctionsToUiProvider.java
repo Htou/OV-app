@@ -95,7 +95,6 @@ public class FunctionsToUiProvider {
     }
 
     public ArrayList getFavoriteTravelsListSelectedProfile() {
-
         if (selectedProfile != null) {
             ArrayList<String> favoriteTravelsToStringList = new ArrayList<String>();
 
@@ -112,13 +111,34 @@ public class FunctionsToUiProvider {
         return noFavoriteTravelsList;
     }
 
-    public ArrayList addFavoriteTravelSelectedProfile() {
+    public void addFavoriteTravelSelectedProfile(String locationA, String locationB) {
         if (selectedProfile != null) {
-            ArrayList<String> favoriteTravelsToStringList = new ArrayList<String>();
 
-            return favoriteTravelsToStringList;
+            
+            boolean alreadyExists = false;
+            
+
+            for (FavoriteTravel favoriteTravelindex: selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
+                if (favoriteTravelindex.getFavoriteLocationA().equals(locationA) && favoriteTravelindex.getFavoriteLocationB().equals(locationB)) {
+                    alreadyExists = true;
+                }
+            };
+
+            if (alreadyExists) {
+                System.out.println("This travel is already added to favorites");
+            } else {
+                FavoriteTravel favoriteTravel = new FavoriteTravel(locationA, locationB);
+
+                selectedProfile.getFavoriteTravelList().getFavoriteTravelListing().add(favoriteTravel);
+
+                DataHandler.saveProfileList(profileList, fNameProfileData);
+                System.out.println("Added new favorite travel to profile list");
+            }
 
 
+        } else {
+            System.out.println("Please login to add a travel to favorites");
+        }
     }
 
 
