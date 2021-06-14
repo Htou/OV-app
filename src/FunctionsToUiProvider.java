@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 public class FunctionsToUiProvider {
     public RouteData routeData;
-    public JXBrowser jxBrowser;
+   public JXBrowser jxBrowser;
     public ResourceBundle messages;
     public ProfileList profileList;
 
