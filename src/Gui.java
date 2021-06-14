@@ -529,6 +529,16 @@ public class Gui extends JFrame {
             }
         });
 
+        addToFavorite.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (functionsToUiProvider.getSelectedProfile() != null) {
+
+                }
+
+            }
+        });
+
         ////////////////////////////////
         ///         top       /////////
         ///////////////////////////////
