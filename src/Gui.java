@@ -529,7 +529,8 @@ public class Gui extends JFrame {
         addToFavorite.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB); }
+                functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB);
+            }
         });
 
         ////////////////////////////////
