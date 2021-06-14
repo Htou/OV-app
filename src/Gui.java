@@ -458,7 +458,9 @@ public class Gui extends JFrame {
         JPanel panelRouteInfoAndStations = new JPanel(new GridLayout(2, 1));
         panelInnerCenter.add(panelRouteInfoAndStations);
 
-        JPanel panelRouteInfo = new JPanel(new GridLayout(16, 1));
+
+        int rowPanelRouteInfo = 16;
+        JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
         Color myColor = new Color(150, 255, 250);
         panelRouteInfo.setBackground(myColor);
@@ -469,19 +471,7 @@ public class Gui extends JFrame {
         panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
         long distanceRoundOff = Math.round(distance);
 
-        JButton showMap = new JButton("Navigeren");
-        panelRouteInfo.add(showMap);
-        showMap.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (functionsToUiProvider.getSelectedProfile() != null) {
-                    functionsToUiProvider.addTravelHistoryListSelectedProfile();
-                }
-                selectedPanel = 3;
-                updatePanel();
-                jxBrowser.drawMap(locationA, locationB);
-            }
-        });
+
 
 
         panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
@@ -512,6 +502,32 @@ public class Gui extends JFrame {
         timeJList.setLayoutOrientation(JList.VERTICAL);
         panelInnerCenter.add(timesPane);
         timeJList.setBackground(LIGHT_GRAY);
+
+
+
+        for (int i = 0; i < rowPanelRouteInfo - 7; i++){
+            panelRouteInfo.add(new JLabel());
+
+        }
+
+        JPanel mapAndFavorite = new JPanel(new GridLayout(1,2));
+        JButton showMap = new JButton("Navigeren");
+        JButton addToFavorite = new JButton("Voeg toe aan favorieten");
+        mapAndFavorite.add(showMap);
+        mapAndFavorite.add(addToFavorite);
+        panelRouteInfo.add(mapAndFavorite);
+
+        showMap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (functionsToUiProvider.getSelectedProfile() != null) {
+                    functionsToUiProvider.addTravelHistoryListSelectedProfile();
+                }
+                selectedPanel = 3;
+                updatePanel();
+                jxBrowser.drawMap(locationA, locationB);
+            }
+        });
 
         ////////////////////////////////
         ///         top       /////////
