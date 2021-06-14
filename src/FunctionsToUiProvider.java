@@ -112,6 +112,15 @@ public class FunctionsToUiProvider {
         return noFavoriteTravelsList;
     }
 
+    public ArrayList addFavoriteTravelSelectedProfile() {
+        if (selectedProfile != null) {
+            ArrayList<String> favoriteTravelsToStringList = new ArrayList<String>();
+
+            return favoriteTravelsToStringList;
+
+
+    }
+
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();
