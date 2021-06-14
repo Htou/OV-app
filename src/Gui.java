@@ -472,8 +472,6 @@ public class Gui extends JFrame {
         long distanceRoundOff = Math.round(distance);
 
 
-
-
         panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
         panelRouteInfo.add(new JLabel((messages.getString("Reistijd")) + travelTime.toString()));
 
@@ -504,13 +502,12 @@ public class Gui extends JFrame {
         timeJList.setBackground(LIGHT_GRAY);
 
 
-
-        for (int i = 0; i < rowPanelRouteInfo - 7; i++){
+        for (int i = 0; i < rowPanelRouteInfo - 7; i++) {
             panelRouteInfo.add(new JLabel());
 
         }
 
-        JPanel mapAndFavorite = new JPanel(new GridLayout(1,2));
+        JPanel mapAndFavorite = new JPanel(new GridLayout(1, 2));
         JButton showMap = new JButton("Navigeren");
         JButton addToFavorite = new JButton("Voeg toe aan favorieten");
         mapAndFavorite.add(showMap);
@@ -532,11 +529,7 @@ public class Gui extends JFrame {
         addToFavorite.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (functionsToUiProvider.getSelectedProfile() != null) {
-
-                }
-
-            }
+                functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB); }
         });
 
         ////////////////////////////////
@@ -758,7 +751,6 @@ public class Gui extends JFrame {
             topPanel.add(new JLabel("         Gebruiker:"));
             topPanel.add(new JLabel(username));
         }
-
 
 
         JButton travelHistoryButton = new JButton("Reisgeschiedenis");
