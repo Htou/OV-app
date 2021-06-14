@@ -1,11 +1,8 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -55,7 +52,7 @@ public class Gui extends JFrame {
     private String vehicleIdentifier;
 
     public Gui() throws IOException {
-        this.setSize(600, 600);
+        this.setSize(1200, 800);
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -76,7 +73,8 @@ public class Gui extends JFrame {
         mainContainer.setLayout(cl);
 
         //panel
-        selectedPanel = 7;
+        //start panel 6 to load json files.
+        selectedPanel = 0;
 
         this.functionsToUiProvider = new FunctionsToUiProvider();
         this.messages = functionsToUiProvider.messages;
@@ -108,6 +106,11 @@ public class Gui extends JFrame {
         previousPanel = selectedPanel;
 
         switch (selectedPanel) {
+            case 0: {
+                mainContainer.add(startUpAndErrorPanel(), "0");
+                break;
+            }
+
             case 1: {
                 mainContainer.add(navigateGui(), "1");
                 break;
@@ -128,11 +131,6 @@ public class Gui extends JFrame {
 
             case 5: {
                 mainContainer.add(travelHistoryPanel(), "5");
-                break;
-            }
-
-            case 6: {
-                mainContainer.add(startUpAndErrorPanel(), "6");
                 break;
             }
 
@@ -181,7 +179,7 @@ public class Gui extends JFrame {
         ////////////////////////////////
         ///         top       /////////
         ///////////////////////////////
-        navigatePanel.add(loginAndSettings(true), BorderLayout.NORTH);
+        navigatePanel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -518,7 +516,7 @@ public class Gui extends JFrame {
         ////////////////////////////////
         ///         top       /////////
         ///////////////////////////////
-        panel.add(loginAndSettings(true), BorderLayout.NORTH);
+        panel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH);
 
 
         /////////////////////////
@@ -536,7 +534,7 @@ public class Gui extends JFrame {
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridLayout());
 
-        panel.add(loginAndSettings(true), BorderLayout.NORTH); //north
+        panel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
@@ -567,7 +565,7 @@ public class Gui extends JFrame {
         ///////////////////////
         //      north       ///
         //////////////////////
-        mainPannel.add(loginAndSettings(true), BorderLayout.NORTH);
+        mainPannel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH);
 
 
         ////////////////////////
@@ -692,7 +690,7 @@ public class Gui extends JFrame {
         ///////////////////////////////
 
 
-        travelHistoryPanel.add(loginAndSettings(true), BorderLayout.NORTH);
+        travelHistoryPanel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH);
 
 
         /////////////////////////
@@ -704,9 +702,9 @@ public class Gui extends JFrame {
         return travelHistoryPanel;
     }
 
-    private JPanel loginAndSettings(boolean loginButton) {
+    private JPanel loginFavoriteAndHistoryTopPanel(boolean loginButton) {
 
-        int colums = 5;
+        int colums = 3;
         JPanel topPanel = new JPanel(new GridLayout(1, colums));
         topPanel.setBackground(blue);
 
@@ -736,19 +734,28 @@ public class Gui extends JFrame {
         }
 
 
-        for (int i = 0; i < (colums - 2); i++) {
-            topPanel.add(new JLabel());
-        }
 
         JButton travelHistoryButton = new JButton("Reisgeschiedenis");
+        JButton favorite = new JButton("Reisfavorieten");
         travelHistoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 selectedPanel = 5;
                 updatePanel();
             }
         });
+
+        favorite.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                selectedPanel = 7;
+                updatePanel();
+            }
+        });
+        favorite.setBackground(blue);
         travelHistoryButton.setBackground(blue);
+
         topPanel.add(travelHistoryButton);
+        topPanel.add(favorite);
+
 
         return topPanel;
 
@@ -821,7 +828,7 @@ public class Gui extends JFrame {
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridLayout());
 
-        panel.add(loginAndSettings(true), BorderLayout.NORTH); //north
+        panel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
 
