@@ -91,7 +91,7 @@ public class FunctionsToUiProvider {
         profileList.getProfileList().get(profileIndex).getTravelHistorylist().addTravelHistoryString(travelHistory.getTravelHistoryToString());
 
         DataHandler.saveProfileList(profileList, fNameProfileData);
-        System.out.println("Added new Travel History to profile list");
+        System.out.println("Added new Travel History to profile");
     }
 
     public ArrayList getFavoriteTravelsListSelectedProfile() {
@@ -140,7 +140,6 @@ public class FunctionsToUiProvider {
             System.out.println("Please login to add a travel to favorites");
         }
     }
-
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();
