@@ -500,8 +500,8 @@ public class Gui extends JFrame {
         }
 
         JPanel mapAndFavorite = new JPanel(new GridLayout(1, 2));
-        JButton showMap = new JButton("Navigeren");
-        JButton addToFavorite = new JButton("Voeg toe aan favorieten");
+        JButton showMap = new JButton(messages.getString("Navigeren"));
+        JButton addToFavorite = new JButton(messages.getString("Voeg_toe_aan_favorieten"));
         mapAndFavorite.add(showMap);
         mapAndFavorite.add(addToFavorite);
         panelRouteInfo.add(mapAndFavorite);
@@ -780,8 +780,8 @@ public class Gui extends JFrame {
 
 
 
-        JButton travelHistoryButton = new JButton("Reisgeschiedenis");
-        JButton favorite = new JButton("Reisfavorieten");
+        JButton travelHistoryButton = new JButton(messages.getString("Reisgeschiedenis"));
+        JButton favorite = new JButton(messages.getString("Reisfavorieten"));
         travelHistoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 selectedPanel = 5;
