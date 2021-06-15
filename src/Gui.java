@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static java.awt.Color.*;
+import static java.awt.Color.WHITE;
 
 public class Gui extends JFrame {
     private JXBrowser jxBrowser;
@@ -45,6 +45,7 @@ public class Gui extends JFrame {
     private Color blue = new Color(32, 142, 188);
     private Color blueGreen = new Color(95, 177, 182);
     private Color green = new Color(140, 203, 177);
+    private final Color lightGray = new Color(238, 238, 238);
 
     //for navigate gui
     private int selectedDepartureIndex = 0;
@@ -439,8 +440,7 @@ public class Gui extends JFrame {
         int rowPanelRouteInfo = 16;
         JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
-        Color myColor = new Color(150, 255, 250);
-        panelRouteInfo.setBackground(myColor);
+        panelRouteInfo.setBackground(lightGray);
 
         panelRouteInfo.add(new JLabel(messages.getString("Van_") + locationA));
         panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
@@ -460,6 +460,7 @@ public class Gui extends JFrame {
 
         return panelRouteInfo;
     }
+
     private JPanel chosenTrajectoryInfoPanel() {
         JPanel panel = new JPanel(new BorderLayout(8, 6));
 
@@ -476,7 +477,7 @@ public class Gui extends JFrame {
 
         panelCenter.add(panelInnerCenter, BorderLayout.CENTER);
         panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
-        panelCenterNorth.setBackground(RED);
+        panelCenterNorth.setBackground(blue);
 
         panelCenterNorth.add(new JLabel(messages.getString("Reisinformatie")));
         panelCenterNorth.add(new JLabel(messages.getString("Reistijden")));
@@ -488,44 +489,17 @@ public class Gui extends JFrame {
 
         JPanel panelRouteInfo = routeInfoPanel();
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
-        Color myColor = new Color(150, 255, 250);
-        panelRouteInfo.setBackground(myColor);
+
+        panelRouteInfo.setBackground(lightGray);
         panelRouteInfoAndStations.add(panelRouteInfo);
         panelRouteInfoAndStations.add(panelStationsInfo);
 
-
-
-/*
-        int rowPanelRouteInfo = 16;
-        JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
-        JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
-        Color myColor = new Color(150, 255, 250);
-        panelRouteInfo.setBackground(myColor);
-        panelRouteInfoAndStations.add(panelRouteInfo);
-        panelRouteInfoAndStations.add(panelStationsInfo);
-
-        panelRouteInfo.add(new JLabel(messages.getString("Van_") + locationA));
-        panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
-        long distanceRoundOff = Math.round(distance);
-
-
-
-
-        panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
-        panelRouteInfo.add(new JLabel((messages.getString("Reistijd")) + travelTime.toString()));
-
-        if (vehicleIdentifier.equals("train")) {
-            panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + messages.getString("Trein")));
-        } else {
-            panelRouteInfo.add(new JLabel(messages.getString("Vervoer_type") + vehicleIdentifier.toString()));
-        }
- */
-        for (int i = 0; i < 16 - 7; i++){
+        for (int i = 0; i < 16 - 7; i++) {
             panelRouteInfo.add(new JLabel());
 
         }
 
-        JPanel mapAndFavorite = new JPanel(new GridLayout(1,2));
+        JPanel mapAndFavorite = new JPanel(new GridLayout(1, 2));
         JButton showMap = new JButton("Navigeren");
         JButton addToFavorite = new JButton("Voeg toe aan favorieten");
         mapAndFavorite.add(showMap);
@@ -555,10 +529,10 @@ public class Gui extends JFrame {
         JScrollPane stationsInfoPane = new JScrollPane();
         stationsInfoPane.setViewportView(trajectoryStationsJList);
         trajectoryStationsJList.setLayoutOrientation(JList.VERTICAL);
-        trajectoryStationsJList.setBackground(LIGHT_GRAY);
+        trajectoryStationsJList.setBackground(lightGray);
         trajectoryInfoPanel.add(stationsInfoPane, BorderLayout.CENTER);
         trajectoryInfoPanel.add(new JLabel("Route"), BorderLayout.NORTH);
-        trajectoryInfoPanel.setBackground(RED);
+        trajectoryInfoPanel.setBackground(blue);
 
 
         JList timeJList = new JList(times.toArray());
@@ -567,7 +541,7 @@ public class Gui extends JFrame {
         timesPane.setViewportView(timeJList);
         timeJList.setLayoutOrientation(JList.VERTICAL);
         panelInnerCenter.add(timesPane);
-        timeJList.setBackground(LIGHT_GRAY);
+        timeJList.setBackground(lightGray);
 
 
 
@@ -672,13 +646,14 @@ public class Gui extends JFrame {
 
         centerPanelGridLayout.add(loginIncorrect);
 
-        JPanel resetAndLoginButton = new JPanel(new GridLayout(1, 5));
-        resetAndLoginButton.add(new JLabel());
+        JPanel resetAndLoginButton = new JPanel(new GridBagLayout());
         centerPanelGridLayout.add(resetAndLoginButton);
         resetAndLoginButton.add(loginButton);
-        resetAndLoginButton.add(new JLabel());
+        JLabel emptyJLabel = new JLabel("bbbbbbbbbbbbb");
+        emptyJLabel.setForeground(lightGray);
+        resetAndLoginButton.add(emptyJLabel);
+
         resetAndLoginButton.add(resetButton);
-        resetAndLoginButton.add(new JLabel());
 
 
         loginButton.addActionListener(new ActionListener() {
@@ -745,8 +720,10 @@ public class Gui extends JFrame {
 
     private JPanel travelHistoryPanel() {
         JPanel travelHistoryPanel = new JPanel(new BorderLayout());
+        travelHistoryPanel.setBackground(lightGray);
 
         JList travelHistoryJList = new JList(functionsToUiProvider.getTravelHistoryListSelectedProfile().toArray());
+        travelHistoryJList.setBackground(lightGray);
 
         JScrollPane travelHistoryPane = new JScrollPane();
         travelHistoryPane.setViewportView(travelHistoryJList);
@@ -838,6 +815,7 @@ public class Gui extends JFrame {
         if (goBack == true) {
             JButton goBackButton = new JButton(messages.getString("Vorige"));
             goBackButton.setBorderPainted(false);
+            goBackButton.setBackground(blue);
             languagePanel.add(goBackButton);
             goBackButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -896,6 +874,8 @@ public class Gui extends JFrame {
         JPanel panelCenter = new JPanel(new GridLayout(1, 2));
         JPanel panelSouth = new JPanel(new GridLayout());
 
+        panelCenter.setBackground(lightGray);
+
         panel.add(loginFavoriteAndHistoryTopPanel(true), BorderLayout.NORTH); //north
         panel.add(panelCenter, BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);
@@ -915,13 +895,15 @@ public class Gui extends JFrame {
         panelCenter.add(favorites);
 
         JList favoritesList = new JList(functionsToUiProvider.getFavoriteTravelsListSelectedProfile().toArray());
+        favoritesList.setBackground(lightGray);
+
 
         JScrollPane favoritesPane = new JScrollPane();
 
         favoritesPane.setViewportView(favoritesList);
         favoritesList.setLayoutOrientation(JList.VERTICAL);
         favorites.add(favoritesPane);
-        favoritesList.setBackground(LIGHT_GRAY);
+        favoritesList.setBackground(WHITE);
 
 
         ///////////////////////////
