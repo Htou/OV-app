@@ -5,21 +5,29 @@
       "password": "123",
       "travelHistoryList": {
         "travelHistoryListing": [
-          "Utrecht Zuilen --- Breukelen, 20:31:17.588580311, 2021-06-03",
-          "Utrecht Zuilen --- Abcoude, 20:42:22.113581232, 2021-06-03",
-          "Utrecht Zuilen --- Breukelen, 21:24:18.892047898, 2021-06-03",
-          "Utrecht CS --- Abcoude, 21:25:21.392072074, 2021-06-03",
-          "Neude --- Nepveulaan, 21:27:00.865351177, 2021-06-03",
-          "Janskerkhof --- KNMI, De Bilt, 21:27:52.845207231, 2021-06-03",
-          "Utrecht CS --- Breukelen, 22:50:58.180174952, 2021-06-12",
-          "Maarssen --- Abcoude, 22:53:02.629537002, 2021-06-12"
         ]
       },
       "favoriteTravelList": {
         "favoriteTravelListing": [
           {
-            "favoriteLocationA": "test",
-            "favoriteLocationB": "test"
+            "favoriteLocationA": "Utrecht CS",
+            "favoriteLocationB": "Maarssen"
+          },
+          {
+            "favoriteLocationA": "Utrecht Zuilen",
+            "favoriteLocationB": "Abcoude"
+          },
+          {
+            "favoriteLocationA": "Janskerkhof Utrecht",
+            "favoriteLocationB": "Schaerweijdelaan Zeist"
+          },
+          {
+            "favoriteLocationA": "Utrecht CS",
+            "favoriteLocationB": "Den Dolder"
+          },
+          {
+            "favoriteLocationA": "Breukelen",
+            "favoriteLocationB": "Abcoude"
           }
         ]
       }
@@ -28,37 +36,20 @@
       "name": "Selma",
       "password": "123",
       "travelHistoryList": {
-        "travelHistoryListing": [
-          "Neude --- Nepveulaan, 20:45:20.483687958, 2021-06-03",
-          "Utrecht CS --- Utrecht Overvecht, 21:03:20.978032993, 2021-06-03",
-          "Stadsschouwburg --- Jordanlaan, 21:05:55.488547312, 2021-06-03",
-          "Neude --- Wittevrouwen, 21:07:00.579710213, 2021-06-03",
-          "Neude --- Oorsprongpark, 21:09:39.464332029, 2021-06-03"
-        ]
+        "travelHistoryListing": []
       },
       "favoriteTravelList": {
-        "favoriteTravelListing": [
-          {
-            "favoriteLocationA": "test",
-            "favoriteLocationB": "test"
-          }
-        ]
+        "favoriteTravelListing": []
       }
     },
     {
       "name": "Thijmen",
       "password": "123",
       "travelHistoryList": {
-        "travelHistoryListing": [
-          "Stadsschouwburg --- Nepveulaan, 21:40:58.217428440, 2021-06-03"
-        ]
+        "travelHistoryListing": []
       },
       "favoriteTravelList": {
         "favoriteTravelListing": [
-          {
-            "favoriteLocationA": "test",
-            "favoriteLocationB": "test"
-          }
         ]
       }
     }

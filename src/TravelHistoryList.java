@@ -11,6 +11,10 @@ public class TravelHistoryList {
         this.travelHistoryListing.add(travelHistoryString);
     }
 
+    public ArrayList<String> getTravelHistoryListing() {
+        return travelHistoryListing;
+    }
+
     public ArrayList getTravelHistoryListToString(){
         return this.travelHistoryListing;
     }

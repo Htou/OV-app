@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class TravelHistory {
     private String locationA;
@@ -42,20 +43,26 @@ public class TravelHistory {
         this.startTravelTime = startTravelTime;
     }
 
-    public String getStartTravelTimeToString() {
-        return this.startTravelTime.toString();
+    public LocalTime getStartTravelTime() {
+        return this.startTravelTime;
     }
 
     public String getTravelHistoryToString() {
+
+
+
         StringBuilder travelHistoryString = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String startTravelTime = getStartTravelTime().format(formatter);
 
         travelHistoryString.append(getLocationA());
-        travelHistoryString.append(" --- ");
+        travelHistoryString.append(" ---> ");
         travelHistoryString.append(getLocationB());
-        travelHistoryString.append(", ");
-        travelHistoryString.append(getStartTravelTimeToString());
-        travelHistoryString.append(", ");
+        travelHistoryString.append(" ||| ");
+        travelHistoryString.append(startTravelTime);
+        travelHistoryString.append(" --- ");
         travelHistoryString.append(getTravelDateToString());
+        travelHistoryString.append(" ||| ");
 
         return travelHistoryString.toString();
     }

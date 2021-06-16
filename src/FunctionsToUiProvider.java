@@ -73,8 +73,16 @@ public class FunctionsToUiProvider {
     }
 
     public ArrayList getTravelHistoryListSelectedProfile() {
-        if (selectedProfile != null) {
-            System.out.println(selectedProfile.getTravelHistorylist().getTravelHistoryListToString());
+        if (selectedProfile != null & selectedProfile.getTravelHistorylist().getTravelHistoryListing().isEmpty()) {
+
+            ArrayList<String> noTravelHistory = new ArrayList<String>();
+
+            noTravelHistory.add("No travel History, please navigate with the application.");
+
+            return (noTravelHistory);
+
+        } else if (selectedProfile != null) {
+
             return selectedProfile.getTravelHistorylist().getTravelHistoryListToString();
         }
 
@@ -91,12 +99,18 @@ public class FunctionsToUiProvider {
         profileList.getProfileList().get(profileIndex).getTravelHistorylist().addTravelHistoryString(travelHistory.getTravelHistoryToString());
 
         DataHandler.saveProfileList(profileList, fNameProfileData);
-        System.out.println("Added new Travel History to profile list");
+        System.out.println("Added new Travel History to profile");
     }
 
     public ArrayList getFavoriteTravelsListSelectedProfile() {
 
-        if (selectedProfile != null) {
+        if (selectedProfile != null && selectedProfile.getFavoriteTravelList().getFavoriteTravelListing().isEmpty()) {
+            ArrayList<String> noFavoriteTravels = new ArrayList<String>();
+
+            noFavoriteTravels.add("No favorite travels to view, please add a favorite to your travels.");
+            return noFavoriteTravels;
+
+        } else if (selectedProfile != null) {
             ArrayList<String> favoriteTravelsToStringList = new ArrayList<String>();
 
             for (FavoriteTravel favoriteTravel : selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
@@ -106,12 +120,54 @@ public class FunctionsToUiProvider {
             return favoriteTravelsToStringList;
         }
 
+
         ArrayList<String> noFavoriteTravelsList = new ArrayList<String>();
         noFavoriteTravelsList.add("No travel favorite travels, please login and add a travel to your favorite travels.");
 
         return noFavoriteTravelsList;
     }
 
+    public void addFavoriteTravelSelectedProfile(String locationA, String locationB) {
+        if (selectedProfile != null) {
+
+
+            boolean alreadyExists = false;
+
+
+            for (FavoriteTravel favoriteTravelindex : selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
+                if (favoriteTravelindex.getFavoriteLocationA().equals(locationA) && favoriteTravelindex.getFavoriteLocationB().equals(locationB)) {
+                    alreadyExists = true;
+                }
+            }
+
+            if (alreadyExists) {
+                System.out.println("This travel is already added to favorites");
+            } else {
+                FavoriteTravel favoriteTravel = new FavoriteTravel(locationA, locationB);
+
+                selectedProfile.getFavoriteTravelList().getFavoriteTravelListing().add(favoriteTravel);
+
+                DataHandler.saveProfileList(profileList, fNameProfileData);
+                System.out.println("Added new favorite travel to profile list");
+            }
+
+
+        } else {
+            System.out.println("Please login to add a travel to favorites");
+        }
+    }
+
+    public String fetchFavoriteLocationA(int selectedIndex) {
+        String favoriteLocationA = getSelectedProfile().getFavoriteTravelList().getFavoriteTravelListing().get(selectedIndex).getFavoriteLocationA();
+
+        return favoriteLocationA;
+    }
+
+    public String fetchFavoriteLocationB(int selectedIndex) {
+        String favoriteLocationB = getSelectedProfile().getFavoriteTravelList().getFavoriteTravelListing().get(selectedIndex).getFavoriteLocationB();
+
+        return favoriteLocationB;
+    }
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
         ArrayList<String> generatedRoute = new ArrayList<String>();

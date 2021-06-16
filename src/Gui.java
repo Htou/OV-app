@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import static java.awt.Color.WHITE;
 
@@ -436,7 +439,7 @@ public class Gui extends JFrame {
     }
 
 
-    public JPanel routeInfoPanel(){
+    public JPanel routeInfoPanel() {
         int rowPanelRouteInfo = 16;
         JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
         JPanel panelStationsInfo = new JPanel(new GridLayout(1, 1));
@@ -445,8 +448,6 @@ public class Gui extends JFrame {
         panelRouteInfo.add(new JLabel(messages.getString("Van_") + locationA));
         panelRouteInfo.add(new JLabel(messages.getString("Naar_") + locationB));
         long distanceRoundOff = Math.round(distance);
-
-
 
 
         panelRouteInfo.add(new JLabel((messages.getString("Afstand")) + Double.toString(distanceRoundOff) + "km"));
@@ -511,15 +512,12 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (functionsToUiProvider.getSelectedProfile() != null) {
                     functionsToUiProvider.addTravelHistoryListSelectedProfile();
+
                 }
                 selectedPanel = 3;
                 updatePanel();
-                jxBrowser.drawMap(locationA, locationB);
             }
         });
-
-
-
 
 
         JPanel trajectoryInfoPanel = new JPanel(new BorderLayout());
@@ -544,8 +542,12 @@ public class Gui extends JFrame {
         timeJList.setBackground(lightGray);
 
 
-
-
+        addToFavorite.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB);
+            }
+        });
 
         ////////////////////////////////
         ///         top       /////////
@@ -578,13 +580,21 @@ public class Gui extends JFrame {
         ///////////////////////////////
 
 
-        JPanel routeInfo = new JPanel(new GridLayout(2,1));
+        JPanel routeInfo = new JPanel(new GridLayout(2, 1));
         JPanel routeInfoBorderLayout = new JPanel(new BorderLayout());
         routeInfoBorderLayout.add(routeInfoPanel(), BorderLayout.CENTER);
-        routeInfoBorderLayout.add(new JLabel("Route Info"),BorderLayout.NORTH);
+        routeInfoBorderLayout.add(new JLabel("Route Info"), BorderLayout.NORTH);
 
         panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
         jxBrowser.loadUrl();
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+            jxBrowser.drawMap(locationA, locationB);
+        } catch (Exception e) {
+
+        }
+
+
 
 
         routeInfo.add(routeInfoBorderLayout);
@@ -654,6 +664,7 @@ public class Gui extends JFrame {
         resetAndLoginButton.add(emptyJLabel);
 
         resetAndLoginButton.add(resetButton);
+        resetAndLoginButton.add(new JLabel());
 
 
         loginButton.addActionListener(new ActionListener() {
@@ -779,7 +790,6 @@ public class Gui extends JFrame {
         }
 
 
-
         JButton travelHistoryButton = new JButton(messages.getString("Reisgeschiedenis"));
         JButton favorite = new JButton(messages.getString("Reisfavorieten"));
         travelHistoryButton.addActionListener(new ActionListener() {
@@ -897,6 +907,33 @@ public class Gui extends JFrame {
         JList favoritesList = new JList(functionsToUiProvider.getFavoriteTravelsListSelectedProfile().toArray());
         favoritesList.setBackground(lightGray);
 
+        favoritesList.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent args0) {
+                if (functionsToUiProvider.getSelectedProfile() != null) {
+                    int selectedIndex = favoritesList.getSelectedIndex();
+                    String favoriteLocationA = functionsToUiProvider.fetchFavoriteLocationA(selectedIndex);
+                    String favoriteLocationB = functionsToUiProvider.fetchFavoriteLocationB(selectedIndex);
+
+                    System.out.println(favoriteLocationA +"xxxxxxxxxxxxxxxxxx" + favoriteLocationB);
+
+                    boolean isAdjusting = args0.getValueIsAdjusting();
+                    if (isAdjusting == false) {
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                            jxBrowser.drawMap(favoriteLocationA, favoriteLocationB);
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+
+                }
+
+            }
+        });
+
 
         JScrollPane favoritesPane = new JScrollPane();
 
@@ -912,6 +949,7 @@ public class Gui extends JFrame {
 
         JPanel centerPanelRight = new JPanel(new GridBagLayout());
         panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
+        jxBrowser.loadUrl();
 
 
         /////////////////////////
