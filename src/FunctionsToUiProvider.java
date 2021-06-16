@@ -73,8 +73,16 @@ public class FunctionsToUiProvider {
     }
 
     public ArrayList getTravelHistoryListSelectedProfile() {
-        if (selectedProfile != null) {
-            System.out.println(selectedProfile.getTravelHistorylist().getTravelHistoryListToString());
+        if (selectedProfile != null & selectedProfile.getTravelHistorylist().getTravelHistoryListing().isEmpty()) {
+
+            ArrayList<String> noTravelHistory = new ArrayList<String>();
+
+            noTravelHistory.add("No travel History, please navigate with the application.");
+
+            return (noTravelHistory);
+
+        } else if (selectedProfile != null) {
+
             return selectedProfile.getTravelHistorylist().getTravelHistoryListToString();
         }
 
