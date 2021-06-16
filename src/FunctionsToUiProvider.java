@@ -95,7 +95,14 @@ public class FunctionsToUiProvider {
     }
 
     public ArrayList getFavoriteTravelsListSelectedProfile() {
-        if (selectedProfile != null) {
+
+        if (selectedProfile != null && selectedProfile.getFavoriteTravelList().getFavoriteTravelListing().isEmpty()) {
+            ArrayList<String> noFavoriteTravels = new ArrayList<String>();
+
+            noFavoriteTravels.add("No favorite travels to view, please add a favorite to your travels.");
+            return noFavoriteTravels;
+
+        } else if (selectedProfile != null) {
             ArrayList<String> favoriteTravelsToStringList = new ArrayList<String>();
 
             for (FavoriteTravel favoriteTravel : selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
@@ -104,6 +111,7 @@ public class FunctionsToUiProvider {
 
             return favoriteTravelsToStringList;
         }
+
 
         ArrayList<String> noFavoriteTravelsList = new ArrayList<String>();
         noFavoriteTravelsList.add("No travel favorite travels, please login and add a travel to your favorite travels.");
@@ -114,15 +122,15 @@ public class FunctionsToUiProvider {
     public void addFavoriteTravelSelectedProfile(String locationA, String locationB) {
         if (selectedProfile != null) {
 
-            
-            boolean alreadyExists = false;
-            
 
-            for (FavoriteTravel favoriteTravelindex: selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
+            boolean alreadyExists = false;
+
+
+            for (FavoriteTravel favoriteTravelindex : selectedProfile.getFavoriteTravelList().getFavoriteTravelListing()) {
                 if (favoriteTravelindex.getFavoriteLocationA().equals(locationA) && favoriteTravelindex.getFavoriteLocationB().equals(locationB)) {
                     alreadyExists = true;
                 }
-            };
+            }
 
             if (alreadyExists) {
                 System.out.println("This travel is already added to favorites");
@@ -139,6 +147,18 @@ public class FunctionsToUiProvider {
         } else {
             System.out.println("Please login to add a travel to favorites");
         }
+    }
+
+    public String fetchFavoriteLocationA(int selectedIndex) {
+        String favoriteLocationA = getSelectedProfile().getFavoriteTravelList().getFavoriteTravelListing().get(selectedIndex).getFavoriteLocationA();
+
+        return favoriteLocationA;
+    }
+
+    public String fetchFavoriteLocationB(int selectedIndex) {
+        String favoriteLocationB = getSelectedProfile().getFavoriteTravelList().getFavoriteTravelListing().get(selectedIndex).getFavoriteLocationB();
+
+        return favoriteLocationB;
     }
 
     public ArrayList<String> generateRoute(Trajectory selectedTrajectory) {
