@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import static java.awt.Color.WHITE;
 
@@ -515,7 +516,6 @@ public class Gui extends JFrame {
                 }
                 selectedPanel = 3;
                 updatePanel();
-                jxBrowser.drawMap(locationA, locationB);
             }
         });
 
@@ -587,7 +587,13 @@ public class Gui extends JFrame {
 
         panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
         jxBrowser.loadUrl();
-        panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+            jxBrowser.drawMap(locationA, locationB);
+        } catch (Exception e) {
+
+        }
+
 
 
 
@@ -904,15 +910,22 @@ public class Gui extends JFrame {
         favoritesList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void valueChanged(ListSelectionEvent args0) {
                 if (functionsToUiProvider.getSelectedProfile() != null) {
                     int selectedIndex = favoritesList.getSelectedIndex();
-                    String favoriteLocationA = functionsToUiProvider.getSelectedProfile().getFavoriteTravelList().getFavoriteTravelListing().get(selectedIndex).getFavoriteLocationA();
-                    String favoriteLocationB = functionsToUiProvider.getSelectedProfile().getFavoriteTravelList().getFavoriteTravelListing().get(selectedIndex).getFavoriteLocationB();
+                    String favoriteLocationA = functionsToUiProvider.fetchFavoriteLocationA(selectedIndex);
+                    String favoriteLocationB = functionsToUiProvider.fetchFavoriteLocationB(selectedIndex);
 
-                    boolean isAdjusting = e.getValueIsAdjusting();
+                    System.out.println(favoriteLocationA +"xxxxxxxxxxxxxxxxxx" + favoriteLocationB);
+
+                    boolean isAdjusting = args0.getValueIsAdjusting();
                     if (isAdjusting == false) {
-                        jxBrowser.drawMap(favoriteLocationA, favoriteLocationB);
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                            jxBrowser.drawMap(favoriteLocationA, favoriteLocationB);
+                        } catch (Exception e) {
+
+                        }
                     }
 
 
