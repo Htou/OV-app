@@ -60,7 +60,7 @@ public class Gui extends JFrame {
         this.setLocation(100, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ImageIcon logo = new ImageIcon("src/recoures/logo_small.png");
+        ImageIcon logo = new ImageIcon("src/resources/logo_small.png");
         this.setIconImage(logo.getImage());
 
 
@@ -400,7 +400,7 @@ public class Gui extends JFrame {
         ImageIcon imageIcon = null;
         try {
 
-            imageIcon = new ImageIcon(new ImageIcon("src/recoures/logo.png").getImage().getScaledInstance(700, 166, Image.SCALE_DEFAULT));
+            imageIcon = new ImageIcon(new ImageIcon("src/resources/logo.png").getImage().getScaledInstance(700, 166, Image.SCALE_DEFAULT));
         } catch (Exception e) {
         }
 
@@ -408,12 +408,12 @@ public class Gui extends JFrame {
         logoAndRadioButtons.add(picLabel);
 
 
-        JPanel radiobuttonsPanel = new JPanel();
-        radiobuttonsPanel.setBackground(blue);
-        radiobuttonsPanel.add(radioButtons);
+        JPanel radioButtonsPanel = new JPanel();
+        radioButtonsPanel.setBackground(blue);
+        radioButtonsPanel.add(radioButtons);
 
 
-        logoAndRadioButtons.add(radiobuttonsPanel, BorderLayout.SOUTH);
+        logoAndRadioButtons.add(radioButtonsPanel, BorderLayout.SOUTH);
 
         center.add(logoAndRadioButtons);
 
@@ -461,7 +461,6 @@ public class Gui extends JFrame {
         return panelRouteInfo;
     }
 
-
     public JButton addToFavoriteButton(){
 
             JButton addToFavorite = new JButton(messages.getString("Voeg_toe_aan_favorieten"));
@@ -469,6 +468,8 @@ public class Gui extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB);
+                    selectedPanel = 7;
+                    updatePanel();
                 }
             });
 
@@ -638,7 +639,7 @@ public class Gui extends JFrame {
         //      center       ///
         ////////////////////////
         JLabel userLabel = new JLabel(messages.getString("GEBRUIKERSNAAM"));
-        JLabel passwordLabel = new JLabel(messages.getString("PASWOORD"));
+        JLabel passwordLabel = new JLabel(messages.getString("WATCHWOORD"));
         JTextField userTextField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JButton loginButton = new JButton("LOGIN");
@@ -816,7 +817,7 @@ public class Gui extends JFrame {
                 topPanel.add(new JLabel());
             }
         } else {
-            topPanel.add(new JLabel("         Gebruiker:"));
+            topPanel.add(new JLabel(messages.getString("Gebruiker")));
             topPanel.add(new JLabel(username));
         }
 
