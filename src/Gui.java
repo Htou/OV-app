@@ -610,7 +610,7 @@ public class Gui extends JFrame {
         return panel;
     }
 
-    private JPanel loginScreenGui() {
+        private JPanel loginScreenGui() {
 
         JPanel mainPannel = new JPanel(new BorderLayout());
 
@@ -733,13 +733,30 @@ public class Gui extends JFrame {
         JPanel travelHistoryPanel = new JPanel(new BorderLayout());
         travelHistoryPanel.setBackground(lightGray);
 
-        JList travelHistoryJList = new JList(functionsToUiProvider.getTravelHistoryListSelectedProfile().toArray());
-        travelHistoryJList.setBackground(lightGray);
 
-        JScrollPane travelHistoryPane = new JScrollPane();
-        travelHistoryPane.setViewportView(travelHistoryJList);
-        travelHistoryJList.setLayoutOrientation(JList.VERTICAL);
-        travelHistoryPanel.add(travelHistoryPane, BorderLayout.CENTER);
+        if (functionsToUiProvider.isLoggedIn() == true){
+
+            System.out.println("loggedin");
+            ArrayList<String> travelHistory = functionsToUiProvider.getTravelHistoryListSelectedProfile();
+
+            if (travelHistory.isEmpty()){
+                travelHistoryPanel.add(new JLabel("No travel History, please navigate with the application."));
+
+            } else {
+                JList travelHistoryJList = new JList(travelHistory.toArray());
+                travelHistoryJList.setBackground(lightGray);
+
+                JScrollPane travelHistoryPane = new JScrollPane();
+                travelHistoryPane.setViewportView(travelHistoryJList);
+                travelHistoryJList.setLayoutOrientation(JList.VERTICAL);
+                travelHistoryPanel.add(travelHistoryPane, BorderLayout.CENTER);
+            }
+        } else{
+            travelHistoryPanel.add(new JLabel("No travel History, please login with your account to view your travel history."));
+
+        }
+
+
 
         ////////////////////////////////
         ///         top       /////////
