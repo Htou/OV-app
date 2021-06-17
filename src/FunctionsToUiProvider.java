@@ -271,7 +271,7 @@ public class FunctionsToUiProvider {
 
 
         // if departure time is over 60 minutes it converts it to a new hour with the current departure time
-        while (departureMinute > 60) {
+        while (departureMinute > 59) {
             departureMinute = departureMinute - 60;
             departureHour = departureHour + 1;
 
