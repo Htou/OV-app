@@ -79,21 +79,23 @@ public class FunctionsToUiProvider {
             return false;
         }
     }
-    public ArrayList<String> getTravelHistoryListSelectedProfile() {
-        if (selectedProfile != null & selectedProfile.getTravelHistorylist().getTravelHistoryListing().isEmpty()) {
+    public ArrayList getTravelHistoryListSelectedProfile() {
+        if (selectedProfile == null) {
+            ArrayList<String> noTravelHistoryList = new ArrayList<String>();
+            noTravelHistoryList.add("No travel History, please login with your account to view your travel history.");
+
+            return noTravelHistoryList;
+
+        } else if (selectedProfile.getTravelHistorylist().getTravelHistoryListing().isEmpty()) {
 
             ArrayList<String> noTravelHistory = new ArrayList<String>();
 
+            noTravelHistory.add("No travel History, please navigate with the application.");
+
             return (noTravelHistory);
-
-        } else if (selectedProfile != null) {
-
-            return selectedProfile.getTravelHistorylist().getTravelHistoryListToString();
         }
 
-        ArrayList<String> noTravelHistoryList = new ArrayList<String>();
-
-        return noTravelHistoryList;
+        return selectedProfile.getTravelHistorylist().getTravelHistoryListToString();
     }
 
     public void addTravelHistoryListSelectedProfile() {
@@ -111,6 +113,7 @@ public class FunctionsToUiProvider {
         if (selectedProfile != null && selectedProfile.getFavoriteTravelList().getFavoriteTravelListing().isEmpty()) {
             ArrayList<String> noFavoriteTravels = new ArrayList<String>();
 
+            noFavoriteTravels.add("No favorite travels to view, please add a favorite to your travels.");
             return noFavoriteTravels;
 
         } else if (selectedProfile != null) {
@@ -125,6 +128,7 @@ public class FunctionsToUiProvider {
 
 
         ArrayList<String> noFavoriteTravelsList = new ArrayList<String>();
+        noFavoriteTravelsList.add("No travel favorite travels, please login and add a travel to your favorite travels.");
 
         return noFavoriteTravelsList;
     }
