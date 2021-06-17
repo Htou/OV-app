@@ -111,7 +111,6 @@ public class FunctionsToUiProvider {
         if (selectedProfile != null && selectedProfile.getFavoriteTravelList().getFavoriteTravelListing().isEmpty()) {
             ArrayList<String> noFavoriteTravels = new ArrayList<String>();
 
-            noFavoriteTravels.add("No favorite travels to view, please add a favorite to your travels.");
             return noFavoriteTravels;
 
         } else if (selectedProfile != null) {
@@ -126,7 +125,6 @@ public class FunctionsToUiProvider {
 
 
         ArrayList<String> noFavoriteTravelsList = new ArrayList<String>();
-        noFavoriteTravelsList.add("No travel favorite travels, please login and add a travel to your favorite travels.");
 
         return noFavoriteTravelsList;
     }
