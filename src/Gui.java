@@ -438,7 +438,6 @@ public class Gui extends JFrame {
 
     }
 
-
     public JPanel routeInfoPanel() {
         int rowPanelRouteInfo = 16;
         JPanel panelRouteInfo = new JPanel(new GridLayout(rowPanelRouteInfo, 1));
@@ -460,6 +459,20 @@ public class Gui extends JFrame {
         }
 
         return panelRouteInfo;
+    }
+
+
+    public JButton addToFavoriteButton(){
+
+            JButton addToFavorite = new JButton(messages.getString("Voeg_toe_aan_favorieten"));
+            addToFavorite.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB);
+                }
+            });
+
+            return addToFavorite;
     }
 
     private JPanel chosenTrajectoryInfoPanel() {
@@ -502,9 +515,11 @@ public class Gui extends JFrame {
 
         JPanel mapAndFavorite = new JPanel(new GridLayout(1, 2));
         JButton showMap = new JButton(messages.getString("Navigeren"));
-        JButton addToFavorite = new JButton(messages.getString("Voeg_toe_aan_favorieten"));
+
         mapAndFavorite.add(showMap);
-        mapAndFavorite.add(addToFavorite);
+        if (functionsToUiProvider.isLoggedIn()) {
+            mapAndFavorite.add(addToFavoriteButton());
+        }
         panelRouteInfo.add(mapAndFavorite);
 
         showMap.addActionListener(new ActionListener() {
@@ -542,12 +557,7 @@ public class Gui extends JFrame {
         timeJList.setBackground(lightGray);
 
 
-        addToFavorite.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                functionsToUiProvider.addFavoriteTravelSelectedProfile(locationA, locationB);
-            }
-        });
+
 
         ////////////////////////////////
         ///         top       /////////
@@ -561,8 +571,6 @@ public class Gui extends JFrame {
 
         panelSouth.add(languageAndGoBackPanel(true));
         return panel;
-
-
     }
 
     private JPanel trackPanelGui() {
@@ -582,7 +590,12 @@ public class Gui extends JFrame {
 
         JPanel routeInfo = new JPanel(new GridLayout(2, 1));
         JPanel routeInfoBorderLayout = new JPanel(new BorderLayout());
-        routeInfoBorderLayout.add(routeInfoPanel(), BorderLayout.CENTER);
+        JPanel routeInfoPanel = routeInfoPanel();
+        routeInfoBorderLayout.add(routeInfoPanel, BorderLayout.CENTER);
+
+        if (functionsToUiProvider.isLoggedIn()) {
+            routeInfoPanel.add(addToFavoriteButton());
+        }
         routeInfoBorderLayout.add(new JLabel("Route Info"), BorderLayout.NORTH);
 
         panelCenter.add(jxBrowser.getBrowserView(), BorderLayout.CENTER);
@@ -598,6 +611,7 @@ public class Gui extends JFrame {
 
 
         routeInfo.add(routeInfoBorderLayout);
+
         routeInfo.add(new JLabel());
         panelCenter.add(routeInfo);
 
@@ -610,7 +624,7 @@ public class Gui extends JFrame {
         return panel;
     }
 
-        private JPanel loginScreenGui() {
+    private JPanel loginScreenGui() {
 
         JPanel mainPannel = new JPanel(new BorderLayout());
 
@@ -921,44 +935,55 @@ public class Gui extends JFrame {
         JPanel favorites = new JPanel(new GridLayout());
         panelCenter.add(favorites);
 
-        JList favoritesList = new JList(functionsToUiProvider.getFavoriteTravelsListSelectedProfile().toArray());
-        favoritesList.setBackground(lightGray);
+        if (functionsToUiProvider.isLoggedIn() == true) {
+            ArrayList<String> favoritesArrayList = functionsToUiProvider.getFavoriteTravelsListSelectedProfile();
 
-        favoritesList.addListSelectionListener(new ListSelectionListener() {
+            if (favoritesArrayList.isEmpty()) {
+                favorites.add(new JLabel("No favorite travels to view, please add a favorite to your travels."));
+            } else {
 
-            @Override
-            public void valueChanged(ListSelectionEvent args0) {
-                if (functionsToUiProvider.getSelectedProfile() != null) {
-                    int selectedIndex = favoritesList.getSelectedIndex();
-                    String favoriteLocationA = functionsToUiProvider.fetchFavoriteLocationA(selectedIndex);
-                    String favoriteLocationB = functionsToUiProvider.fetchFavoriteLocationB(selectedIndex);
+                JList favoritesList = new JList(functionsToUiProvider.getFavoriteTravelsListSelectedProfile().toArray());
+                favoritesList.setBackground(lightGray);
 
-                    System.out.println(favoriteLocationA +"xxxxxxxxxxxxxxxxxx" + favoriteLocationB);
+                favoritesList.addListSelectionListener(new ListSelectionListener() {
 
-                    boolean isAdjusting = args0.getValueIsAdjusting();
-                    if (isAdjusting == false) {
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(100);
-                            jxBrowser.drawMap(favoriteLocationA, favoriteLocationB);
-                        } catch (Exception e) {
+                    @Override
+                    public void valueChanged(ListSelectionEvent args0) {
+                        if (functionsToUiProvider.getSelectedProfile() != null) {
+                            int selectedIndex = favoritesList.getSelectedIndex();
+                            String favoriteLocationA = functionsToUiProvider.fetchFavoriteLocationA(selectedIndex);
+                            String favoriteLocationB = functionsToUiProvider.fetchFavoriteLocationB(selectedIndex);
+
+                            System.out.println(favoriteLocationA + "xxxxxxxxxxxxxxxxxx" + favoriteLocationB);
+
+                            boolean isAdjusting = args0.getValueIsAdjusting();
+                            if (isAdjusting == false) {
+                                try {
+                                    TimeUnit.MILLISECONDS.sleep(100);
+                                    jxBrowser.drawMap(favoriteLocationA, favoriteLocationB);
+                                } catch (Exception e) {
+
+                                }
+                            }
+
 
                         }
+
                     }
+                });
 
 
-                }
+                JScrollPane favoritesPane = new JScrollPane();
 
+                favoritesPane.setViewportView(favoritesList);
+                favoritesList.setLayoutOrientation(JList.VERTICAL);
+                favorites.add(favoritesPane);
+                favoritesList.setBackground(WHITE);
             }
-        });
 
-
-        JScrollPane favoritesPane = new JScrollPane();
-
-        favoritesPane.setViewportView(favoritesList);
-        favoritesList.setLayoutOrientation(JList.VERTICAL);
-        favorites.add(favoritesPane);
-        favoritesList.setBackground(WHITE);
-
+        } else {
+            favorites.add(new JLabel("No travel favorite travels, please login and add a travel to your favorite travels."));
+        }
 
         ///////////////////////////
         ///     CENTER RIGHT     //
