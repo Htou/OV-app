@@ -72,12 +72,17 @@ public class FunctionsToUiProvider {
         }
     }
 
-    public ArrayList getTravelHistoryListSelectedProfile() {
+    public boolean isLoggedIn(){
+        if (selectedProfile != null){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    public ArrayList<String> getTravelHistoryListSelectedProfile() {
         if (selectedProfile != null & selectedProfile.getTravelHistorylist().getTravelHistoryListing().isEmpty()) {
 
             ArrayList<String> noTravelHistory = new ArrayList<String>();
-
-            noTravelHistory.add("No travel History, please navigate with the application.");
 
             return (noTravelHistory);
 
@@ -87,7 +92,6 @@ public class FunctionsToUiProvider {
         }
 
         ArrayList<String> noTravelHistoryList = new ArrayList<String>();
-        noTravelHistoryList.add("No travel History, please login with your account to view your travel history.");
 
         return noTravelHistoryList;
     }
